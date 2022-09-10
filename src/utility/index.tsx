@@ -3,7 +3,7 @@
  * @param arr Array to pick element from
  * @returns A random element from given array or undefined if empty
  */
-const selectRandomFromArray = <T,>(arr: T[]): T => {
+const getRandomFromArray = <T,>(arr: T[]): T => {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -29,10 +29,34 @@ const getPopularity = (): number => {
   for (let i = 0; i < 2; i++) {
     popularity.push(100000);
   }
-  return selectRandomFromArray(popularity);
+  return getRandomFromArray(popularity);
+}
+
+const getRandomNumber = (max: number) => {
+  return Math.floor(Math.random() * max);
+}
+
+const getScore = () => {
+  const popularity = getPopularity();
+  const ups = Math.floor(Math.random() * popularity);
+  const downs = Math.floor(Math.random() * popularity / 2); // most posts will have positive score
+  const score = ups - downs;
+
+  return {
+    ups,
+    downs,
+    score
+  }
 }
 
 export { 
-  selectRandomFromArray,
+  getRandomFromArray,
   getPopularity,
+  getRandomNumber,
+  getScore,
 }
+
+export {
+  generatePost,
+  generateComment,
+} from './generateMockData';

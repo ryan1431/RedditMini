@@ -3,27 +3,10 @@ import type { Comment, MockPost } from '../mock/mockdata';
 import * as util from '.';
 import subreddits from '../mock/subreddits';
 import { uuid } from 'uuidv4';
-import { selectRandomFromArray } from './';
+
+// eventual reddit json data : https://www.reddit.com/r/WeAreTheMusicMakers/comments/xakvrz/im_a_beginner_songwriter_and_its_the_first_time_i.json
 
 
-// example data : https://www.reddit.com/r/WeAreTheMusicMakers/comments/xakvrz/im_a_beginner_songwriter_and_its_the_first_time_i.json
-// copy into console
-const getScore = () => {
-  const popularity = util.getPopularity();
-  const ups = Math.floor(Math.random() * popularity);
-  const downs = Math.floor(Math.random() * popularity / 2); // most posts will have positive score
-  const score = ups - downs;
-
-  return {
-    ups,
-    downs,
-    score
-  }
-}
-
-const randomNumber = (max: number) => {
-  return Math.floor(Math.random() * max);
-}
 
 // this next =)
 const generateCommentsWithDepth = (initialDepth?: number | null, maxCommentsPerDepth?: number | null):Comment[] | null => {
@@ -34,7 +17,7 @@ const generateCommentsWithDepth = (initialDepth?: number | null, maxCommentsPerD
 
   // First level of comments
   if (depth === 0) {
-    for (let i = 0; i < randomNumber(maxCommentsPerDepth || 10); i++) {
+    for (let i = 0; i < util.getRandomNumber(maxCommentsPerDepth || 10); i++) {
 
     }
   }
@@ -46,7 +29,7 @@ const generateComment = ():Comment => {
   const words = Math.ceil(Math.random() * 8);
   const days = Math.ceil(Math.random() * 30);
 
-  const { ups, downs, score } = getScore();
+  const { ups, downs, score } = util.getScore();
 
   const initialComment = {
     author: faker.internet.userName(),
@@ -63,7 +46,6 @@ const generateComment = ():Comment => {
   return initialComment; // currently does not include replies
 }
 
-
 const generatePost = ():MockPost => {
   const sentences = Math.ceil(Math.random() * 6);
   const days = Math.ceil(Math.random() * 30);
@@ -77,7 +59,7 @@ const generatePost = ():MockPost => {
     author_is_blocked,
     clicked: false,
     avatarUrl: faker.image.avatar(),
-    subreddit: util.selectRandomFromArray(subreddits),
+    subreddit: util.getRandomFromArray(subreddits),
     id: uuid(),
     title: faker.lorem.words(titleWords),
     selftext: faker.lorem.sentences(sentences),
@@ -96,53 +78,7 @@ const generatePost = ():MockPost => {
   return initialPost; // currently does not include comments
 }
 
-
-
-
-
 export {
   generatePost,
-
+  generateComment,
 }
-
-
-/* POST
-
-interface MockPost {
-  author: string,
-  author_is_blocked: boolean,
-  clicked: boolean,
-  avatarUrl: string,
-  subreddit: string,
-  id: string,
-  title: string,
-  selftext: string,
-  created: Date,
-  comments: Comment[],
-  ups: number,
-  downs: number,
-  edited: boolean,
-  num_comments: number,
-  over_18: boolean,
-  saved: boolean,
-  spoiler: boolean,
-  subreddit_subscribers: number,
-}
-
-*/
-
-/* COMMENT
-
-interface Comment {
-  author: string,
-  comment: string,
-  depth: number,
-  ups: number,
-  downs: number,
-  created: Date,
-  is_submitter: boolean, // op ? 
-  score: number, // was equal to vote number
-  replies: Comment[],
-}
-
-*/
