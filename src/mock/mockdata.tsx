@@ -1,15 +1,14 @@
-import { faker } from '@faker-js/faker';
+import { type } from "@testing-library/user-event/dist/types/setup/directApi";
 
 
 
 interface Comment {
   author: string,
   comment: string,
-  time: Date,
   depth: number,
   ups: number,
   downs: number,
-  created: number,
+  created: Date,
   is_submitter: boolean, // op ? 
   score: number, // was equal to vote number
   replies: Comment[],
@@ -21,12 +20,10 @@ interface MockPost {
   clicked: boolean,
   avatarUrl: string,
   subreddit: string,
-  id: number,
-  postTitle: string,
-  postBody: string,
-  postType: string,
-  created: number,
-  domain: string,
+  id: string,
+  title: string,
+  selftext: string,
+  created: Date,
   comments: Comment[],
   ups: number,
   downs: number,
@@ -36,8 +33,6 @@ interface MockPost {
   saved: boolean,
   spoiler: boolean,
   subreddit_subscribers: number,
-  url: string,
-
 }
 
 // const mockPosts: MockPost[] = [
@@ -46,6 +41,7 @@ interface MockPost {
 //   }
 // ]
 
-// export {
-//   mockPosts,
-// }
+export type {
+  Comment,
+  MockPost,
+}

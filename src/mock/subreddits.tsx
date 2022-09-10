@@ -1,1 +1,31 @@
-export const subreddits: string[] = ['announcements', '']
+const subreddits: string[] = [
+  'CoolStuffForPeople',
+  'News',
+  'InterestingThings',
+  'Anomalies',
+  'StrangePlaces',
+  'WCGW',
+  'HowSillyIsThis',
+  'nevermind',
+  'maybemaybemaybe',
+  'IrrelevantButJoyful',
+  'OldButGold',
+  'Music',
+  'Arts',
+  'MusicProducers',
+  'Dance',
+  'Apple',
+  'Intel',
+  'DatabaseManagement',
+  'Programming',
+  'Javascript',
+  'React',
+  'BoringStuff',
+  'ExcitingStuff',
+  'HappyPeople',
+  'IncrediblyDangerous',
+  'Food',
+  'Audiophile',
+];
+
+export default subreddits;
