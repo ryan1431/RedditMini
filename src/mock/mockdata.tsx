@@ -27,6 +27,7 @@ interface MockPost {
   comments: Comment[],
   ups: number,
   downs: number,
+  score: number,
   edited: boolean,
   num_comments: number,
   over_18: boolean,

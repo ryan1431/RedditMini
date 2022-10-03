@@ -60,3 +60,8 @@ export {
   generatePost,
   generateComment,
 } from './generateMockData';
+
+
+export { 
+  formatComments,
+} from './formatting'

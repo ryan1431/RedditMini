@@ -1,0 +1,36 @@
+#test-form {
+  width: 70vw;
+  max-width: 1200px;
+  background: rgba(116, 42, 42, 0.571);
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+input[type='text'] {
+  width: 300px;
+  height: 2rem;
+}
+
+input[type='button'] {
+  height: 1.5rem;
+  width: 100px;
+}
+
+#test-form hr {
+  width: 100%;
+  border-width: 1px;
+  border-top: none;
+  border-color: rgba(0, 0, 0, 0.154);
+}
+
+#display-text {
+  max-width: 80%;
+  overflow: auto;
+}
+

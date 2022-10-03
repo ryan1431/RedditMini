@@ -1,11 +1,10 @@
 import { faker } from '@faker-js/faker';
-import type { Comment, MockPost } from '../mock/mockdata';
+import type { Comment, MockPost } from '../mock/mockData';
 import * as util from '.';
 import subreddits from '../mock/subreddits';
 import { uuid } from 'uuidv4';
 
 // eventual reddit json data : https://www.reddit.com/r/WeAreTheMusicMakers/comments/xakvrz/im_a_beginner_songwriter_and_its_the_first_time_i.json
-
 
 
 // this next =)
@@ -52,7 +51,7 @@ const generatePost = ():MockPost => {
   const author_is_blocked = Math.ceil(Math.random() * 100) <= 5; 
   const titleWords = Math.ceil(Math.random() * 8);
 
-  const { ups, downs, score } = getScore();
+  const { ups, downs, score } = util.getScore();
 
   const initialPost = {
     author: faker.internet.userName(),
@@ -67,6 +66,7 @@ const generatePost = ():MockPost => {
     comments: [],
     ups,
     downs,
+    score,
     edited: false,
     num_comments: 0,
     over_18: false,

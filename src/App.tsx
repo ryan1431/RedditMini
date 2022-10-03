@@ -1,6 +1,4 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -8,14 +6,18 @@ import {
 } from "react-router-dom";
 import './App.css';
 import { Home } from './components/Home';
+import { Test } from "./mock/Test";
 
 function App() {
+
+  useEffect(() => {
+    console.log('test');
+  },[])
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />}>
-          
-        </Route>
+        <Route path="/" element={<Home />} /> 
+        <Route path="/test" element={<Test />} />
       </Routes>
     </BrowserRouter>
   );
