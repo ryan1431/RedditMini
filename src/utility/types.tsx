@@ -1,40 +1,24 @@
-import { type } from "@testing-library/user-event/dist/types/setup/directApi";
-
-interface Comment {
-  author: string,
-  comment: string,
-  depth: number,
-  ups: number,
-  downs: number,
-  created: Date,
-  is_submitter: boolean, // op ? 
-  score: number, // was equal to vote number
-  replies: Comment[],
-}
-
-interface MockPost {
-  author: string,
-  author_is_blocked: boolean,
-  clicked: boolean,
-  avatarUrl: string,
+interface PostType {
   subreddit: string,
-  id: string,
-  title: string,
   selftext: string,
-  created: Date,
-  comments: Comment[],
-  ups: number,
-  downs: number,
+  saved: boolean,
+  clicked: boolean,
+  title: string,
+  upvote_ratio: number,
+  total_awards_received: number,
   score: number,
   edited: boolean,
-  num_comments: number,
+  is_self: boolean,
+  selftext_html: string,
   over_18: boolean,
-  saved: boolean,
   spoiler: boolean,
-  subreddit_subscribers: number,
+  visited: boolean,
+  author: string,
+  num_comments: number,
+  created_utc: number,
+  is_video: boolean
 }
 
 export type {
-  Comment,
-  MockPost,
+  PostType
 }

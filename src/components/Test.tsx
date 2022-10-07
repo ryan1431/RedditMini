@@ -1,27 +1,12 @@
 import { useState } from "react";
-// import { formatComments } from "../utility";
 
-import { formatComments } from '../utility/formatting';
+import { fetchData, formatComments, formatJsonResponse, formatUrl } from '../utility/fetch-format';
 
 import './Test.css';
 
-const postKeys = [
-  'subreddit', 'selftext', 'saved', 'clicked', 'title',
-  'upvote_ratio', 'total_awards_received', 'score', 'edited',
-  'is_self', 'created_utc', 'selftext_html', 'over_18',
-  'spoiler', 'visited', 'author', 'num_comments', 'is_video'
-];
 
-const fetchData = async (url: string) => {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  } catch(e) {
-    console.log(e);
-    return 'Invalid request url.';
-  }
-}
+
+
 
 const Test = () => {
 
@@ -35,58 +20,26 @@ const Test = () => {
 
   // Will only log full object
   const logObject = () => {
-    fetchData(formatUrl()).then(res => {
+    fetchData(formatUrl(url)).then(res => {
       console.log(res);
     })
   }
 
+  // Log the formatted response object
   const logPretty = () => {
-    fetchData(formatUrl()).then(res => {
-      // Original post object
-      const postData = res[0].data.children[0].data;
-      // Comments array
-      const comments = formatComments(res[1].data.children);
-
-      // Filter out any unneeded key-value pairs
-      const post = Object.fromEntries(
-          Object.entries(postData).filter(([key]) => {
-            return postKeys.includes(key);
-        })
-      );
-      
-      console.log({ post, comments });
+    fetchData(formatUrl(url)).then(res => {
+      console.log(formatJsonResponse(res));
     })
-  }
-
-  // Modify url to include .json at tail if necessary
-  const formatUrl = () => {
-    return !url.slice(-4).includes('json') ? `${url}.json` : url
   }
 
   const handleFetch = (e: any) => {
     const { value } = e.target;
 
-    fetchData(formatUrl()).then(res => {
+    fetchData(formatUrl(url)).then(res => {
       let data = res;
 
       if (value === 'Format') {
-        // Original post object
-        const postData = res[0].data.children[0].data;
-
-        // Filter out any unneeded key-value pairs
-        const post = Object.fromEntries(
-            Object.entries(postData).filter(([key]) => {
-              return postKeys.includes(key);
-          })
-        );
-
-        // Comments array
-        const comments = formatComments(res[1].data.children);
-        
-        data = {
-          post,
-          comments,
-        }
+        data = formatJsonResponse(res);
       }
       
       setData(data);
