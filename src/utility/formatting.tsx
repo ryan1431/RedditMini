@@ -8,23 +8,24 @@
   return commentsArray.map((comment: { data: Object} ) => {
     // Remove 'data' nesting level
     return comment.data; 
-  }).map((comment: any) => {
-    let { 
-      author, body, body_html, collapsed, created_utc, 
-      depth, is_submitter, permalink, score, replies
-    } = comment;
-    
-    // Recursively format any nested replies
-    if (replies) {
-      replies = formatComments(replies.data.children);
-    }
+  })
+    .map((comment: any) => {
+      let { 
+        author, body, body_html, collapsed, created_utc, 
+        depth, is_submitter, permalink, score, replies
+      } = comment;
+      
+      // Recursively format any nested replies
+      if (replies) {
+        replies = formatComments(replies.data.children);
+      }
 
-    // Return new object with select fields
-    return { 
-      author, body, body_html, collapsed,
-      created_utc, depth, is_submitter, 
-      permalink, score, replies
-    }
+      // Return new object with select fields
+      return { 
+        author, body, body_html, collapsed,
+        created_utc, depth, is_submitter, 
+        permalink, score, replies
+      }
   });
 }
 

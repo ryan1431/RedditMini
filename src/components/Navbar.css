@@ -1,0 +1,29 @@
+#navbar {
+  height: 3.5rem;
+  background: rgb(35, 35, 35);
+  color: #ffffff;
+
+  /* Flex display */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom:1px solid rgba(255, 255, 255, 0.229);
+}
+
+#navbar div {
+  display: flex;
+  justify-content: space-evenly;
+  /* width:200px;
+  max-width:200px; */
+  height: 100%;
+  align-items: center;
+}
+
+#navbar div > * {
+  margin: 0 5px;
+}
+
+#navbar:first-child,
+#navbar:last-child {
+  padding: 0 2rem;
+}
