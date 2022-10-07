@@ -1,5 +1,5 @@
 
-/** Recursively remove unneeded key-value fields from an array of comment objects & replies
+/** Recursively format & remove unneeded key-value fields from an array of comment objects & replies
  * 
  * @param commentsArray Array of comments to format
  * @returns Array of formatted comments

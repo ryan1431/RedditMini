@@ -1,7 +1,5 @@
 import { type } from "@testing-library/user-event/dist/types/setup/directApi";
 
-
-
 interface Comment {
   author: string,
   comment: string,
@@ -35,12 +33,6 @@ interface MockPost {
   spoiler: boolean,
   subreddit_subscribers: number,
 }
-
-// const mockPosts: MockPost[] = [
-//   {
-    
-//   }
-// ]
 
 export type {
   Comment,
