@@ -8,8 +8,16 @@
   width: 500px;
   min-width: 300px;
   max-height: 280px;
+  min-height: 100px;
   
   padding: 6px;
   border-radius: 10px;
+
+
+  margin: 12px auto;
+
 }
 
+.post:first-child {
+  margin-top: 70px;
+}

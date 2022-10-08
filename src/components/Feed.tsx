@@ -10,6 +10,10 @@ const samplePosts = [
   'https://www.reddit.com/r/TooAfraidToAsk/comments/xybq61/what_does_it_mean_when_you_feel_like_you_are/',
   'https://www.reddit.com/r/buildapc/comments/xyd4kp/will_this_case_and_pc_run_too_hot/',
   'https://www.reddit.com/r/suggestmeabook/comments/xy102q/books_that_shifted_your_perspective_gave_you_a/',
+  'https://www.reddit.com/r/NoStupidQuestions/comments/xybqbk/need_some_advice_on_my_indecisiveness_and/',
+  'https://www.reddit.com/r/TooAfraidToAsk/comments/xybq61/what_does_it_mean_when_you_feel_like_you_are/',
+  'https://www.reddit.com/r/buildapc/comments/xyd4kp/will_this_case_and_pc_run_too_hot/',
+  'https://www.reddit.com/r/suggestmeabook/comments/xy102q/books_that_shifted_your_perspective_gave_you_a/',
 ];
 
 
