@@ -4,6 +4,7 @@ import { Feed } from "./Feed";
 import { Subreddits } from "./Subreddits";
 import { Navbar } from "./Navbar";
 
+
 export const Home = () => {
 
   return (
