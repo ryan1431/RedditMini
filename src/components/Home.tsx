@@ -19,44 +19,28 @@ export const Home = () => {
   }
 
   const [width, setWidth] = useState<number>(getWindowWidth());
-  const [css, setCss] = useState<CSS>({
-    basis: width < 700 
-      ? '99vw' 
-      : '310px',
-    border: '2px solid red',
-  });
+  const [css, setCss] = useState<CSS>({ basis: '', border: ''});
 
   useEffect(() => {
     const handleResize = () => {
       let currentWidth = getWindowWidth();
       setWidth(currentWidth);
-
-      // Auto close (if open) when resizing under 700px
-      if (currentWidth < 700) {
-        if (css.border !== 'none') {
-          setCss({
-            basis: '0',
-            border: 'none',
-          })
-        }
-      } 
-      // else if (currentWidth >= 700) {
-      //   if (css.border === 'none') {
-      //     setCss({
-      //       basis: '310px',
-      //       border: '2px solid red',
-      //     })
-      //   }
-      // }
     }
 
-    // set width whenever window size changes 
+    // Use css defaults when width > 900
+    if (width > 900 && css.basis !== '') {
+      setCss({
+        basis: '',
+        border: '',
+      })
+    }
+
     window.addEventListener('resize', handleResize);
     // cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
     }
-  }, [])
+  }, [css, width])
 
   return (
     <div id='page'>

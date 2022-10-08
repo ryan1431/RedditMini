@@ -25,3 +25,14 @@
 #navbar:last-child {
   padding: 0 2rem;
 }
+
+#navbar > div > input {
+  max-width: 55px;
+  font-size: 10px;;
+}
+
+@media only screen and (min-width: 901px) {
+  #left {
+    display:none !important;
+  }
+}

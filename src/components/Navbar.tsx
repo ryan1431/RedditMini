@@ -13,18 +13,16 @@ export const Navbar = (props: NavbarProps) => {
   const { css, setCss, width } = props;
 
   const toggleLeftPane = () => {
-    setCss(
-      css.border === 'none' 
+    const values = 
+      css.basis === '' 
         ? {
-          basis: width < 700 
-            ? '99vw' 
-            : '310px',
+          basis: '99vw',
           border: '2px solid red',
         } : {
-          basis: '0px',
-          border: 'none',
+          basis: '',
+          border: '',
         }
-    );
+    setCss(values);
   }
 
   return (
@@ -41,9 +39,7 @@ export const Navbar = (props: NavbarProps) => {
 
       {/* Light / Dark mode button */}
       <div> 
-        <p>Light</p>
-        <input type="button"></input>
-        <p>Dark</p>
+        <input type="button" value='darkmode'></input>
       </div>
     </div>
   )
