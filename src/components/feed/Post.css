@@ -4,19 +4,22 @@
   overflow: hidden;
 
   border: 1px solid rgb(234, 22, 22);
+  
+  width: 47%;
+  min-width: 500px;
+  max-width: 600px;
 
-  width: 500px;
-  min-width: 300px;
   max-height: 280px;
   min-height: 100px;
   
   padding: 6px;
   border-radius: 10px;
 
-
   margin: 12px auto;
 
 }
+
+
 
 .post:first-child {
   margin-top: 70px;
