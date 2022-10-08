@@ -7,20 +7,15 @@ import { Navbar } from "./Navbar";
 export const Home = () => {
 
   return (
-    <>
+    <div id='page'>
+      {/* Top navigation / header */}
       <Navbar />
+
+      {/* Subreddits & feed split */}
       <div id='splitfeed'>
-        <div>
-          <Feed />
-          <p>worigjrwgoiwrgj</p>
-        </div> 
-        <div>
-          <Subreddits />
-          <p>wefjweoifjwe</p>
-        </div>
-               
+        <Feed />
+        <Subreddits />
       </div>
-      
-    </>
+    </div>
   )
 }

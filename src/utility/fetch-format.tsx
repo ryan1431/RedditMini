@@ -1,4 +1,4 @@
-const postKeys = [
+const keys = [
   'subreddit', 'selftext', 'saved', 'clicked', 'title',
   'upvote_ratio', 'total_awards_received', 'score', 'edited',
   'is_self', 'created_utc', 'selftext_html', 'over_18',
@@ -47,7 +47,7 @@ const formatJsonResponse = (res: any) => {
   // Filter out any unneeded key-value pairs
   const post = Object.fromEntries(
       Object.entries(postData).filter(([key]) => {
-        return postKeys.includes(key);
+        return keys.includes(key);
     })
   );
 
@@ -96,9 +96,6 @@ const fetchData = async (url: string) => {
 const formatUrl = (url: string) => {
   return !url.slice(-4).includes('json') ? `${url}.json` : url
 }
-
-
-
 
 export { 
   formatComments,
