@@ -11,13 +11,18 @@
   overflow:hidden;
 }
 
-#splitfeed > :first-child {
-  width: 80%;
+#splitfeed {
+  display: flex;
+  flex-direction: row;
+}
+
+
+/* #splitfeed > *:first-child {
+  width: 70vw;
   float: right;
 }
 
-#splitfeed > :last-child {
-  width: 20%;
-  border-right: 1px solid rgb(255, 255, 255);
+#splitfeed > *:last-child {
+  max-width: 1px;
 }
-
+ */

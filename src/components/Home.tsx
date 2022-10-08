@@ -13,8 +13,8 @@ export const Home = () => {
 
       {/* Subreddits & feed split */}
       <div id='splitfeed'>
-        <Feed />
         <Subreddits />
+        <Feed />
       </div>
     </div>
   )
