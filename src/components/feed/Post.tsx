@@ -7,15 +7,10 @@ export interface PostProps {
   postUrl: string,
 }
 
-
-
-
 export const Post = (props: PostProps) => {
-
   const { postUrl } = props;
 
   const [data, setData] = useState<any>();
-
 
   useEffect(() => {
     fetchData(formatUrl(postUrl))
@@ -29,13 +24,16 @@ export const Post = (props: PostProps) => {
     })
   }, []);
   
-
   return data && (
-    <div className="post" >
-      <h3>{data.title}</h3>
-      <p>{data.selftext}</p>
+    <div className="card" >
+      <div className='post'>
+        <h3 className='title'>{data.title}</h3>
+        <p>{data.selftext}</p>
+      </div>
+      <div className='info'>
+        <p>{data.score} score</p>
+        <p>{data.num_comments} comments</p>
+      </div>
     </div>
   )
 }
-
-// style={{whiteSpace: 'pre-wrap', overflowWrap: 'break-word'}}

@@ -1,26 +1,50 @@
-.post {
+.card {
   white-space: 'pre-wrap';
   overflow-wrap: 'break-word';
   overflow: hidden;
 
   border: 1px solid rgb(234, 22, 22);
+  border-radius: 10px;
   
   width: 47%;
   min-width: 500px;
   max-width: 600px;
-
   max-height: 280px;
   min-height: 100px;
   
-  padding: 6px;
-  border-radius: 10px;
-
+  /* padding: 6px; */
   margin: 12px auto;
-
 }
 
+/* .post {
+  width: 47%;
+  min-width: 500px;
+  max-width: 600px;
+  max-height: 280px;
+  min-height: 100px;
+} */
 
+.post {
+  max-height: 200px;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(234, 22, 22);
+  box-shadow: inset 0px -30px 20px -12px rgba(117, 117, 117, 0.485)
+}
 
-.post:first-child {
+.card:first-child {
   margin-top: 70px;
+}
+
+.title {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.651);
+}
+
+.post h3, p {
+  padding: 6px;
+}
+
+/* Score, comments, hide, etc */
+.info {
+  display: flex;
+  justify-content: space-between;
 }

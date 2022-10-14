@@ -13,6 +13,7 @@ export interface CSS {
 
 export const Home = () => {
 
+  // Initializes width state & used in later calls
   const getWindowWidth = () => {
     const { innerWidth: width } = window;
     return width;
@@ -21,25 +22,28 @@ export const Home = () => {
   const [width, setWidth] = useState<number>(getWindowWidth());
   const [css, setCss] = useState<CSS>({ basis: '', border: ''});
 
-  useEffect(() => {
-    const handleResize = () => {
-      let currentWidth = getWindowWidth();
-      setWidth(currentWidth);
-    }
 
-    // Use css defaults when width > 900
+  const handleResize = () => {
+    let currentWidth = getWindowWidth();
+    setWidth(currentWidth);
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
+  }, [])
+
+  // Calls on window resize
+  useEffect(() => {
+    // Uses css defaults when width > 900
     if (width > 900 && css.basis !== '') {
       setCss({
         basis: '',
         border: '',
       })
-    }
-
-    window.addEventListener('resize', handleResize);
-    // cleanup
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    }
+    }    
   }, [css, width])
 
   return (

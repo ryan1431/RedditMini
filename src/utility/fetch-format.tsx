@@ -1,3 +1,5 @@
+import { PostType } from "./types";
+
 const keys = [
   'subreddit', 'selftext', 'saved', 'clicked', 'title',
   'upvote_ratio', 'total_awards_received', 'score', 'edited',
@@ -40,7 +42,7 @@ const keys = [
  * @param res Json response object
  * @returns Formatted object as: { post, comments }
  */
-const formatJsonResponse = (res: any) => {
+const formatJsonResponse = (res: any): any => {
   // Original post object
   const postData = res[0].data.children[0].data;
 

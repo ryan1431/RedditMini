@@ -11,7 +11,7 @@ export const Subreddits = (props: SubredditsProps) => {
 
   return (
     <div id="subreddits" style={{flexBasis: basis, maxWidth: basis, border: border}}>
-      <p>here's an element</p>
+
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Feed.css';
 
-import { fetchData, formatJsonResponse, formatUrl, PostType } from '../utility';
 import { Post } from './feed/Post';
 
 
