@@ -4,7 +4,8 @@ const keys = [
   'subreddit', 'selftext', 'saved', 'clicked', 'title',
   'upvote_ratio', 'total_awards_received', 'score', 'edited',
   'is_self', 'created_utc', 'selftext_html', 'over_18',
-  'spoiler', 'visited', 'author', 'num_comments', 'is_video'
+  'spoiler', 'visited', 'author', 'num_comments', 'is_video', 'url',
+  'preview'
 ];
 
 /** Recursively format & remove unneeded key-value fields from an array of comment objects & replies
@@ -12,20 +13,21 @@ const keys = [
  * @param commentsArray Array of comments to format
  * @returns Array of formatted comments
  */
- const formatComments = (commentsArray: any) => {
+ export const formatCommentsRecursive = (commentsArray: any) => {
+  // Remove 'data' nesting level
   return commentsArray.map((comment: { data: Object} ) => {
-    // Remove 'data' nesting level
     return comment.data; 
-  })
-    .map((comment: any) => {
+
+  // Select fields from json object
+  }).map((comment: any) => {
       let { 
         author, body, body_html, collapsed, created_utc, 
         depth, is_submitter, permalink, score, replies
       } = comment;
       
-      // Recursively format any nested replies
+      // Recursive case
       if (replies) {
-        replies = formatComments(replies.data.children);
+        replies = formatCommentsRecursive(replies.data.children);
       }
 
       // Return new object with select fields
@@ -42,7 +44,7 @@ const keys = [
  * @param res Json response object
  * @returns Formatted object as: { post, comments }
  */
-const formatJsonResponse = (res: any): any => {
+export const formatPost = (res: any): any => {
   // Original post object
   const postData = res[0].data.children[0].data;
 
@@ -54,20 +56,31 @@ const formatJsonResponse = (res: any): any => {
   );
 
   // Comments array
-  const comments = formatComments(res[1].data.children);
+  
   
   return {
-    post,
-    comments,
+    ...post
+    // comments,
   }
 }
+
+/** Gets json data of all comments and their replies
+ * 
+ * @param res Json response object
+ * @returns All formatted comments and replies
+ */
+export const formatComments = (res: any) => {
+  return formatCommentsRecursive(res[1].data.children);
+}
+
+
 
 /** Decodes _html values from reddit json responses
  * 
  * @param html Encoded html
  * @returns Decoded html
  */
-const decodeHtml = (html:string) => {
+export const decodeHtml = (html:string) => {
   const txt = document.createElement("textarea");
   txt.innerHTML = html;
   return txt.value;
@@ -78,7 +91,7 @@ const decodeHtml = (html:string) => {
  * @param url Url to fetch
  * @returns Json data from url
  */
-const fetchData = async (url: string) => {
+export const fetchData = async (url: string) => {
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -95,14 +108,6 @@ const fetchData = async (url: string) => {
  * @param url Url string to be modified
  * @returns Url string with .json appended
  */
-const formatUrl = (url: string) => {
+export const formatUrl = (url: string) => {
   return !url.slice(-4).includes('json') ? `${url}.json` : url
-}
-
-export { 
-  formatComments,
-  decodeHtml,
-  fetchData,
-  formatUrl,
-  formatJsonResponse
 }

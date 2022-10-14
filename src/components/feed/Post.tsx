@@ -1,6 +1,6 @@
 import './Post.css';
 
-import { fetchData, formatJsonResponse, formatUrl, PostType } from '../../utility';
+import { fetchData, formatPost, formatUrl } from '../../utility';
 import { useEffect, useState } from 'react';
 
 export interface PostProps {
@@ -15,8 +15,8 @@ export const Post = (props: PostProps) => {
   useEffect(() => {
     fetchData(formatUrl(postUrl))
     .then((res) => {
-      const post = formatJsonResponse(res);
-      setData({ ...post.post });
+      const post = formatPost(res);
+      setData(post);
       console.log(data);
     })
     .catch((err) => {

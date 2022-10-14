@@ -16,7 +16,8 @@ interface PostType {
   author: string,
   num_comments: number,
   created_utc: number,
-  is_video: boolean
+  is_video: boolean,
+  url: string
 }
 
 export type {

@@ -1,17 +1,21 @@
-import { useState } from "react";
+import React from "react";
+import { useRef, useState } from "react";
 
-import { fetchData, formatComments, formatJsonResponse, formatUrl } from '../utility/fetch-format';
+import { fetchData, formatComments, formatPost, formatUrl } from '../utility/';
 
 import './Test.css';
 
-
-
-
-
 const Test = () => {
 
+  const vidRef: any = useRef(null);
+  const handlePlayVideo = () => {
+    vidRef.current.play();
+  }
+
+
   const [url, setUrl] = useState<string>('');
-  const [data, setData] = useState<string>('');
+  const [post, setPost] = useState<string>('');
+  const [comments, setComments] = useState('');
 
   const updateUrlField = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -28,7 +32,8 @@ const Test = () => {
   // Log the formatted response object
   const logPretty = () => {
     fetchData(formatUrl(url)).then(res => {
-      console.log(formatJsonResponse(res));
+      console.log(formatPost(res));
+      console.log(formatComments(res));
     })
   }
 
@@ -36,13 +41,13 @@ const Test = () => {
     const { value } = e.target;
 
     fetchData(formatUrl(url)).then(res => {
-      let data = res;
-
       if (value === 'Format') {
-        data = formatJsonResponse(res);
+        setPost(formatPost(res));
+        setComments(formatComments(res));
+      } else {
+        setPost(res);
+        setComments('');
       }
-      
-      setData(data);
     }).catch(err => {
       console.log(err);
     })
@@ -50,6 +55,11 @@ const Test = () => {
 
   return (
     <div id='test-form'>
+
+      {/* <video ref={vidRef} loop={true} controls>
+        <source src="https://external-preview.redd.it/14iVLf3JV44dgN7BypeQUFjRoB9zWMKkvstHRlFrx1Q.gif?width=640&amp;format=mp4&amp;s=4cd1255782ca397d5b89bd39f9c735ede41b62cc"/>
+      </video> */}
+
       <h2>url:</h2>
       <input name='text' type='text' value={url} onChange={updateUrlField}></input>
       <br></br>
@@ -62,7 +72,12 @@ const Test = () => {
       <br></br>
       <hr></hr>
       <pre id="display-text">
-        {data ? JSON.stringify(data, null, 2) : 'Enter url to preview'}
+        {post ? `post: 
+        ${JSON.stringify(post, null, 2)}
+        
+        ` : 'Enter url to preview'}
+        {comments && `comments: 
+        ${JSON.stringify(comments, null, 2)}`}
       </pre>
     </div>
   )
