@@ -5,7 +5,7 @@ import { Post } from './feed/Post';
 
 
 const samplePosts = [
-  // 'https://www.reddit.com/r/interestingasfuck/comments/y41z91/shabani_the_gorilla_trying_to_approach_ai_one_of/',
+  'https://www.reddit.com/r/interestingasfuck/comments/y41z91/shabani_the_gorilla_trying_to_approach_ai_one_of/',
   'https://www.reddit.com/r/suggestmeabook/comments/y3uhib/wellwritten_female_fantasy_characters/',
   'https://www.reddit.com/r/TooAfraidToAsk/comments/xybq61/what_does_it_mean_when_you_feel_like_you_are/',
   'https://www.reddit.com/r/buildapc/comments/xyd4kp/will_this_case_and_pc_run_too_hot/',

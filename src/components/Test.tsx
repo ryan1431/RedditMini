@@ -7,12 +7,6 @@ import './Test.css';
 
 const Test = () => {
 
-  const vidRef: any = useRef(null);
-  const handlePlayVideo = () => {
-    vidRef.current.play();
-  }
-
-
   const [url, setUrl] = useState<string>('');
   const [post, setPost] = useState<string>('');
   const [comments, setComments] = useState('');
