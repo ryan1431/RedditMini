@@ -1,6 +1,6 @@
 import './Home.css';
 
-import { Feed } from "./Feed";
+import { Feed } from "./feed/Feed";
 import { Subreddits } from "./Subreddits";
 import { Navbar } from "./Navbar";
 import { useEffect, useState } from 'react';

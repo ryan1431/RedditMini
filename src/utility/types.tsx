@@ -1,3 +1,5 @@
+import { type } from "os"
+
 interface PostType {
   subreddit: string,
   selftext: string,
@@ -16,8 +18,15 @@ interface PostType {
   author: string,
   num_comments: number,
   created_utc: number,
-  is_video: boolean,
   url: string
+  type: string | undefined,
+  preview: any,
+  media: any,
+  removal_reason: any,
+  removed_by: any,
+  removed_by_category: any,
+  is_valid?: boolean,
+  content_url: string,
 }
 
 export type {

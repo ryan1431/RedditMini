@@ -1,4 +1,4 @@
-.card {
+.post {
   white-space: 'pre-wrap';
   overflow-wrap: 'break-word';
   overflow: hidden;
@@ -9,48 +9,49 @@
   width: 47%;
   min-width: 500px;
   max-width: 600px;
-  max-height: 280px;
+  max-height: 800px;
   min-height: 100px;
   
-  /* padding: 6px; */
   margin: 12px auto;
 }
 
-/* .post {
-  width: 47%;
-  min-width: 500px;
-  max-width: 600px;
-  max-height: 280px;
-  min-height: 100px;
-} */
-
-.post {
-  max-height: 200px;
-  overflow: hidden;
-  border-bottom: 1px solid rgb(234, 22, 22);
-  box-shadow: inset 0px -30px 20px -12px rgba(117, 117, 117, 0.485)
-}
-
-.video-post {
-  max-height: 450px;
-  overflow: hidden;
-  border-bottom: 1px solid rgb(40, 234, 22);
-  box-shadow: inset 0px -30px 20px -12px rgba(117, 117, 117, 0.485)
-}
-
-.card:first-child {
+.post:first-child {
   margin-top: 70px;
-}
-
-.title {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.651);
 }
 
 .post h3, p {
   padding: 6px;
 }
 
-/* Score, comments, hide, etc */
+
+/* Title */
+.post-title {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.651);
+}
+
+
+/* Body */
+.post-body {
+  border-bottom: 1px solid rgb(234, 22, 22);
+}
+
+.post-body.text {
+  box-shadow: inset 0px -30px 20px -12px rgba(117, 117, 117, 0.485);
+  max-height: 140px;
+  overflow: hidden;
+}
+
+.post-body.video {
+  max-height: 350px;
+}
+.post-body.video video,
+.post-body.image img {
+  width: 100%;
+  height: auto;
+}
+
+
+/* Info / Actions */
 .info {
   display: flex;
   justify-content: space-between;

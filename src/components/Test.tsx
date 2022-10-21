@@ -1,14 +1,14 @@
 import React from "react";
 import { useRef, useState } from "react";
 
-import { fetchData, formatComments, formatPost, formatUrl } from '../utility/';
+import { fetchData, formatComments, formatPost, formatUrl, PostType } from '../utility/';
 
 import './Test.css';
 
 const Test = () => {
 
   const [url, setUrl] = useState<string>('');
-  const [post, setPost] = useState<string>('');
+  const [post, setPost] = useState<string | PostType>('');
   const [comments, setComments] = useState('');
 
   const updateUrlField = (e: React.ChangeEvent<HTMLInputElement>) => {
