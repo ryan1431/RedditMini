@@ -6,10 +6,10 @@
   border: 1px solid rgb(234, 22, 22);
   border-radius: 10px;
   
-  width: 47%;
+  width: 97%;
   min-width: 500px;
-  max-width: 600px;
-  max-height: 800px;
+  max-width: 670px;
+  /* max-height: 800px; */
   min-height: 100px;
   
   margin: 12px auto;
@@ -42,7 +42,7 @@
 }
 
 .post-body.video {
-  max-height: 350px;
+  /* max-height: 350px; */
 }
 .post-body.video video,
 .post-body.image img {
@@ -55,4 +55,11 @@
 .info {
   display: flex;
   justify-content: space-between;
+}
+
+@media only screen and (max-width: 900px) {
+  .post{ 
+    min-width: 0;
+    max-width: 100%;
+  }
 }
