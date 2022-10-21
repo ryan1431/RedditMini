@@ -1,12 +1,5 @@
 import { PostType, setType } from ".";
-
-const keys = [
-  'subreddit', 'selftext', 'saved', 'clicked', 'title',
-  'upvote_ratio', 'total_awards_received', 'score', 'edited',
-  'is_self', 'created_utc', 'selftext_html', 'over_18',
-  'spoiler', 'visited', 'author', 'num_comments', 'is_video', 'url',
-  'preview', 'media', 'removal_reason', 'removed_by', 'removed_by_category'
-];
+import { keys } from './data';
 
 /** Recursively format & remove unneeded key-value fields from an array of comment objects & replies
  * 
@@ -44,9 +37,9 @@ const keys = [
  * @param res Json response object
  * @returns Formatted object as: { post, comments }
  */
-export const formatPost = (res: any): PostType => {
-  // Original post object
-  const postData = res[0].data.children[0].data;
+export const formatPost = (res: any, single = true): PostType => {
+
+  let postData = single ? res[0].data.children[0].data : res.data;
 
   // Filter out any unneeded key-value pairs
   const postEntries:any = Object.fromEntries(
@@ -88,6 +81,21 @@ export const formatPost = (res: any): PostType => {
   return post;
 }
 
+/** Returns an array of valid posts fetched from provided url
+ * 
+ * @param url eg. 'https://reddit.com/'
+ * @returns array of posts
+ */
+export const getFeedPosts = async (url: string): Promise<PostType[]> => {
+  const response = await fetch(formatUrl(url));
+  const data = await response.json();
+
+  // Map each child
+  return data.data.children
+    .map((child:any) => formatPost(child, false))
+    .filter((p:PostType) => p.is_valid);
+}
+
 /** Gets json data of all comments and their replies
  * 
  * @param res Json response object
@@ -96,8 +104,6 @@ export const formatPost = (res: any): PostType => {
 export const formatComments = (res: any) => {
   return formatCommentsRecursive(res[1].data.children);
 }
-
-
 
 /** Decodes _html values from reddit json responses
  * 

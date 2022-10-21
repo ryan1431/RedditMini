@@ -20,7 +20,7 @@ export const Post = ({postUrl}: PostProps) => {
       // Format reddit's post object model
       const post = formatPost(res);
 
-      // if (!post.is_valid) return;
+      if (!post.is_valid) return;
 
       console.log(post.type);
       setPost(post);
