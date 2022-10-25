@@ -1,4 +1,3 @@
-import e from 'express';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectAfter, 
@@ -7,7 +6,8 @@ import { selectAfter,
   selectSubreddits,
   setQuery,
 } from '../../features/querySlice';
-import { getFeedPosts, PostType } from '../../utility';
+import { buildUrl, getFeedPosts, PostType } from '../../utility';
+import { base } from '../../utility/data';
 import './Feed.css';
 
 import { Post } from './Post';
@@ -18,25 +18,18 @@ https://www.reddit.com/wiki/rss/
 problem: link not available
 https://www.reddit.com/r/worldnews/comments/yd5yiz/brittney_griner_lost_appeal_will_serve_9_years_in/
 
-
-/r/interestingasfuck+wtf+home.json
+/r/wtf+home.json
 
 r/subreddits/search?q=${query}&sort=hot
-
-structure: 
-/r/todayilearned+wtf/new?limit=10&after=
-default home ---> `${base}.json
-customized ---> `${base}/r/${subs}/${type}?limit=10&after=${after}
 */
 
-
-const base = 'https://www.reddit.com';
 
 export const Feed = () => {
 
   const dispatch = useAppDispatch();
 
   const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
+  const [currentUrl, setCurrentUrl] = useState<string>(base);
   
   const after = useAppSelector(selectAfter);
   const feed = useAppSelector(selectFeed);
@@ -52,38 +45,54 @@ export const Feed = () => {
     let type = target.classList[0];
     document.querySelector(`.${type}.active`)?.classList.toggle('active');
     target.classList.toggle('active');
-    dispatch(setQuery([target.value, type]))
+    dispatch(setQuery([target.value, type]));
+
+    if (type === 'feed') {
+      // cause rerender
+    }
   }, []);
 
   const getPosts = async (url:string) => {
     return await getFeedPosts(url);
   }
 
-
   useEffect(() => {
-    let url = base;
-    // Home feed url
-    if (feed === 'home') {
-      url += `/${sort}`
-
-    // Custom (subreddits) mixed feed
-    } else if (feed === 'custom') {
-      if (!subs.length) return setFeedPosts([]);
-      url += `/r/${subs.join('+')}/${sort}`
-
-    // Show saved posts
-    } else if (feed === 'saved') {
-      // tbd
+    if (feed === 'saved') {
+      // to be implemented
+      return;
     }
 
-    getPosts(`${url}?limit=10&after=${after}`)
+    try {
+      setCurrentUrl(buildUrl(feed, subs, after, sort));
+    } catch(e) {
+      if (e instanceof Error) {
+        if (e.message === 'nosub') {
+          return setFeedPosts([]);
+        }
+      } 
+      console.log(e);
+    }
+    
+    getPosts(currentUrl)
       .then((res) => {
         setFeedPosts(res.posts);
         dispatch(setQuery([res.after, 'after']));
     })
   }, [feed, sort])
 
-  
+  useEffect(() => {
+    let scroll = (ev: Event) => {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        // at bottom
+      }
+    };  
+
+    window.addEventListener('scroll', scroll)
+    
+    return () => {
+      window.removeEventListener('scroll', scroll);
+    }
+  }, [])
 
   return (
     <div id="feed">

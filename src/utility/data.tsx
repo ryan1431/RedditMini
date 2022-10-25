@@ -7,7 +7,7 @@ export const keys = [
   'permalink', 'subreddit_name_prefixed',
 ];
 
-export const baseurl = 'https://www.reddit.com';
+export const base = 'https://www.reddit.com/';
 export const oauthbase = 'https://oauth.reddit.com';
 export const redirect = 'http://localhost:3000';
 
@@ -19,3 +19,4 @@ export const samplePosts = [
   'https://www.reddit.com/r/simpleliving/comments/y9njjm/if_you_could_go_back_in_time_and_not_change_a/',
   'https://www.reddit.com/r/leagueoflegends/comments/ybzh2z/drx_vs_edward_gaming_2022_world_championship/',
 ];
+
