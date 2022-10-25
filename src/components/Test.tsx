@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useRef, useState } from "react";
+import uuid from 'react-uuid';
+
 
 import { fetchData, formatComments, formatPost, formatUrl, PostType } from '../utility/';
+import { baseurl, redirect } from "../utility/data";
 
 import './Test.css';
 
@@ -47,6 +50,23 @@ const Test = () => {
     })
   }
 
+  /* 
+  https://www.reddit.com/api/v1/authorize?client_id=CLIENT_ID&response_type=TYPE&
+    state=RANDOM_STRING&redirect_uri=URI&duration=DURATION&scope=SCOPE_STRING
+  */
+
+  const getData = async () => {
+    const state = uuid();
+    let response = await fetch(`https://www.reddit.com/api/v1/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code&state=${state}&redirect_uri=${redirect}&duration=temporary&scope=read`, {mode: 'cors'})
+    return response;
+  }
+
+  const authenticate = useCallback(() => {
+    getData().then((res: any) => {
+      console.log(res);
+    });
+  }, [])
+
   return (
     <div id='test-form'>
 
@@ -62,6 +82,7 @@ const Test = () => {
         <input type='button' value='Format' onClick={handleFetch}></input>
         <input type='button' value='Log' onClick={logObject}></input>
         <input type='button' value='Log Pretty' onClick={logPretty}></input>
+        <input type='button' value='Authenticate' onClick={authenticate}></input>
       </div>      
       <br></br>
       <hr></hr>

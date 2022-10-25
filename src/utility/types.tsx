@@ -27,6 +27,8 @@ interface PostType {
   removed_by_category: any,
   is_valid?: boolean,
   content_url: string,
+  permalink: string,
+  subreddit_name_prefixed: string,
 }
 
 export type {

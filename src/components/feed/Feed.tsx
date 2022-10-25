@@ -1,7 +1,22 @@
 import { useEffect, useState } from 'react';
+import { getFeedPosts, PostType } from '../../utility';
 import './Feed.css';
 
 import { Post } from './Post';
+
+/* outlier posts
+https://www.reddit.com/r/leagueoflegends/comments/ybzh2z/drx_vs_edward_gaming_2022_world_championship/
+
+
+t5_2qnwb
+t5_2qhx4
+
+https://www.reddit.com/wiki/rss/
+
+/r/interestingasfuck+wtf+home.json
+
+ r/subreddits/search?q=${query}&sort=hot
+*/
 
 
 const samplePosts = [
@@ -13,18 +28,29 @@ const samplePosts = [
 ];
 
 
+const defaultUrl = 'https://www.reddit.com/.json';
+
 export const Feed = () => {
 
-  const [postUrls, setPostUrls] = useState<string[]>([]);
+  const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
+  
+
+  const getPosts = async (url:string) => {
+    return await getFeedPosts(url);
+  }
 
   useEffect(() => {
-    setPostUrls(samplePosts);
+    // setFeedPosts(samplePosts);
+    getPosts(defaultUrl)
+      .then((res) => {
+        setFeedPosts(res);
+      })
   }, [])
 
   return (
     <div id="feed">
-      {postUrls.map(url => {
-        return <Post postUrl={url} key={url} />;
+      {feedPosts.map(post => {
+        return <Post post={post} key={post.title} />;
       })}
     </div>
   )

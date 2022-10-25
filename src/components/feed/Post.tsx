@@ -7,36 +7,23 @@ import { TextBody } from './body/TextBody';
 import { ImageBody } from './body/ImageBody';
 
 interface PostProps { 
-  postUrl: string;
+  post: PostType;
 }
 
-export const Post = ({postUrl}: PostProps) => {
+export const Post = ({post}: PostProps) => {
 
-  const [post, setPost] = useState<PostType>();
-
-  useEffect(() => {
-    fetchData(formatUrl(postUrl))
-    .then((res) => {
-      // Format reddit's post object model
-      const post = formatPost(res);
-
-      if (!post.is_valid) return;
-
-      console.log(post.type);
-      setPost(post);
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }, []);
   
   return (post && (
     <article className="post">
+      {/* Subreddit & Poster Info */}
+      <address>
+        <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} target={'_blank'}>/r/{post.subreddit}</a></p>
+      </address>
+
       {/* Title */}
       <header className='post-title'>
         <h2>{post.title}</h2>
       </header>
-
       {/* Body */}
       <main className={`post-body ${post.type}`}>
         {
@@ -50,6 +37,8 @@ export const Post = ({postUrl}: PostProps) => {
       <footer className='info'>
         <p>{post.score} score</p>
         <p>type: {post.type}</p>
+        <p><a href={`https://www.reddit.com${post.permalink}`} target='_blank'>link to reddit post</a></p>
+        <p><a href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} target='_blank'>sub</a></p>
         <p>{post.num_comments} comments</p>
       </footer>
     </article>
