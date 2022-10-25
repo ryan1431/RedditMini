@@ -1,4 +1,3 @@
-import { parse } from 'path';
 import { decodeHtml } from '../../../utility';
 
 interface TextProps {
@@ -8,7 +7,7 @@ interface TextProps {
 
 export const TextBody = (props: TextProps) => {
 
-  const { selftext, selftext_html } = props;
+  const { selftext_html } = props;
   const html = decodeHtml(selftext_html);
 
   console.log(html);

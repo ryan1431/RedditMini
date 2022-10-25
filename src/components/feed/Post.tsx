@@ -1,7 +1,6 @@
 import './Post.css';
 
-import { fetchData, formatPost, formatUrl, PostType, setType } from '../../utility';
-import { useEffect, useRef, useState } from 'react';
+import { PostType } from '../../utility';
 import { Video } from './body/Video';
 import { TextBody } from './body/TextBody';
 import { ImageBody } from './body/ImageBody';
@@ -17,7 +16,7 @@ export const Post = ({post}: PostProps) => {
     <article className="post">
       {/* Subreddit & Poster Info */}
       <address>
-        <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} target={'_blank'}>/r/{post.subreddit}</a></p>
+        <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>/r/{post.subreddit}</a></p>
       </address>
 
       {/* Title */}
@@ -37,8 +36,7 @@ export const Post = ({post}: PostProps) => {
       <footer className='info'>
         <p>{post.score} score</p>
         <p>type: {post.type}</p>
-        <p><a href={`https://www.reddit.com${post.permalink}`} target='_blank'>link to reddit post</a></p>
-        <p><a href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} target='_blank'>sub</a></p>
+        <p><a href={`https://www.reddit.com${post.permalink}`} rel='noreferrer' target='_blank'>link to reddit post</a></p>
         <p>{post.num_comments} comments</p>
       </footer>
     </article>

@@ -7,8 +7,7 @@ interface VideoProps {
 }
 
 export const Video = ({url}: VideoProps) => {
-  console.log('(from video component: ', url);
-  const [videoUrl, setVideoUrl] = useState<string>(url);
+  const [videoUrl] = useState<string>(url);
   const videoRef = React.useRef() as React.RefObject<HTMLVideoElement>;
 
   useEffect(() => {

@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import uuid from 'react-uuid';
 
 
 import { fetchData, formatComments, formatPost, formatUrl, PostType } from '../utility/';
-import { baseurl, redirect } from "../utility/data";
+import { redirect } from "../utility/data";
 
 import './Test.css';
 

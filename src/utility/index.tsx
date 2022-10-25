@@ -1,5 +1,3 @@
-import { PostType } from './types';
-
 export const getRandomFromArray = <T,>(arr: T[]): T => {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -13,7 +11,6 @@ export const setType = (post: any) => {
     post.preview ? 'image' 
     : 'text';
 }  
-
 
 export * from './fetch-format'
 export * from './types'

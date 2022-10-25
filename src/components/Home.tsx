@@ -4,7 +4,6 @@ import { Feed } from "./feed/Feed";
 import { Subreddits } from "./Subreddits";
 import { Navbar } from "./Navbar";
 import { useEffect, useState } from 'react';
-import { getWindow } from '@testing-library/user-event/dist/types/utils';
 
 export interface CSS {
   basis: string,
@@ -23,12 +22,14 @@ export const Home = () => {
   const [css, setCss] = useState<CSS>({ basis: '', border: ''});
 
 
-  const handleResize = () => {
-    let currentWidth = getWindowWidth();
-    setWidth(currentWidth);
-  }
+  
 
   useEffect(() => {
+    const handleResize = () => {
+      let currentWidth = getWindowWidth();
+      setWidth(currentWidth);
+    }
+
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);

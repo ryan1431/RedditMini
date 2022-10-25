@@ -10,7 +10,7 @@ interface NavbarProps {
 
 export const Navbar = (props: NavbarProps) => {
 
-  const { css, setCss, width } = props;
+  const { css, setCss } = props;
 
   const toggleLeftPane = () => {
     const values = 
