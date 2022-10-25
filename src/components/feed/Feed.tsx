@@ -36,6 +36,7 @@ export const Feed = () => {
   const sort = useAppSelector(selectSort);
   const subs = useAppSelector(selectSubreddits);
 
+  useEffect(() => { console.log(sort) }, [sort])
 
   // Change sort query
   const sortBy = useCallback(({target}:any) => {
@@ -46,10 +47,6 @@ export const Feed = () => {
     document.querySelector(`.${type}.active`)?.classList.toggle('active');
     target.classList.toggle('active');
     dispatch(setQuery([target.value, type]));
-
-    if (type === 'feed') {
-      // cause rerender
-    }
   }, []);
 
   const getPosts = async (url:string) => {
@@ -57,33 +54,32 @@ export const Feed = () => {
   }
 
   useEffect(() => {
-    if (feed === 'saved') {
-      // to be implemented
-      return;
-    }
+    let url = base;
 
-    try {
-      setCurrentUrl(buildUrl(feed, subs, after, sort));
-    } catch(e) {
-      if (e instanceof Error) {
-        if (e.message === 'nosub') {
-          return setFeedPosts([]);
-        }
-      } 
-      console.log(e);
+    // Structure url according to selected feed (home / custom / saved)
+    if (feed === 'home') {
+      url += `${sort}`
+    } else if (feed === 'custom') {
+      if (!subs.length) return;
+      url += `r/${subs.join('+')}/${sort}`
+    } else if (feed === 'saved') {
+      // to be added
+      return; 
     }
     
-    getPosts(currentUrl)
+    getPosts(`${url}?limit=10&after=${after}`)
       .then((res) => {
         setFeedPosts(res.posts);
-        dispatch(setQuery([res.after, 'after']));
+        if (res.after) {
+          dispatch(setQuery([res.after, 'after']));
+        }
     })
   }, [feed, sort])
 
   useEffect(() => {
     let scroll = (ev: Event) => {
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        // at bottom
+        console.log('reachced bottom');
       }
     };  
 

@@ -184,6 +184,7 @@ export const buildUrl = (feed: string, subs: string[], after: string, sort: stri
     if (!subs.length) throw new Error('nosub');
     url += `r/${subs.join('+')}/${sort}`
   }
-  
-  return url + `?limit=10&after=${after}`;
+  url += `?limit=10&after=${after}`;
+  console.log('url: ' + url);
+  return url;
 }
