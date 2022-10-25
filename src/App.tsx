@@ -9,10 +9,6 @@ import { Home } from './components/Home';
 import { Test } from './components/Test';
 
 function App() {
-
-  useEffect(() => {
-    console.log('test');
-  },[])
   return (
     <BrowserRouter>
       <Routes>

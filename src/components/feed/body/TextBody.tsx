@@ -10,7 +10,6 @@ export const TextBody = (props: TextProps) => {
   const { selftext_html } = props;
   const html = decodeHtml(selftext_html);
 
-  console.log(html);
   return (
     <>
       <div dangerouslySetInnerHTML={{__html: html}} />

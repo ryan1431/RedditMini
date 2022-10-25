@@ -1,6 +1,7 @@
 import { PostType, setType } from ".";
 import { keys } from './data';
 
+
 /** Recursively format & remove unneeded key-value fields from an array of comment objects & replies
  * 
  * @param commentsArray Array of comments to format
@@ -39,6 +40,7 @@ import { keys } from './data';
  */
 export const formatPost = (res: any, single = true): PostType => {
 
+  // Extract related data
   let postData = single ? res[0].data.children[0].data : res.data;
 
   // Filter out any unneeded key-value pairs
@@ -48,9 +50,8 @@ export const formatPost = (res: any, single = true): PostType => {
     })
   );
 
-  postEntries.is_valid = true;
-
   // Filter out removed posts
+  postEntries.is_valid = true;
   if (postEntries.removal_reason || postEntries.removed_by || postEntries.removed_by_category) {
     postEntries.is_valid = false;
   }
@@ -70,15 +71,12 @@ export const formatPost = (res: any, single = true): PostType => {
         || postEntries.preview?.images[0]?.variants?.gif?.source?.url
         || null;
 
-      console.log(url);
       if (!url) postEntries.is_valid = false;
       postEntries.content_url = htmlDecode(url)
     }
   }
 
-  const post: PostType = {...postEntries}
-  
-  return post;
+  return {...postEntries};
 }
 
 /** Returns an array of valid posts fetched from provided url
@@ -86,14 +84,21 @@ export const formatPost = (res: any, single = true): PostType => {
  * @param url eg. 'https://reddit.com/'
  * @returns array of posts
  */
-export const getFeedPosts = async (url: string): Promise<PostType[]> => {
+export const getFeedPosts = async (url: string): Promise<{posts: PostType[], after: string}> => {
   const response = await fetch(formatUrl(url));
   const data = await response.json();
 
+  const after = data.after;
+
   // Map each child
-  return data.data.children
+  const posts = data.data.children
     .map((child:any) => formatPost(child, false))
     .filter((p:PostType) => p.is_valid);
+
+  return {
+    posts,
+    after
+  }
 }
 
 /** Gets json data of all comments and their replies
@@ -139,7 +144,14 @@ export const fetchData = async (url: string) => {
  * @returns Url string with .json appended
  */
 export const formatUrl = (url: string) => {
-  return !url.slice(-4).includes('json') ? `${url}.json` : url
+  // return !url.slice(-4).includes('json') ? `${url}.json` : url
+  if (!url.includes('.json')) {
+    let query = url.indexOf('?');
+    url = (query === -1) 
+      ? `${url}.json`
+      : `${url.slice(0, query)}.json${url.slice(query)}`
+  }
+  return url;
 }
 
 /** Decodes the provided url. eg. '&amp;' -> '&'
@@ -150,6 +162,5 @@ export const formatUrl = (url: string) => {
  */
 export const htmlDecode = (input:string) => {
   var doc = new DOMParser().parseFromString(input, "text/html");
-  console.log(doc);
   return doc.documentElement.textContent;
 }

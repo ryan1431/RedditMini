@@ -10,7 +10,6 @@ interface PostProps {
 }
 
 export const Post = ({post}: PostProps) => {
-
   
   return (post && (
     <article className="post">
