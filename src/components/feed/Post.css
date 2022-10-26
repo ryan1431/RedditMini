@@ -20,8 +20,8 @@
   margin-bottom: 40px;
 }
 
-.post:last-child {
-  margin-bottom: 90px;
+.post:nth-last-child(2) {
+  margin-bottom: 100px;
 }
 
 .post h3, p {

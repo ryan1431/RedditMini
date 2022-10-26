@@ -87,8 +87,7 @@ export const formatPost = (res: any, single = true): PostType => {
 export const getFeedPosts = async (url: string): Promise<{posts: PostType[], after: string}> => {
   const response = await fetch(formatUrl(url));
   const data = await response.json();
-
-  const after = data.after;
+  const after = data.data.after;
 
   // Map each child
   const posts = data.data.children

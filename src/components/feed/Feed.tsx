@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector, useOnScreen } from '../../app/hooks/hooks';
 import { selectAfter, 
   selectFeed, 
   selectSort, 
@@ -30,15 +30,17 @@ export const Feed = () => {
 
   const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
   const [currentUrl, setCurrentUrl] = useState<string>(base);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const visRef:any = useRef();
+  const isVisible = useOnScreen(visRef)
   
   const after = useAppSelector(selectAfter);
   const feed = useAppSelector(selectFeed);
   const sort = useAppSelector(selectSort);
   const subs = useAppSelector(selectSubreddits);
 
-  useEffect(() => { console.log(sort) }, [sort])
-
-  // Change sort query
+  // Change sort query (handler)
   const sortBy = useCallback(({target}:any) => {
     if (target.classList.contains('active')) return;
     setFeedPosts([])
@@ -66,29 +68,38 @@ export const Feed = () => {
       // to be added
       return; 
     }
-    
-    getPosts(`${url}?limit=10&after=${after}`)
+    setCurrentUrl(url);
+
+    // Fetch posts
+    getPosts(`${url}?limit=10`)
       .then((res) => {
         setFeedPosts(res.posts);
         if (res.after) {
           dispatch(setQuery([res.after, 'after']));
         }
+        setTimeout(() => {
+          setLoading(false);
+        }, 5000)
     })
-  }, [feed, sort])
+  }, [feed, sort]);
 
+  // Infinite scroll
   useEffect(() => {
-    let scroll = (ev: Event) => {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        console.log('reachced bottom');
-      }
-    };  
-
-    window.addEventListener('scroll', scroll)
-    
-    return () => {
-      window.removeEventListener('scroll', scroll);
+    if (isVisible) {
+      setLoading(true);
+      getPosts(`${currentUrl}?limit=10&after=${after}`)
+        .then((res) => {
+          setFeedPosts((prev) => [...prev, ...res.posts]);
+          console.log(res);
+          if (res.after) {
+            dispatch(setQuery([res.after, 'after']));
+          }
+          setTimeout(() => {
+            setLoading(false);
+          }, 5000)
+      })
     }
-  }, [])
+  }, [isVisible]);
 
   return (
     <div id="feed">
@@ -110,9 +121,12 @@ export const Feed = () => {
 
       {/* Reddit content */}
       {feedPosts.length ? feedPosts.map(post => {
-        return <Post post={post} key={post.title} />;
+        return <Post post={post} key={'' + post.title + post.score + post.subreddit} />;
       }) : <div className='post'><p style={{display: 'flex', justifyContent: 'center'}}>There are no posts to display! Add some subreddits in the subreddit pane.</p></div>
       }
+      <div ref={visRef} style={{
+        opacity: '0', 
+        display: `${!loading && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`}}>text</div>
     </div>
   )
-}
+}         
