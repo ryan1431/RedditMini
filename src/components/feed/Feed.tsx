@@ -6,6 +6,7 @@ import { selectAfter,
   selectSubreddits,
   setQuery,
 } from '../../features/querySlice';
+import { selectSaved } from '../../features/savedSlice';
 import { buildUrl, getFeedPosts, PostType } from '../../utility';
 import { base } from '../../utility/data';
 import './Feed.css';
@@ -40,6 +41,8 @@ export const Feed = () => {
   const sort = useAppSelector(selectSort);
   const subs = useAppSelector(selectSubreddits);
 
+  const saved = useAppSelector(selectSaved);
+
   // Change sort query (handler)
   const sortBy = useCallback(({target}:any) => {
     if (target.classList.contains('active')) return;
@@ -66,6 +69,7 @@ export const Feed = () => {
       url += `r/${subs.join('+')}/${sort}`
     } else if (feed === 'saved') {
       // to be added
+      console.log(saved);
       return; 
     }
     setCurrentUrl(url);

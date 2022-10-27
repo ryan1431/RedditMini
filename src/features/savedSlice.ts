@@ -29,7 +29,7 @@ const savedReducer = createSlice({
   }
 });
 
-const selectSaved = (state: RootState) => state.saved.refUrls;
+export const selectSaved = (state: RootState) => state.saved.refUrls;
 
 export const { save, unsave } = savedReducer.actions;
 
