@@ -9,7 +9,7 @@ import { selectAfter,
 } from '../../features/querySlice';
 import { selectSaved } from '../../features/savedSlice';
 import { buildUrl, getFeedPosts, PostType } from '../../utility';
-import { base } from '../../utility/data';
+import { base, feedFields, sortFields } from '../../utility/data';
 import './Feed.css';
 
 import { Post } from './Post';
@@ -53,7 +53,7 @@ export const Feed = () => {
     setFeedPosts([]);
 
     let type = target.classList[0];
-    // set respective
+
     (type === 'sort')
       ? setSortField(target.value)
       : setFeedField(target.value);
@@ -117,23 +117,13 @@ export const Feed = () => {
       {/* First card (sort by, feed) */}
       <section className='post'>
         <div className="query-buttons">
-          {[
-            ['best', 'Best'],
-            ['hot', 'Hot'],
-            ['new', 'New'],
-            ['top', 'Top'],
-            ['rising', 'Rising']
-          ].map(([field, title]) => (
-            <button onClick={sortBy} className={clsx('sort', { active: sortField === field })} value={field}>{title}</button>
+          {sortFields.map(([field, title]) => (
+            <button onClick={sortBy} key={title} className={clsx('sort', { active: sortField === field })} value={field}>{title}</button>
           ))}
         </div>
         <footer className='feed-buttons'>
-          {[
-            ['home', 'Home'],
-            ['custom', 'Custom'],
-            ['saved', 'Saved'],
-          ].map(([field, title]) => (
-            <button onClick={sortBy} className={clsx('feed', { active: feedField === field })} value={field}>{title}</button>
+          {feedFields.map(([field, title]) => (
+            <button onClick={sortBy} key={title} className={clsx('feed', { active: feedField === field })} value={field}>{title}</button>
           ))}
         </footer>
       </section>

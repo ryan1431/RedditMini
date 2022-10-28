@@ -20,3 +20,16 @@ export const samplePosts = [
   'https://www.reddit.com/r/leagueoflegends/comments/ybzh2z/drx_vs_edward_gaming_2022_world_championship/',
 ];
 
+export const sortFields = [
+  ['best', 'Best'],
+  ['hot', 'Hot'],
+  ['new', 'New'],
+  ['top', 'Top'],
+  ['rising', 'Rising']
+];
+
+export const feedFields = [
+  ['home', 'Home'],
+  ['custom', 'Custom'],
+  ['saved', 'Saved'],
+];
