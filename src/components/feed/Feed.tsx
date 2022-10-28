@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import clsx from 'clsx'
 import { useAppDispatch, useAppSelector, useOnScreen } from '../../app/hooks/hooks';
 import { selectAfter, 
   selectFeed, 
@@ -23,7 +24,8 @@ https://www.reddit.com/r/worldnews/comments/yd5yiz/brittney_griner_lost_appeal_w
 
 r/subreddits/search?q=${query}&sort=hot
 */
-
+type SortField = 'best' | 'hot' | 'new' | 'top' | 'rising';
+type FeedField = 'home' | 'custom' | 'saved';
 
 export const Feed = () => {
 
@@ -43,14 +45,19 @@ export const Feed = () => {
 
   const saved = useAppSelector(selectSaved);
 
+  const [sortField, setSortField] = useState<SortField>('best');
+  const [feedField, setFeedField] = useState<FeedField>('home');
+
   // Change sort query (handler)
   const sortBy = useCallback(({target}:any) => {
-    if (target.classList.contains('active')) return;
-    setFeedPosts([])
+    setFeedPosts([]);
 
     let type = target.classList[0];
-    document.querySelector(`.${type}.active`)?.classList.toggle('active');
-    target.classList.toggle('active');
+    // set respective
+    (type === 'sort')
+      ? setSortField(target.value)
+      : setFeedField(target.value);
+    
     dispatch(setQuery([target.value, type]));
   }, []);
 
@@ -110,16 +117,24 @@ export const Feed = () => {
       {/* First card (sort by, feed) */}
       <section className='post'>
         <div className="query-buttons">
-          <button onClick={sortBy} className='sort active' value='best'>Best</button>
-          <button onClick={sortBy} className='sort' value='hot'>Hot</button>
-          <button onClick={sortBy} className='sort' value='new'>New</button>
-          <button onClick={sortBy} className='sort' value='top'>Top</button>
-          <button onClick={sortBy} className='sort' value='rising'>Rising</button>
+          {[
+            ['best', 'Best'],
+            ['hot', 'Hot'],
+            ['new', 'New'],
+            ['top', 'Top'],
+            ['rising', 'Rising']
+          ].map(([field, title]) => (
+            <button onClick={sortBy} className={clsx('sort', { active: sortField === field })} value={field}>{title}</button>
+          ))}
         </div>
         <footer className='feed-buttons'>
-          <button onClick={sortBy} className='feed active' value='home'>Home</button>
-          <button onClick={sortBy} className='feed' value='custom'>Custom</button>
-          <button onClick={sortBy} className='feed' value='saved'>Saved</button>
+          {[
+            ['home', 'Home'],
+            ['custom', 'Custom'],
+            ['saved', 'Saved'],
+          ].map(([field, title]) => (
+            <button onClick={sortBy} className={clsx('feed', { active: feedField === field })} value={field}>{title}</button>
+          ))}
         </footer>
       </section>
 

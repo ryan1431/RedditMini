@@ -183,7 +183,10 @@ export const buildUrl = (feed: string, subs: string[], after: string, sort: stri
     if (!subs.length) throw new Error('nosub');
     url += `r/${subs.join('+')}/${sort}`
   }
-  url += `?limit=10&after=${after}`;
+  const params = new URLSearchParams()
+  params.set('limit', '10')
+  params.set('after', after)
+  url += `?${params.toString()}`
   console.log('url: ' + url);
   return url;
 }
