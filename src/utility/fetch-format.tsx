@@ -145,10 +145,10 @@ export const fetchData = async (url: string) => {
 export const formatUrl = (url: string) => {
   // return !url.slice(-4).includes('json') ? `${url}.json` : url
   if (!url.includes('.json')) {
-    let query = url.indexOf('?');
-    url = (query === -1) 
+    let queryIndex = url.indexOf('?');
+    url = (queryIndex === -1) 
       ? `${url}.json`
-      : `${url.slice(0, query)}.json${url.slice(query)}`
+      : `${url.slice(0, queryIndex)}.json${url.slice(queryIndex)}`
   }
   return url;
 }
@@ -189,4 +189,8 @@ export const buildUrl = (feed: string, subs: string[], after: string, sort: stri
   url += `?${params.toString()}`
   console.log('url: ' + url);
   return url;
+}
+
+export const getSavedPosts = (urls: string[]): any => {
+  
 }

@@ -8,7 +8,7 @@ import { selectAfter,
   setQuery,
 } from '../../features/querySlice';
 import { selectSaved } from '../../features/savedSlice';
-import { buildUrl, getFeedPosts, PostType } from '../../utility';
+import { buildUrl, fetchData, formatPost, formatUrl, getFeedPosts, getSavedPosts, PostType } from '../../utility';
 import { base, feedFields, sortFields } from '../../utility/data';
 import './Feed.css';
 
@@ -76,7 +76,15 @@ export const Feed = () => {
       url += `r/${subs.join('+')}/${sort}`
     } else if (feed === 'saved') {
       // to be added
-      console.log(saved);
+      saved.forEach((url) => {
+        fetchData(formatUrl(url))
+          .then((res) => {
+            let post = formatPost(res);
+            if (post) {
+              setFeedPosts((p) => [...p, post]);
+            }
+          });
+      })
       return; 
     }
     setCurrentUrl(url);
@@ -131,11 +139,11 @@ export const Feed = () => {
       {/* Reddit content */}
       {feedPosts.length ? feedPosts.map(post => {
         return <Post post={post} key={'' + post.title + post.score + post.subreddit} />;
-      }) : <div className='post'><p style={{display: 'flex', justifyContent: 'center'}}>There are no posts to display! Add some subreddits in the subreddit pane.</p></div>
+      }) : <div className='post'><p style={{display: 'flex', justifyContent: 'center'}}>{loading ? 'Loading...' : 'There are no posts to display!'}</p></div>
       }
       <div ref={visRef} style={{
         opacity: '0', 
-        display: `${!loading && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`}}>text</div>
+        display: `${!loading && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext</div>
     </div>
   )
 }         
