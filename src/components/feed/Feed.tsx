@@ -50,18 +50,21 @@ export const Feed = () => {
 
   // Change sort query (handler)
   const sortBy = useCallback(({target}:any) => {
-    
-    setFeedPosts([]);
-
     let type = target.classList[0];
 
+    // Don't update when clicking already active button
+    if ((type === 'sort' && target.value === sortField)
+    || (type === 'feed' && target.value === feedField)) return;
+
+    // Empty feed & set respective field
+    setFeedPosts([]);
     (type === 'sort')
       ? setSortField(target.value)
       : setFeedField(target.value);
-    
+      
     dispatch(setQuery([target.value, type]));
     setLoading(true);
-  }, [dispatch]);
+  }, [dispatch, feedField, sortField]);
 
   const getPosts = async (url:string) => {
     return await getFeedPosts(url);
