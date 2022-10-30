@@ -26,7 +26,8 @@ interface PostType {
   is_valid?: boolean,
   content_url: string,
   permalink: string,
-  subreddit_name_prefixed: string,
+  subreddit_name_prefixed: string, 
+  link: string,
 }
 
 export type {

@@ -151,7 +151,7 @@ export const Feed = () => {
       {/* Content */}
       {(feedPosts.length)
         ? feedPosts.map(post => {
-          return <Post post={post} savedPosts={savedPosts} saved={savedPosts.includes(post.url)} key={'' + post.title + post.score + post.subreddit}/>;
+          return <Post post={post} savedPosts={savedPosts} saved={savedPosts.includes(post.link)} key={'' + post.title + post.score + post.subreddit}/>;
         }) 
         : <div className='post'>
             <p style={{display: 'flex', justifyContent: 'center'}}>{loading ? 'Loading...' : 'There are no posts to display!'}</p>

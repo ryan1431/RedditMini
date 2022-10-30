@@ -22,11 +22,11 @@ export const Post = ({post, savedPosts, saved}: PostProps) => {
 
   const handleSave = useCallback(() => {
     if (saved) {
-      dispatch(unsave(`https://www.reddit.com${post.permalink}`));
+      dispatch(unsave(post.link));
     } else {
-      dispatch(save(`https://www.reddit.com${post.permalink}`));
+      dispatch(save(post.link));
     }
-  }, [dispatch, post.permalink, saved]);
+  }, [dispatch, post.link, saved]);
   
   return (post && (
     <article className="post">
@@ -52,7 +52,7 @@ export const Post = ({post, savedPosts, saved}: PostProps) => {
       <footer className='info'>
         <p>{post.score} score</p>
         <p>type: {post.type}</p>
-        <p><a href={`https://www.reddit.com${post.permalink}`} rel='noreferrer' target='_blank'>link to reddit post</a></p>
+        <p><a href={post.link} rel='noreferrer' target='_blank'>link to reddit post</a></p>
         <p>{post.num_comments} comments</p>
         <button className='info-save' onClick={handleSave}>{saved ? 'Unsave' : 'Save'}</button>
       </footer>

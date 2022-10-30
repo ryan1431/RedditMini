@@ -76,6 +76,9 @@ export const formatPost = (res: any, single = true): PostType => {
     }
   }
 
+  // Set persistent link
+  postEntries.link = `https://www.reddit.com${postEntries.permalink}`;
+
   return {...postEntries};
 }
 
