@@ -8,7 +8,7 @@ import { selectAfter,
   setQuery,
 } from '../../features/querySlice';
 import { selectSaved } from '../../features/savedSlice';
-import { buildUrl, fetchData, formatPost, formatUrl, getFeedPosts, getSavedPosts, PostType } from '../../utility';
+import { fetchData, formatPost, formatUrl, getFeedPosts, PostType } from '../../utility';
 import { base, feedFields, sortFields } from '../../utility/data';
 import './Feed.css';
 
@@ -43,10 +43,14 @@ export const Feed = () => {
   const sort = useAppSelector(selectSort);
   const subs = useAppSelector(selectSubreddits);
 
-  const saved = useAppSelector(selectSaved);
+  const savedPosts = useAppSelector(selectSaved);
 
   const [sortField, setSortField] = useState<SortField>('best');
   const [feedField, setFeedField] = useState<FeedField>('home');
+
+  const toggleSaved = (post:PostType) => {
+    post.saved = !post.saved;
+  }
 
   // Change sort query (handler)
   const sortBy = useCallback(({target}:any) => {
@@ -59,10 +63,22 @@ export const Feed = () => {
       : setFeedField(target.value);
     
     dispatch(setQuery([target.value, type]));
-  }, []);
+  }, [dispatch]);
 
   const getPosts = async (url:string) => {
     return await getFeedPosts(url);
+  }
+
+  const setSaved = () => {
+    savedPosts.forEach((url) => {
+      fetchData(formatUrl(url))
+        .then((res) => {
+          let post = formatPost(res);
+          if (post) {
+            setFeedPosts((p) => [...p, post]);
+          }
+        });
+    })
   }
 
   useEffect(() => {
@@ -71,23 +87,17 @@ export const Feed = () => {
     // Structure url according to selected feed (home / custom / saved)
     if (feed === 'home') {
       url += `${sort}`
+
     } else if (feed === 'custom') {
       if (!subs.length) return;
       url += `r/${subs.join('+')}/${sort}`
+
     } else if (feed === 'saved') {
-      // to be added
-      saved.forEach((url) => {
-        fetchData(formatUrl(url))
-          .then((res) => {
-            let post = formatPost(res);
-            if (post) {
-              setFeedPosts((p) => [...p, post]);
-            }
-          });
-      })
+        setSaved();
       return; 
     }
     setCurrentUrl(url);
+    //
 
     // Fetch posts
     getPosts(`${url}?limit=10`)
@@ -99,8 +109,8 @@ export const Feed = () => {
         setTimeout(() => {
           setLoading(false);
         }, 5000)
-    })
-  }, [feed, sort]);
+    });
+  }, [feed, sort, dispatch, subs]);
 
   // Infinite scroll
   useEffect(() => {
@@ -118,7 +128,7 @@ export const Feed = () => {
           }, 5000)
       })
     }
-  }, [isVisible]);
+  }, [isVisible, after, dispatch, currentUrl]);
 
   return (
     <div id="feed">
@@ -136,14 +146,23 @@ export const Feed = () => {
         </footer>
       </section>
 
-      {/* Reddit content */}
-      {feedPosts.length ? feedPosts.map(post => {
-        return <Post post={post} key={'' + post.title + post.score + post.subreddit} />;
-      }) : <div className='post'><p style={{display: 'flex', justifyContent: 'center'}}>{loading ? 'Loading...' : 'There are no posts to display!'}</p></div>
+      {/* Content */}
+      {(feedPosts.length)
+        ? feedPosts.map(post => {
+          return <Post toggleSaved={toggleSaved} post={post} key={'' + post.title + post.score + post.subreddit}/>;
+        }) 
+        : <div className='post'>
+            <p style={{display: 'flex', justifyContent: 'center'}}>{loading ? 'Loading...' : 'There are no posts to display!'}</p>
+        </div>
       }
-      <div ref={visRef} style={{
-        opacity: '0', 
-        display: `${!loading && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext</div>
+
+      {/* Infinite scroll visible trigger for home & custom feeds */}
+      {<div ref={feed === 'saved' ? null : visRef} style={{
+          opacity: '0', 
+          display: `${!loading && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext
+        </div>
+        // : <div style={{opacity: '0'}}>empty</div>
+      }
     </div>
   )
 }         

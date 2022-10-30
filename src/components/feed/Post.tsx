@@ -6,19 +6,25 @@ import { TextBody } from './body/TextBody';
 import { ImageBody } from './body/ImageBody';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { save } from '../../features/savedSlice';
+import { save, unsave } from '../../features/savedSlice';
 
 interface PostProps { 
   post: PostType;
+  toggleSaved: (post: PostType) => void;
 }
 
-export const Post = ({post}: PostProps) => {
+export const Post = ({post, toggleSaved}: PostProps) => {
 
   const dispatch = useDispatch();
 
-  const savePost = useCallback(() => {
-    dispatch(save(`https://www.reddit.com${post.permalink}`));
-  }, []);
+  const handleSave = useCallback(() => {
+    if (post.saved) {
+      dispatch(unsave(`https://www.reddit.com${post.permalink}`));
+    } else {
+      dispatch(save(`https://www.reddit.com${post.permalink}`));
+    }
+    toggleSaved(post);
+  }, [dispatch, post, toggleSaved]);
   
   return (post && (
     <article className="post">
@@ -46,7 +52,7 @@ export const Post = ({post}: PostProps) => {
         <p>type: {post.type}</p>
         <p><a href={`https://www.reddit.com${post.permalink}`} rel='noreferrer' target='_blank'>link to reddit post</a></p>
         <p>{post.num_comments} comments</p>
-        <button className='info-save' onClick={savePost}>Save</button>
+        <button className='info-save' onClick={handleSave}>{post.saved ? 'Unsave' : 'Save'}</button>
       </footer>
     </article>
   )) || <></>
