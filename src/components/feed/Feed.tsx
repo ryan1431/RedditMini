@@ -1,4 +1,4 @@
-import { useCallback, useDebugValue, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx'
 import { useAppDispatch, useAppSelector, useOnScreen } from '../../app/hooks/hooks';
 import { selectAfter, 
@@ -48,12 +48,9 @@ export const Feed = () => {
   const [sortField, setSortField] = useState<SortField>('best');
   const [feedField, setFeedField] = useState<FeedField>('home');
 
-  const toggleSaved = (post:PostType) => {
-    post.saved = !post.saved;
-  }
-
   // Change sort query (handler)
   const sortBy = useCallback(({target}:any) => {
+    
     setFeedPosts([]);
 
     let type = target.classList[0];
@@ -63,14 +60,14 @@ export const Feed = () => {
       : setFeedField(target.value);
     
     dispatch(setQuery([target.value, type]));
+    setLoading(true);
   }, [dispatch]);
 
   const getPosts = async (url:string) => {
     return await getFeedPosts(url);
   }
 
-  const setSaved = () => {
-    console.log(savedPosts);
+  const setSaved = useCallback(() => {
     savedPosts.forEach((url) => {
       fetchData(formatUrl(url))
         .then((res) => {
@@ -80,7 +77,7 @@ export const Feed = () => {
           }
         });
     })
-  }
+  }, [savedPosts]);
 
   useEffect(() => {
     let url = base;
@@ -95,13 +92,16 @@ export const Feed = () => {
         url += `r/${subs.join('+')}/${sort}`;
         break;
       case 'saved':
-        setSaved();
+        if (loading) {
+          setSaved();
+        }
         return;
     }
     setCurrentUrl(url);
 
     // Fetch posts
-    getPosts(`${url}?limit=10`)
+    if (loading) {
+      getPosts(`${url}?limit=10`)
       .then((res) => {
         setFeedPosts(res.posts);
         if (res.after) {
@@ -110,8 +110,9 @@ export const Feed = () => {
         setTimeout(() => {
           setLoading(false);
         }, 5000)
-    });
-  }, [feed, sort, dispatch, subs]);
+      });
+    }
+  }, [feed, sort, dispatch, subs, loading, setSaved ]);
 
   // Infinite scroll
   useEffect(() => {
@@ -133,7 +134,7 @@ export const Feed = () => {
 
   return (
     <div id="feed">
-      {/* First card (sort by, feed) */}
+      {/* Customization buttons */}
       <section className='post'>
         <div className="query-buttons">
           {sortFields.map(([field, title]) => (
@@ -150,7 +151,7 @@ export const Feed = () => {
       {/* Content */}
       {(feedPosts.length)
         ? feedPosts.map(post => {
-          return <Post toggleSaved={toggleSaved} post={post} key={'' + post.title + post.score + post.subreddit}/>;
+          return <Post post={post} savedPosts={savedPosts} saved={savedPosts.includes(post.url)} key={'' + post.title + post.score + post.subreddit}/>;
         }) 
         : <div className='post'>
             <p style={{display: 'flex', justifyContent: 'center'}}>{loading ? 'Loading...' : 'There are no posts to display!'}</p>
