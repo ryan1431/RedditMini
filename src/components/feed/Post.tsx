@@ -4,9 +4,10 @@ import { PostType } from '../../utility';
 import { Video } from './body/Video';
 import { TextBody } from './body/TextBody';
 import { ImageBody } from './body/ImageBody';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { save, unsave } from '../../features/savedSlice';
+import { save, selectSaved, unsave } from '../../features/savedSlice';
+import { useAppSelector } from '../../app/hooks/hooks';
 
 interface PostProps { 
   post: PostType;
@@ -16,9 +17,12 @@ interface PostProps {
 export const Post = ({post, toggleSaved}: PostProps) => {
 
   const dispatch = useDispatch();
+  const savedPosts = useAppSelector(selectSaved);
+
+  const isSaved = useMemo(() => savedPosts.includes(post.url), [savedPosts, post.url]);
 
   const handleSave = useCallback(() => {
-    if (post.saved) {
+    if (isSaved) {
       dispatch(unsave(`https://www.reddit.com${post.permalink}`));
     } else {
       dispatch(save(`https://www.reddit.com${post.permalink}`));
@@ -52,7 +56,7 @@ export const Post = ({post, toggleSaved}: PostProps) => {
         <p>type: {post.type}</p>
         <p><a href={`https://www.reddit.com${post.permalink}`} rel='noreferrer' target='_blank'>link to reddit post</a></p>
         <p>{post.num_comments} comments</p>
-        <button className='info-save' onClick={handleSave}>{post.saved ? 'Unsave' : 'Save'}</button>
+        <button className='info-save' onClick={handleSave}>{isSaved ? 'Unsave' : 'Save'}</button>
       </footer>
     </article>
   )) || <></>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useDebugValue, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx'
 import { useAppDispatch, useAppSelector, useOnScreen } from '../../app/hooks/hooks';
 import { selectAfter, 
@@ -70,6 +70,7 @@ export const Feed = () => {
   }
 
   const setSaved = () => {
+    console.log(savedPosts);
     savedPosts.forEach((url) => {
       fetchData(formatUrl(url))
         .then((res) => {
@@ -85,19 +86,19 @@ export const Feed = () => {
     let url = base;
 
     // Structure url according to selected feed (home / custom / saved)
-    if (feed === 'home') {
-      url += `${sort}`
-
-    } else if (feed === 'custom') {
-      if (!subs.length) return;
-      url += `r/${subs.join('+')}/${sort}`
-
-    } else if (feed === 'saved') {
+    switch (feed) {
+      case 'home':
+        url += sort;
+        break;
+      case 'custom':
+        if (!subs.length) return;
+        url += `r/${subs.join('+')}/${sort}`;
+        break;
+      case 'saved':
         setSaved();
-      return; 
+        return;
     }
     setCurrentUrl(url);
-    //
 
     // Fetch posts
     getPosts(`${url}?limit=10`)
