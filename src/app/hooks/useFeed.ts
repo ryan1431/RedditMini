@@ -16,6 +16,8 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
   const [sortField, setSortField] = useState<SortField>('best');
   const [feedField, setFeedField] = useState<FeedField>('home');
 
+  const [adding, setAdding] = useState<boolean>(false);
+
   const savedPosts = useAppSelector((state) => state.saved.refUrls);
   
   const {after, feed, sort, subreddits: subs} = useAppSelector((state) => state.query);
@@ -42,6 +44,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
     return await getFeedPosts(url);
   }
 
+  // Requires fetch for each saved url
   const setSaved = useCallback(() => {
     savedPosts.forEach((url) => {
       fetchData(formatUrl(url))
@@ -77,25 +80,26 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
     }
     setCurrentUrl(url);
 
+    if (!loading || adding) return;
+
     // Fetch posts
-    if (loading) {
-      getPosts(`${url}?limit=10`)
-      .then((res) => {
-        setFeedPosts(res.posts);
-        if (res.after) {
-          dispatch(setQuery([res.after, 'after']));
-        }
-        setTimeout(() => {
-          setLoading(false);
-        }, 5000);
-      });
-    }
-  }, [feed, sort, dispatch, subs, loading, setSaved, setFeedPosts]);
+    getPosts(`${url}?limit=10`)
+    .then((res) => {
+      setFeedPosts(res.posts);
+      if (res.after) {
+        dispatch(setQuery([res.after, 'after']));
+      }
+      setTimeout(() => {
+        setLoading(false);
+      }, 5000);
+    });
+  }, [feed, sort, dispatch, subs, loading, setSaved, setFeedPosts, adding]);
 
   // Infinite scroll
   useEffect(() => {
     if (isVisible) {
       setLoading(true);
+      setAdding(true);
       getPosts(`${currentUrl}?limit=10&after=${after}`)
         .then((res) => {
           setFeedPosts((prev) => [...prev, ...res.posts]);
@@ -105,6 +109,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
           }
           setTimeout(() => {
             setLoading(false);
+            setAdding(false);
           }, 5000)
       })
     }
