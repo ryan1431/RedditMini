@@ -91,7 +91,10 @@ export const Feed = () => {
         url += sort;
         break;
       case 'custom':
-        if (!subs.length) return;
+        if (!subs.length) {
+          setLoading(false);
+          return;
+        };
         url += `r/${subs.join('+')}/${sort}`;
         break;
       case 'saved':
