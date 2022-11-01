@@ -87,7 +87,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
         }
         setTimeout(() => {
           setLoading(false);
-        }, 5000)
+        }, 5000);
       });
     }
   }, [feed, sort, dispatch, subs, loading, setSaved, setFeedPosts]);
