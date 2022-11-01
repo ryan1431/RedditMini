@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { RootState } from "../app/store";
 
 type Query = 'after' | 'feed' | 'sort';
 
@@ -35,11 +34,6 @@ const querySlice = createSlice({
     }
   }
 });
-
-export const selectAfter = (state:RootState) => state.query.after;
-export const selectFeed = (state:RootState) => state.query.feed;
-export const selectSort = (state:RootState) => state.query.sort;
-export const selectSubreddits = (state:RootState) => state.query.subreddits;
 
 export const { setQuery, addSubreddit, removeSubreddit } = querySlice.actions;
 

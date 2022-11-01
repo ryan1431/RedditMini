@@ -1,142 +1,27 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx'
-import { useAppDispatch, useAppSelector, useOnScreen } from '../../app/hooks/hooks';
-import { selectAfter, 
-  selectFeed, 
-  selectSort, 
-  selectSubreddits,
-  setQuery,
-} from '../../features/querySlice';
-import { selectSaved } from '../../features/savedSlice';
-import { fetchData, formatPost, formatUrl, getFeedPosts, PostType } from '../../utility';
-import { base, feedFields, sortFields } from '../../utility/data';
+import { useRef, useState } from 'react';
+import { useFeed } from '../../app/hooks/useFeed';
+import { useOnScreen } from '../../app/hooks/useOnScreen';
+import { PostType } from '../../utility';
+import { feedFields, sortFields } from '../../utility/data';
 import './Feed.css';
 
 import { Post } from './Post';
 
-/* 
-https://www.reddit.com/wiki/rss/
-
-problem: link not available
-https://www.reddit.com/r/worldnews/comments/yd5yiz/brittney_griner_lost_appeal_will_serve_9_years_in/
-
-/r/wtf+home.json
-
-r/subreddits/search?q=${query}&sort=hot
-*/
-type SortField = 'best' | 'hot' | 'new' | 'top' | 'rising';
-type FeedField = 'home' | 'custom' | 'saved';
-
 export const Feed = () => {
-
-  const dispatch = useAppDispatch();
-
-  const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
-  const [currentUrl, setCurrentUrl] = useState<string>(base);
-  const [loading, setLoading] = useState<boolean>(true);
 
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef)
+  const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
   
-  const after = useAppSelector(selectAfter);
-  const feed = useAppSelector(selectFeed);
-  const sort = useAppSelector(selectSort);
-  const subs = useAppSelector(selectSubreddits);
-
-  const savedPosts = useAppSelector(selectSaved);
-
-  const [sortField, setSortField] = useState<SortField>('best');
-  const [feedField, setFeedField] = useState<FeedField>('home');
-
-  // Change sort query (handler)
-  const sortBy = useCallback(({target}:any) => {
-    let type = target.classList[0];
-
-    // Don't update when clicking already active button
-    if ((type === 'sort' && target.value === sortField)
-    || (type === 'feed' && target.value === feedField)) return;
-
-    // Empty feed & set respective field
-    setFeedPosts([]);
-    (type === 'sort')
-      ? setSortField(target.value)
-      : setFeedField(target.value);
-      
-    dispatch(setQuery([target.value, type]));
-    setLoading(true);
-  }, [dispatch, feedField, sortField]);
-
-  const getPosts = async (url:string) => {
-    return await getFeedPosts(url);
-  }
-
-  const setSaved = useCallback(() => {
-    savedPosts.forEach((url) => {
-      fetchData(formatUrl(url))
-        .then((res) => {
-          let post = formatPost(res);
-          if (post) {
-            setFeedPosts((p) => [...p, post]);
-          }
-        });
-    })
-  }, [savedPosts]);
-
-  useEffect(() => {
-    let url = base;
-
-    // Structure url according to selected feed (home / custom / saved)
-    switch (feed) {
-      case 'home':
-        url += sort;
-        break;
-      case 'custom':
-        if (!subs.length) {
-          setLoading(false);
-          return;
-        };
-        url += `r/${subs.join('+')}/${sort}`;
-        break;
-      case 'saved':
-        if (loading) {
-          setSaved();
-        }
-        return;
-    }
-    setCurrentUrl(url);
-
-    // Fetch posts
-    if (loading) {
-      getPosts(`${url}?limit=10`)
-      .then((res) => {
-        setFeedPosts(res.posts);
-        if (res.after) {
-          dispatch(setQuery([res.after, 'after']));
-        }
-        setTimeout(() => {
-          setLoading(false);
-        }, 5000)
-      });
-    }
-  }, [feed, sort, dispatch, subs, loading, setSaved ]);
-
-  // Infinite scroll
-  useEffect(() => {
-    if (isVisible) {
-      setLoading(true);
-      getPosts(`${currentUrl}?limit=10&after=${after}`)
-        .then((res) => {
-          setFeedPosts((prev) => [...prev, ...res.posts]);
-          console.log(res);
-          if (res.after) {
-            dispatch(setQuery([res.after, 'after']));
-          }
-          setTimeout(() => {
-            setLoading(false);
-          }, 5000)
-      })
-    }
-  }, [isVisible, after, dispatch, currentUrl]);
+  const {
+    sortBy,
+    savedPosts,
+    loading,
+    feed,
+    feedField,
+    sortField,
+  } = useFeed(setFeedPosts, isVisible);
 
   return (
     <div id="feed">
@@ -156,7 +41,7 @@ export const Feed = () => {
 
       {/* Content */}
       {(feedPosts.length)
-        ? feedPosts.map(post => {
+        ? feedPosts.map((post: any) => {
           return <Post post={post} savedPosts={savedPosts} saved={savedPosts.includes(post.link)} key={'' + post.title + post.score + post.subreddit}/>;
         }) 
         : <div className='post'>

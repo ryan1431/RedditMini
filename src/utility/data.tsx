@@ -33,3 +33,14 @@ export const feedFields = [
   ['custom', 'Custom'],
   ['saved', 'Saved'],
 ];
+
+
+
+
+/* info
+https://www.reddit.com/wiki/rss/
+problem: link not available
+https://www.reddit.com/r/worldnews/comments/yd5yiz/brittney_griner_lost_appeal_will_serve_9_years_in/
+/r/wtf+home.json
+r/subreddits/search?q=${query}&sort=hot
+*/
