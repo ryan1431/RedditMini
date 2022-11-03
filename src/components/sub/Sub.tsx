@@ -3,7 +3,7 @@ import { CiTrash } from 'react-icons/ci';
 import type { size } from '../Subreddits';
 import { useEffect, useState } from 'react';
 
-interface SubProps {
+export interface SubProps {
   sub: string,
   clicked: boolean,
 }

@@ -4,8 +4,8 @@ import './Subreddits.css';
 import type { CSS } from './Home';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
-import { removeSubreddit } from '../features/querySlice';
 import { Search } from './Search';
+import { removeSubreddit } from '../features/subredditsSlice';
 
 interface SubredditsProps extends CSS {}
 
@@ -15,7 +15,7 @@ export const Subreddits = (props: SubredditsProps) => {
   const { basis, border } = props;
   const dispatch = useAppDispatch();
 
-  const subs = useAppSelector((state) => state.query.subreddits);
+  const subs = useAppSelector((state) => state.subreddits.subs);
 
   const [clicked, setClicked] = useState<string>('');
 

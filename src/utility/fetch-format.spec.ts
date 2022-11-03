@@ -19,7 +19,7 @@ describe('formatUrl()', () => {
   });
 
   it('should add .json to the proper location when provided a url with query params', () => {
-    let query = '?limit=10';
+    let query = '?limit=10&type=sr';
     expect(formatUrl(`${base}${query}`)).toEqual(`${base}.json${query}&raw_json=1`);
   });
 });

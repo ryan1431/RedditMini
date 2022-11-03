@@ -20,7 +20,8 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
 
   const savedPosts = useAppSelector((state) => state.saved.refUrls);
   
-  const {after, feed, sort, subreddits: subs} = useAppSelector((state) => state.query);
+  const {after, feed, sort} = useAppSelector((state) => state.query);
+  const { subs } = useAppSelector((state) => state.subreddits)
 
   // Change sort query (handler)
   const sortBy = useCallback(({target}:any) => {
