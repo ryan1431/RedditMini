@@ -5,7 +5,6 @@ import type { CSS } from './Home';
 import { useDebounce } from '../app/hooks/useDebounce';
 import { useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
-import e from 'express';
 
 interface SubredditsProps extends CSS {}
 

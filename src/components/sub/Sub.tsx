@@ -28,7 +28,7 @@ export const Sub = ({sub}: { sub: string}) => {
     setDimensions({ width: '0', height: '0'});
     setTimeout(() => {
       dispatch(removeSubreddit(subRef.current));
-    }, 180);
+    }, 195);
   }, [dispatch]);
 
   return (
