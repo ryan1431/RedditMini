@@ -1,7 +1,6 @@
 import { PostType, setType } from ".";
 import { base, keys } from './data';
 
-
 /** Recursively format & remove unneeded key-value fields from an array of comment objects & replies
  * 
  * @param commentsArray Array of comments to format
@@ -62,8 +61,8 @@ export const formatPost = (res: any, single = true): PostType => {
   // Set content url for easy access & decode
   if (postEntries.type !== 'text') {
     if (postEntries.type === 'image') {
-      postEntries.content_url = htmlDecode(postEntries.preview.images[0].source.url)
-      
+      // postEntries.content_url = htmlDecode(postEntries.preview.images[0].source.url)
+      postEntries.content_url = postEntries.preview.images[0].source.url;
     } else { // is video
       let url:string = 
         postEntries.media?.reddit_video?.fallback_url
@@ -72,7 +71,8 @@ export const formatPost = (res: any, single = true): PostType => {
         || null;
 
       if (!url) postEntries.is_valid = false;
-      postEntries.content_url = htmlDecode(url)
+      // postEntries.content_url = htmlDecode(url)
+      postEntries.content_url = url;
     }
   }
 
@@ -90,6 +90,7 @@ export const formatPost = (res: any, single = true): PostType => {
 export const getFeedPosts = async (url: string): Promise<{posts: PostType[], after: string}> => {
   const response = await fetch(formatUrl(url));
   const data = await response.json();
+
   const after = data.data.after;
 
   // Map each child
@@ -99,7 +100,7 @@ export const getFeedPosts = async (url: string): Promise<{posts: PostType[], aft
 
   return {
     posts,
-    after
+    after 
   }
 }
 
@@ -110,17 +111,6 @@ export const getFeedPosts = async (url: string): Promise<{posts: PostType[], aft
  */
 export const formatComments = (res: any) => {
   return formatCommentsRecursive(res[1].data.children);
-}
-
-/** Decodes _html values from reddit json responses
- * 
- * @param html Encoded html
- * @returns Decoded html
- */
-export const decodeHtml = (html:string) => {
-  const txt = document.createElement("textarea");
-  txt.innerHTML = html;
-  return txt.value;
 }
 
 /** Fetches (get) data from provided url
@@ -146,25 +136,18 @@ export const fetchData = async (url: string) => {
  * @returns Url string with .json appended
  */
 export const formatUrl = (url: string) => {
-  // return !url.slice(-4).includes('json') ? `${url}.json` : url
+  let queryIndex = url.indexOf('?');
   if (!url.includes('.json')) {
-    let queryIndex = url.indexOf('?');
     url = (queryIndex === -1) 
       ? `${url}.json`
       : `${url.slice(0, queryIndex)}.json${url.slice(queryIndex)}`
+  } 
+  if (!url.includes('raw_json=1')) {
+    url = (queryIndex === -1) 
+      ? `${url}?raw_json=1`
+      : `${url}&raw_json=1`
   }
   return url;
-}
-
-/** Decodes the provided url. eg. '&amp;' -> '&'
- * 
- *  Use before fetching
- * @param input Url to be decoded
- * @returns Decoded url 
- */
-export const htmlDecode = (input:string) => {
-  var doc = new DOMParser().parseFromString(input, "text/html");
-  return doc.documentElement.textContent;
 }
 
 /** Builds a url from the provided queries
@@ -192,8 +175,4 @@ export const buildUrl = (feed: string, subs: string[], after: string, sort: stri
   url += `?${params.toString()}`
   console.log('url: ' + url);
   return url;
-}
-
-export const getSavedPosts = (urls: string[]): any => {
-  
 }

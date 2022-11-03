@@ -40,10 +40,6 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
     setLoading(true);
   }, [dispatch, feedField, sortField, setFeedPosts]);
 
-  const getPosts = async (url:string) => {
-    return await getFeedPosts(url);
-  }
-
   // Requires fetch for each saved url
   const setSaved = useCallback(() => {
     savedPosts.forEach((url) => {
@@ -83,7 +79,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
     if (!loading || adding) return;
 
     // Fetch posts
-    getPosts(`${url}?limit=10`)
+    getFeedPosts(`${url}?limit=10`)
     .then((res) => {
       setFeedPosts(res.posts);
       if (res.after) {
@@ -100,7 +96,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
     if (isVisible) {
       setLoading(true);
       setAdding(true);
-      getPosts(`${currentUrl}?limit=10&after=${after}`)
+      getFeedPosts(`${currentUrl}?limit=10&after=${after}`)
         .then((res) => {
           setFeedPosts((prev) => [...prev, ...res.posts]);
           console.log(res);

@@ -2,6 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 type Query = 'after' | 'feed' | 'sort';
 
+// interface Sub { 
+//   name: string,
+//   iconUrl: string,
+// }
 interface QueryState {
   after: string,
   feed: string,

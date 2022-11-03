@@ -78,7 +78,10 @@
 
 .sub:hover #sub-wrapper {
   background: rgba(255,255,255,.9);
-  cursor: pointer;
+}
+
+.sub:hover {
+  cursor:pointer;
 }
 
 .sub:hover .trash-icon {

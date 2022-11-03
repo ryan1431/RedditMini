@@ -41,7 +41,7 @@ export const Subreddits = (props: SubredditsProps) => {
     setTimeout(() => {
       dispatch(removeSubreddit(element.id));
     }, 150)
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
