@@ -22,9 +22,10 @@ export const Subreddits = (props: SubredditsProps) => {
   const onMouseUp = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const element = e.target;
     if (!(element instanceof HTMLDivElement)) return;
-    setClicked(element.id);
+    const name = element.id.split('-')[1];
+    setClicked(name);
     setTimeout(() => {
-      dispatch(removeSubreddit(element.id));
+      dispatch(removeSubreddit(name));
     }, 150)
   }, [dispatch]);
 
@@ -37,7 +38,7 @@ export const Subreddits = (props: SubredditsProps) => {
 
         <div id="selected-subs" onMouseUp={onMouseUp}>
           {subs.map((sub) => (
-            <div key={`sub-${sub}`} id={sub} className={`sub ${sub}`}>
+            <div key={`sub-${sub}`} id={`added-${sub}`} className={`sub ${sub}`}>
               <Sub sub={sub} clicked={clicked === sub}  />
             </div>
           ))}

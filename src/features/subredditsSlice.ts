@@ -28,7 +28,7 @@ export const getSubreddits = createAsyncThunk(
 );
 
 const subredditsSlice = createSlice({
-  name: 'query',
+  name: 'subreddits',
   initialState,
   reducers: {
     addSubreddit: (state, action: PayloadAction<string>) => {
