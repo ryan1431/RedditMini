@@ -10,22 +10,9 @@
 }
 
 /* Search bar */
-#search-subs {
-  margin: 30px;
-  padding: 2px 13px;
-  border-radius: 5px;
-}
-#search-subs:active,
-#search-subs:hover {
-  border: none;
-}
-
-/* Popup when searching */
-#search-results {
-  color: black;
-  width: 100px;
-  height: 100px;
-  background: white;
+#search-bar {
+  width: 100%;
+  /* padding: 15px; */
 }
 
 /* Selected subreddits */
@@ -81,7 +68,7 @@
 }
 
 .sub:hover {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .sub:hover .trash-icon {

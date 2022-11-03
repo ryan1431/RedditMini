@@ -12,12 +12,12 @@
   flex-wrap: wrap;
 }
 
-input[type='text'] {
+#test-form input[type='text'] {
   width: 300px;
   height: 2rem;
 }
 
-input[type='button'] {
+#test-form input[type='button'] {
   height: 1.5rem;
   width: 100px;
 }

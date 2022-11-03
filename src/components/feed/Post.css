@@ -79,7 +79,6 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.651);
 }
 
-
 /* Body */
 .post-body {
   border-bottom: 1px solid rgb(234, 22, 22);
@@ -91,9 +90,6 @@
   overflow: hidden;
 }
 
-.post-body.video {
-  /* max-height: 350px; */
-}
 .post-body.video video,
 .post-body.image img {
   width: 100%;

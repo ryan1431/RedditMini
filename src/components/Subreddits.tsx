@@ -2,10 +2,10 @@ import React, { useCallback, useState } from 'react';
 import './Subreddits.css';
 
 import type { CSS } from './Home';
-import { useDebounce } from '../app/hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
 import { removeSubreddit } from '../features/querySlice';
+import { Search } from './Search';
 
 interface SubredditsProps extends CSS {}
 
@@ -19,21 +19,6 @@ export const Subreddits = (props: SubredditsProps) => {
 
   const [clicked, setClicked] = useState<string>('');
 
-  const [query, setQuery] = useState<string>('');
-  const [inSearch, setInSearch] = useState<boolean>(false);
-
-  const onDebounce = () => {
-    console.log(query);
-    // Query reddit subs
-    
-  }
-  useDebounce(onDebounce, 1000, [query]);
-
-  const onChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    setInSearch(true);
-  }, []);
-
   const onMouseUp = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const element = e.target;
     if (!(element instanceof HTMLDivElement)) return;
@@ -46,13 +31,9 @@ export const Subreddits = (props: SubredditsProps) => {
   return (
     <>
       <div id="subreddits" style={{flexBasis: basis, maxWidth: basis, border: border}}>
-        <div id='search-bar'>
-          <input placeholder="Search Subreddits" id="search-subs" type="text" value={query} onChange={onChange} />
+        <div id='search-bar'  >
+          <Search />
         </div>
-
-        <div id="search-results" style={{display: `${inSearch ? 'block' : 'none'}`}}>
-          <p>Test</p>
-        </div>  
 
         <div id="selected-subs" onMouseUp={onMouseUp}>
           {subs.map((sub) => (

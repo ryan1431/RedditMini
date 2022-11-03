@@ -1,0 +1,10 @@
+/* Popup when searching */
+.search-results {
+  color: black;
+  border: 1px solid black;
+  height: fit-content;
+  background: white;
+  position: absolute;
+  top: 3rem;
+  width: 100%;
+}
