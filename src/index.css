@@ -15,7 +15,9 @@ input:active {
   border: 3px solid rgb(0, 0, 0);
 }
 
-
+* {
+  box-sizing: border-box;
+}
 
 /* */
 body {
@@ -26,7 +28,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: rgba(0, 0, 0, 0.942);
-  box-sizing: border-box;
 }
 
 code {

@@ -27,10 +27,8 @@ const querySlice = createSlice({
       state.subreddits.push(action.payload);
     },
     removeSubreddit: (state, action: PayloadAction<string>) => {
-      let index = state.subreddits.indexOf(action.payload);
-      if (index !== -1) {
-        state.subreddits.splice(index, 1);
-      }
+      console.log('removing ' + action.payload);
+      state.subreddits = state.subreddits.filter((sub) => sub !== action.payload);
     }
   }
 });

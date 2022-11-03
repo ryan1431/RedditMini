@@ -38,40 +38,57 @@
   width: 100%;
 }
 
+/* Persists height and width during shrink */
 .sub {
+  margin: 5px;
+  height: 3rem;
+  width: 70%;
+
+  /* shrink to middle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Shrinks on click */
+#sub-wrapper {
   background: white;
   color: black;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  margin: 5px;
   border-radius: 10px;
-
-  height: 3rem;
-  width: 70%;
+  height: 100%;
+  width: 100%;
 
   transition: all 0.2s;
+  overflow: hidden;
 }
 
-.sub > p {
+#sub-wrapper > p {
   margin-left: 10px;
 }
 
-.sub > button {
+#sub-wrapper > button {
   height: 100%;
   width: 50px;
 }
 
-.sub:hover {
+.sub:hover #sub-wrapper {
   background: rgba(255,255,255,.9);
   cursor: pointer;
 }
 
-/* Elements in.sub won't trigger mouseover event */
-#sub * {
+.sub:hover .trash-icon {
+  opacity: 1;
+  color: red;
+}
+
+/* Elements in.sub won't trigger parent mouseUp event */
+.sub * {
   pointer-events: none;
-  cursor: auto;
 }
 
 /* Trash icon */
@@ -87,7 +104,3 @@
   transition: all 0.2s;
 }
 
-.trash-icon.mouseover {
-  opacity: 1;
-  color: red;
-}
