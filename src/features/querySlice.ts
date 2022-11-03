@@ -13,7 +13,7 @@ const initialState: QueryState = {
   after: '',
   feed: 'home',
   sort: 'best',
-  subreddits: [],
+  subreddits: ['todayilearned', 'askreddit'],
 }
 
 const querySlice = createSlice({

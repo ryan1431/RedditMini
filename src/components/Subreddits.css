@@ -1,4 +1,93 @@
 #subreddits {
   background: rgba(103, 103, 103, 0);
   color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items:center;
+  overflow: hidden;
+}
+
+/* Search bar */
+#search-subs {
+  margin: 30px;
+  padding: 2px 13px;
+  border-radius: 5px;
+}
+#search-subs:active,
+#search-subs:hover {
+  border: none;
+}
+
+/* Popup when searching */
+#search-results {
+  color: black;
+  width: 100px;
+  height: 100px;
+  background: white;
+}
+
+/* Selected subreddits */
+#selected-subs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+
+.sub {
+  background: white;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 5px;
+  border-radius: 10px;
+
+  height: 3rem;
+  width: 70%;
+
+  transition: all 0.2s;
+}
+
+.sub > p {
+  margin-left: 10px;
+}
+
+.sub > button {
+  height: 100%;
+  width: 50px;
+}
+
+.sub:hover {
+  background: rgba(255,255,255,.9);
+  cursor: pointer;
+}
+
+/* Elements in.sub won't trigger mouseover event */
+#sub * {
+  pointer-events: none;
+  cursor: auto;
+}
+
+/* Trash icon */
+.remove-sub {
+  border: none;
+  background: none;
+  border-radius: 10px;
+}
+
+.trash-icon {
+  font-size: 20px;
+  opacity: 0.2;
+  transition: all 0.2s;
+}
+
+.trash-icon.mouseover {
+  opacity: 1;
+  color: red;
 }
