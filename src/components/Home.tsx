@@ -21,9 +21,6 @@ export const Home = () => {
   const [width, setWidth] = useState<number>(getWindowWidth());
   const [css, setCss] = useState<CSS>({ basis: '', border: ''});
 
-
-  
-
   useEffect(() => {
     const handleResize = () => {
       let currentWidth = getWindowWidth();

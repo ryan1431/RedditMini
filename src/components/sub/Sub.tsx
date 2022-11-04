@@ -4,9 +4,12 @@ import { BiAddToQueue } from 'react-icons/bi';
 import type { size } from '../Subreddits';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/hooks/hooks';
+import { Subreddit } from '../../types';
+
+import srdefault from '../../images/srdefault.jpeg';
 
 export interface SubProps {
-  sub: string;
+  sub: Subreddit;
   clicked: boolean;
 }
 
@@ -17,8 +20,8 @@ export const Sub = ({sub, clicked}: SubProps) => {
   const [add, setAdd] = useState<boolean>(false);
 
   useEffect(() => {
-    setAdd(!subs.includes(sub));
-  }, [subs, sub])
+    setAdd(!(subs.some((sr) => sr.name === sub.name)));
+  }, [subs, sub.name]);
 
   useEffect(() => {
     setSize(clicked ? '0' : '');
@@ -28,13 +31,16 @@ export const Sub = ({sub, clicked}: SubProps) => {
     const element = e.target;
     if (!(element instanceof HTMLDivElement)) return;
 
+    
   }, []);
 
   return (
     <div id="sub-wrapper" onMouseUp={onMouseUp} style={{height: size, width: size}}>
-      <div>
-        <p>r/{sub}</p>
+      <div style={{display: 'flex'}}>
+        <img className='sr-icon' src={sub.iconUrl || srdefault} alt="" />
+        <p><span style={{color: 'grey', marginLeft: '7px'}}>r/</span>{sub.name}</p>
       </div>
+      {/* <p>{sub.desc.slice(0, 20)}</p> */}
       <button className="remove-sub">
         { add 
           ? <BiAddToQueue className={'trash-icon'} />

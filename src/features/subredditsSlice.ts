@@ -6,13 +6,13 @@ import type { Subreddit } from "../types";
 
 
 interface SubredditsSlice {
-  subs: string[],
+  subs: Subreddit[],
   searchStatus: string,
   searchResults: Subreddit[],
 }
 
 const initialState: SubredditsSlice = {
-  subs: ['todayilearned', 'askreddit'],
+  subs: [],
   searchStatus: 'idle',
   searchResults: [],
 }
@@ -31,11 +31,11 @@ const subredditsSlice = createSlice({
   name: 'subreddits',
   initialState,
   reducers: {
-    addSubreddit: (state, action: PayloadAction<string>) => {
+    addSubreddit: (state, action: PayloadAction<Subreddit>) => {
       state.subs.push(action.payload);
     },
     removeSubreddit: (state, action: PayloadAction<string>) => {
-      state.subs = state.subs.filter((sub) => sub !== action.payload);
+      state.subs = state.subs.filter((sub) => sub.name !== action.payload);
     },
     setLoading: (state, action: PayloadAction<string>) => {
       state.searchStatus = action.payload;

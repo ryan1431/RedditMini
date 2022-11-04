@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { setQuery } from "../../features/querySlice";
 import { getFeedPosts, fetchData, formatUrl, formatPost, PostType } from "../../utility";
 import { base } from "../../utility/data";
@@ -21,7 +21,10 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
   const savedPosts = useAppSelector((state) => state.saved.refUrls);
   
   const {after, feed, sort} = useAppSelector((state) => state.query);
-  const { subs } = useAppSelector((state) => state.subreddits)
+  const subs = useAppSelector((state) => state.subreddits.subs);
+  const srNames = useMemo<string[]>(() => {
+    return subs.map((sub) => sub.name);
+  }, [subs])
 
   // Change sort query (handler)
   const sortBy = useCallback(({target}:any) => {
@@ -63,11 +66,11 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
         url += sort;
         break;
       case 'custom':
-        if (!subs.length) {
+        if (!srNames.length) {
           setLoading(false);
           return;
         };
-        url += `r/${subs.join('+')}/${sort}`;
+        url += `r/${srNames.join('+')}/${sort}`;
         break;
       case 'saved':
         if (loading) {
@@ -90,7 +93,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
         setLoading(false);
       }, 5000);
     });
-  }, [feed, sort, dispatch, subs, loading, setSaved, setFeedPosts, adding]);
+  }, [adding, dispatch, feed, loading, setFeedPosts, setSaved, sort, srNames]);
 
   // Infinite scroll
   useEffect(() => {

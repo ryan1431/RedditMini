@@ -28,15 +28,16 @@ export const SearchResults = ({inSearch, query, searchInput}:SearchResultsProps)
   const onMouseUp = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const element = e.target;
     if (!(element instanceof HTMLDivElement)) return;
+    if (!element.id) return;
 
     const name = element.id.split('-')[1];
 
-    if (addedSubs.includes(name)) {
+    if (addedSubs.find((sub) => sub.name === name)) {
       dispatch(removeSubreddit(name));
     } else {
-      dispatch(addSubreddit(name));
+      dispatch(addSubreddit(results.find((sub) => sub.name === name)!));
     }
-  }, [addedSubs, dispatch]);
+  }, [addedSubs, dispatch, results]);
 
   return (
     <>
@@ -44,11 +45,11 @@ export const SearchResults = ({inSearch, query, searchInput}:SearchResultsProps)
         <div className="search-results" onMouseUp={(onMouseUp)}>
           {
           searchInput.length < 3 
-            ? <p>Start typing to begin search.</p>
+            ? <p>Enter a search of at least 3 characters.</p>
             : status === 'idle' && results.length
               ? results.map((result: Subreddit) => 
-                (<div key={`sub-${result.name}`} id={`result-${result.name}`} style={{width: '100%'}} className={clsx('sub', {'add': !addedSubs.includes(result.name)}, result.name)}>
-                  <Sub key={result.name} sub={result.name} clicked={false} />
+                (<div key={`sub-${result.name}`} id={`result-${result.name}`} style={{width: '100%'}} className={clsx('sub', {'add': !(addedSubs.some((sub) => sub.name === result.name))}, result.name)}>
+                  <Sub key={result.name} sub={result} clicked={false} />
                 </div>))
               : status === 'loading'
                 ? <p>Loading...</p>

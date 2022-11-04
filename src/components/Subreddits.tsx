@@ -26,6 +26,7 @@ export const Subreddits = (props: SubredditsProps) => {
     setClicked(name);
     setTimeout(() => {
       dispatch(removeSubreddit(name));
+      setClicked('');
     }, 150)
   }, [dispatch]);
 
@@ -38,8 +39,8 @@ export const Subreddits = (props: SubredditsProps) => {
 
         <div id="selected-subs" onMouseUp={onMouseUp}>
           {subs.map((sub) => (
-            <div key={`sub-${sub}`} id={`added-${sub}`} className={`sub ${sub}`}>
-              <Sub sub={sub} clicked={clicked === sub}  />
+            <div key={`sub-${sub.name}`} id={`added-${sub.name}`} className={`sub ${sub.name}`}>
+              <Sub sub={sub} clicked={clicked === sub.name}  />
             </div>
           ))}
         </div>
