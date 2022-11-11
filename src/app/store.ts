@@ -1,26 +1,44 @@
 import { configureStore, ThunkAction, Action, createListenerMiddleware } from '@reduxjs/toolkit';
-// import counterReducer from '../features/counter (ref)/counterSlice';
-import queryReducer from '../features/querySlice';
 import { savedReducer} from '../features/savedSlice';
-import subredditsSlice from '../features/subredditsSlice';
+import { subredditsReducer } from '../features/subredditsSlice';
 
 import savedSlice from '../features/savedSlice';
+import querySlice from '../features/querySlice';
+import subredditsSlice from '../features/subredditsSlice';
 
 const listener = createListenerMiddleware();
 
 listener.startListening({
   predicate(action) { 
-    return action.type.startsWith(savedReducer.name);
+    return !!action.type?.startsWith(savedReducer.name);
   },
   effect: (_, api) => {
-    console.log('adding item');
     localStorage.setItem('saved', JSON.stringify((api.getState() as any)[savedReducer.name]));
   },
 });
 
+// listener.startListening({
+//   predicate(action) {
+//     return action.type.startsWith(queryReducer.name);
+//   },
+//   effect: (_, api) => {
+//     localStorage.setItem('query', JSON.stringify((api.getState() as any)[queryReducer.name]));
+//   }
+// });
+
+listener.startListening({
+  predicate(action) {
+    return action.type === `${subredditsReducer.name}/addSubreddit` || action.type === `${subredditsReducer.name}/removeSubreddit`;
+  },
+  effect: (_, api) => {
+    console.log(_.type)
+    localStorage.setItem('subreddits/subs', JSON.stringify((api.getState() as any)[subredditsReducer.name].subs));
+  }
+});
+
 export const store = configureStore({
   reducer: {
-    query: queryReducer,
+    query: querySlice,
     saved: savedSlice,
     subreddits: subredditsSlice,
   },

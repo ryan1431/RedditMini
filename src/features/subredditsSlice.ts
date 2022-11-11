@@ -4,21 +4,29 @@ import { base } from "../utility/data";
 
 import type { Subreddit } from "../types";
 
-
-interface SubredditsSlice {
+interface SubredditsState {
+  version: number,
   subs: Subreddit[],
   searchStatus: string,
   searchResults: Subreddit[],
 }
 
-const initialState: SubredditsSlice = {
+const initialState: SubredditsState = {
+  version: 1,
   subs: [],
   searchStatus: 'idle',
   searchResults: [],
 }
 
+let savedSubs: Subreddit[] | undefined;
+try {
+  savedSubs = JSON.parse(localStorage.getItem('subreddits/subs') as string) as Subreddit[];
+} catch(e) {
+  // No saved state
+}
+
 export const getSubreddits = createAsyncThunk(
-  'counter/fetchCount',
+  'subreddits/getSubreddits',
   async (query: string) => {
     const response = await fetch(formatUrl(`${base}search/?q=${query}&type=sr&limit=10`));
     const data = await response.json();
@@ -27,9 +35,9 @@ export const getSubreddits = createAsyncThunk(
   }
 );
 
-const subredditsSlice = createSlice({
+export const subredditsReducer = createSlice({
   name: 'subreddits',
-  initialState,
+  initialState: savedSubs ? { ...initialState, subs: savedSubs || []} : initialState,
   reducers: {
     addSubreddit: (state, action: PayloadAction<Subreddit>) => {
       state.subs.push(action.payload);
@@ -59,6 +67,6 @@ const subredditsSlice = createSlice({
   }
 });
 
-export const { addSubreddit, removeSubreddit, setLoading } = subredditsSlice.actions;
+export const { addSubreddit, removeSubreddit, setLoading } = subredditsReducer.actions;
 
-export default subredditsSlice.reducer;
+export default subredditsReducer.reducer;

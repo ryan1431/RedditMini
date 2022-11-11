@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-
 type Query = 'after' | 'feed' | 'sort';
 
 // interface Sub { 
@@ -7,20 +6,30 @@ type Query = 'after' | 'feed' | 'sort';
 //   iconUrl: string,
 // }
 interface QueryState {
+  version: number,
   after: string,
   feed: string,
   sort: string,
 }
 
 const initialState: QueryState = {
+  version: 1,
   after: '',
   feed: 'home',
   sort: 'best',
 }
 
-const querySlice = createSlice({
+let savedState: QueryState | undefined;
+try {
+  savedState = JSON.parse(localStorage.getItem('query') as string) as QueryState;
+  if (savedState.version !== initialState.version) savedState = undefined;
+} catch(e) {
+  // No saved state
+}
+
+export const queryReducer = createSlice({
   name: 'query',
-  initialState,
+  initialState: savedState || initialState,
   reducers: {
     setQuery: (state, action: PayloadAction<[string, Query]>) => {
       state[action.payload[1]] = action.payload[0];
@@ -28,6 +37,6 @@ const querySlice = createSlice({
   }
 });
 
-export const { setQuery } = querySlice.actions;
+export const { setQuery } = queryReducer.actions;
 
-export default querySlice.reducer;
+export default queryReducer.reducer;
