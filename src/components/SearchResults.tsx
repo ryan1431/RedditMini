@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
-import { addSubreddit, getSubreddits, removeSubreddit, setLoading } from '../features/subredditsSlice';
+import { addSubreddit, getSubreddits, removeSubreddit, setLoading } from '../app/reducers/subredditsSlice';
 import { Subreddit } from '../types';
 import './SearchResults.css';
 import { Sub } from './sub/Sub';

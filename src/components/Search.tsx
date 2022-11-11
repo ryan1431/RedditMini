@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '../app/hooks/hooks';
 import { useDebounce } from '../app/hooks/useDebounce';
-import { setLoading } from '../features/subredditsSlice';
+import { setLoading } from '../app/reducers/subredditsSlice';
 import './Search.css';
 import { SearchResults } from './SearchResults';
 

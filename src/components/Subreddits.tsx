@@ -5,7 +5,7 @@ import type { CSS } from './Home';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
 import { Search } from './Search';
-import { removeSubreddit } from '../features/subredditsSlice';
+import { removeSubreddit } from '../app/reducers/subredditsSlice';
 
 interface SubredditsProps extends CSS {}
 

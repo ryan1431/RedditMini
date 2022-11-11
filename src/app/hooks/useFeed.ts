@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { setQuery } from "../../features/querySlice";
+import { setQuery } from "../reducers/querySlice";
 import { getFeedPosts, fetchData, formatUrl, formatPost, PostType } from "../../utility";
 import { base } from "../../utility/data";
 import { useAppDispatch, useAppSelector } from "./hooks";
