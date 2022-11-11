@@ -39,6 +39,7 @@ export const Navbar = (props: NavbarProps) => {
 
       {/* Light / Dark mode button */}
       <div> 
+        {process.env.NODE_ENV === 'development' && <input type='button' value='clearlocal' onClick={() => localStorage.clear()}></input>}
         <input type="button" value='darkmode'></input>
       </div>
     </div>
