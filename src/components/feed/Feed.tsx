@@ -49,7 +49,7 @@ export const Feed = () => {
       }
 
       {/* Infinite scroll visible trigger for home & custom feeds */}
-      {feed !== 'saved' && <div ref={visRef} style={{
+      {<div ref={feed !== 'saved' ? visRef : null} style={{
           opacity: '0', 
           display: `${!loading && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext
         </div>
