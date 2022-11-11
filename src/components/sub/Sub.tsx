@@ -5,9 +5,7 @@ import type { size } from '../Subreddits';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/hooks/hooks';
 import { Subreddit } from '../../types';
-
 import srdefault from '../../images/srdefault.jpeg';
-
 export interface SubProps {
   sub: Subreddit;
   clicked: boolean;

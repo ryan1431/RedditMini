@@ -1,16 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface SavedState {
+  version: number;
   refUrls: string[],
 }
 
 const initialState: SavedState = {
+  version: 1,
   refUrls: []
 }
 
-const savedReducer = createSlice({
+let savedState: SavedState | undefined;
+
+try {
+  savedState = JSON.parse(localStorage.getItem('saved') as string) as SavedState;
+  if (savedState.version !== initialState.version) savedState = undefined;
+} catch(e) {
+  // No saved state
+}
+
+export const savedReducer = createSlice({
   name: 'saved',
-  initialState,
+  initialState: savedState || initialState,
   reducers: {
     save: (state, action: PayloadAction<string>) => {
       const url = action.payload;
