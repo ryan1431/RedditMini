@@ -1,11 +1,11 @@
 import { configureStore, ThunkAction, Action, createListenerMiddleware } from '@reduxjs/toolkit';
-import { savedReducer} from '../features/savedSlice';
-import { subredditsReducer } from '../features/subredditsSlice';
-import { queryReducer } from '../features/querySlice';
+import { savedReducer} from '../reducers/savedSlice';
+import { subredditsReducer } from '../reducers/subredditsSlice';
+import { queryReducer } from '../reducers/querySlice';
 
-import savedSlice from '../features/savedSlice';
-import querySlice from '../features/querySlice';
-import subredditsSlice from '../features/subredditsSlice';
+import savedSlice from '../reducers/savedSlice';
+import querySlice from '../reducers/querySlice';
+import subredditsSlice from '../reducers/subredditsSlice';
 
 const listener = createListenerMiddleware();
 

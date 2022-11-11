@@ -3,7 +3,7 @@ import savedSliceReducer, {
   unsave,
 } from './savedSlice';
 
-import { samplePosts } from '../utility/data';
+import { samplePosts } from '../../utility/data';
 import type { SavedState } from './savedSlice';
 
 describe('savedSlice', () => {

@@ -6,7 +6,7 @@ import { TextBody } from './body/TextBody';
 import { ImageBody } from './body/ImageBody';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { save, unsave } from '../../features/savedSlice';
+import { save, unsave } from '../../app/reducers/savedSlice';
 
 interface PostProps { 
   post: PostType;

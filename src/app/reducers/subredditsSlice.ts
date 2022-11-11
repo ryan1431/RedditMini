@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { formatUrl } from "../utility";
-import { base } from "../utility/data";
+import { formatUrl } from "../../utility";
+import { base } from "../../utility/data";
 
-import type { Subreddit } from "../types";
+import type { Subreddit } from "../../types";
 
 interface SubredditsState {
   subs: Subreddit[],
