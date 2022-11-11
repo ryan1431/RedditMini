@@ -8,22 +8,22 @@ import { Sub } from './sub/Sub';
 
 interface SearchResultsProps {
   inSearch: boolean;
-  query: string;
+  searchQuery: string;
   searchInput: string;
 }
 
-export const SearchResults = ({inSearch, query, searchInput}:SearchResultsProps) => {
+export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResultsProps) => {
   const dispatch = useAppDispatch();
   const {searchResults: results, searchStatus: status, subs: addedSubs} = useAppSelector((state) => state.subreddits);
 
   useEffect(() => {
-    if (query.length < 3) {
+    if (searchQuery.length < 3) {
       dispatch(setLoading('idle'));
       return;
     };
 
-    dispatch(getSubreddits(query));
-  }, [query, dispatch]);
+    dispatch(getSubreddits(searchQuery));
+  }, [searchQuery, dispatch]);
 
   const onMouseUp = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const element = e.target;

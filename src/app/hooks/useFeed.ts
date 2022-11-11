@@ -4,8 +4,8 @@ import { getFeedPosts, fetchData, formatUrl, formatPost, PostType } from "../../
 import { base } from "../../utility/data";
 import { useAppDispatch, useAppSelector } from "./hooks";
 
-type SortField = 'best' | 'hot' | 'new' | 'top' | 'rising';
-type FeedField = 'home' | 'custom' | 'saved';
+export type SortField = 'best' | 'hot' | 'new' | 'top' | 'rising';
+export type FeedField = 'home' | 'custom' | 'saved';
 
 export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostType[]>>, isVisible: boolean) => {
   const dispatch = useAppDispatch();
@@ -13,8 +13,12 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
   const [loading, setLoading] = useState<boolean>(true);
   const [currentUrl, setCurrentUrl] = useState<string>(base);
 
-  const [sortField, setSortField] = useState<SortField>('best');
-  const [feedField, setFeedField] = useState<FeedField>('home');
+  const searchQueries = useAppSelector((s) => s.query);
+
+  const [sortField, setSortField] = useState<SortField>(searchQueries.sort as SortField);
+  const [feedField, setFeedField] = useState<FeedField>(searchQueries.feed as FeedField);
+
+  
 
   const [adding, setAdding] = useState<boolean>(false);
 
@@ -103,7 +107,6 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
       getFeedPosts(`${currentUrl}?limit=10&after=${after}`)
         .then((res) => {
           setFeedPosts((prev) => [...prev, ...res.posts]);
-          console.log(res);
           if (res.after) {
             dispatch(setQuery([res.after, 'after']));
           }

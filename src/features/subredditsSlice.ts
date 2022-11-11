@@ -5,14 +5,12 @@ import { base } from "../utility/data";
 import type { Subreddit } from "../types";
 
 interface SubredditsState {
-  version: number,
   subs: Subreddit[],
   searchStatus: string,
   searchResults: Subreddit[],
 }
 
 const initialState: SubredditsState = {
-  version: 1,
   subs: [],
   searchStatus: 'idle',
   searchResults: [],

@@ -9,7 +9,6 @@ import './Feed.css';
 import { Post } from './Post';
 
 export const Feed = () => {
-
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef)
   const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
@@ -50,11 +49,10 @@ export const Feed = () => {
       }
 
       {/* Infinite scroll visible trigger for home & custom feeds */}
-      {<div ref={feed === 'saved' ? null : visRef} style={{
+      {feed !== 'saved' && <div ref={visRef} style={{
           opacity: '0', 
           display: `${!loading && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext
         </div>
-        // : <div style={{opacity: '0'}}>empty</div>
       }
     </div>
   )

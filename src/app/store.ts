@@ -1,6 +1,7 @@
 import { configureStore, ThunkAction, Action, createListenerMiddleware } from '@reduxjs/toolkit';
 import { savedReducer} from '../features/savedSlice';
 import { subredditsReducer } from '../features/subredditsSlice';
+import { queryReducer } from '../features/querySlice';
 
 import savedSlice from '../features/savedSlice';
 import querySlice from '../features/querySlice';
@@ -17,21 +18,20 @@ listener.startListening({
   },
 });
 
-// listener.startListening({
-//   predicate(action) {
-//     return action.type.startsWith(queryReducer.name);
-//   },
-//   effect: (_, api) => {
-//     localStorage.setItem('query', JSON.stringify((api.getState() as any)[queryReducer.name]));
-//   }
-// });
+listener.startListening({
+  predicate(action) {
+    return !!action.type?.startsWith(queryReducer.name);
+  },
+  effect: (_, api) => {
+    localStorage.setItem('query', JSON.stringify((api.getState() as any)[queryReducer.name]));
+  }
+});
 
 listener.startListening({
   predicate(action) {
     return action.type === `${subredditsReducer.name}/addSubreddit` || action.type === `${subredditsReducer.name}/removeSubreddit`;
   },
   effect: (_, api) => {
-    console.log(_.type)
     localStorage.setItem('subreddits/subs', JSON.stringify((api.getState() as any)[subredditsReducer.name].subs));
   }
 });

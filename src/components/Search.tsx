@@ -10,12 +10,12 @@ export const Search = () => {
 
   const [searchInput, setSearchInput] = useState<string>('');
   const [inSearch, setInSearch] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
   useDebounce(() => {
-    setQuery(searchInput)
+    setSearchQuery(searchInput)
   }, 1000, [searchInput]);
 
   const onChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +44,7 @@ export const Search = () => {
   return (
     <div style={{position: 'relative'}} className='search-wrapper' ref={wrapper}>
       <input placeholder="Search Subreddits" className="search" type="text" value={searchInput} onChange={onChange}  />
-      <SearchResults inSearch={inSearch} query={query} searchInput={searchInput}/>
+      <SearchResults inSearch={inSearch} searchQuery={searchQuery} searchInput={searchInput}/>
     </div>
   )
 }

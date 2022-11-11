@@ -1,12 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface SavedState {
-  version: number;
   refUrls: string[],
 }
 
 const initialState: SavedState = {
-  version: 1,
   refUrls: []
 }
 
@@ -14,7 +12,6 @@ let savedState: SavedState | undefined;
 
 try {
   savedState = JSON.parse(localStorage.getItem('saved') as string) as SavedState;
-  if (savedState.version !== initialState.version) savedState = undefined;
 } catch(e) {
   // No saved state
 }

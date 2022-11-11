@@ -8,11 +8,9 @@ import type { SavedState } from './savedSlice';
 
 describe('savedSlice', () => {
   const initialState: SavedState = {
-    version: 1,
     refUrls: []
   }
   const initialStateWithPosts = {
-    version: 1,
     refUrls: [...samplePosts],
   }
 
