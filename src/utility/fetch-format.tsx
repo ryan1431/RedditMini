@@ -124,8 +124,7 @@ export const fetchData = async (url: string) => {
     const data = await response.json();
     return data;
   } catch(e) {
-    console.log(e);
-    return 'Invalid request url.';
+    
   }
 }
 
@@ -173,6 +172,5 @@ export const buildUrl = (feed: string, subs: string[], after: string, sort: stri
   params.set('limit', '10')
   params.set('after', after)
   url += `?${params.toString()}`
-  console.log('url: ' + url);
   return url;
 }
