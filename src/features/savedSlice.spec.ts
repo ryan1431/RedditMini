@@ -8,9 +8,11 @@ import type { SavedState } from './savedSlice';
 
 describe('savedSlice', () => {
   const initialState: SavedState = {
+    version: 1,
     refUrls: []
   }
   const initialStateWithPosts = {
+    version: 1,
     refUrls: [...samplePosts],
   }
 
@@ -26,7 +28,6 @@ describe('savedSlice', () => {
   it('should properly unsave a url', () => {
     const actual = savedSliceReducer(initialStateWithPosts, unsave(samplePosts[2]));
     const expected = [...samplePosts.slice(0, 2), ...samplePosts.slice(3)];
-
     expect(actual.refUrls).toEqual(expected);
   });
 });
