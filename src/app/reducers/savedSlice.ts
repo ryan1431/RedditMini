@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PostType } from "../../utility";
 
 export interface SavedState {
-  refUrls: string[],
+  savedPosts: PostType[],
 }
 
 const initialState: SavedState = {
-  refUrls: []
+  savedPosts: []
 }
 
 let savedState: SavedState | undefined;
@@ -20,17 +21,18 @@ export const savedReducer = createSlice({
   name: 'saved',
   initialState: savedState || initialState,
   reducers: {
-    save: (state, action: PayloadAction<string>) => {
-      const url = action.payload;
-      if (state.refUrls.includes(url)) throw new Error('already-saved');
-      state.refUrls.push(url);
+    save: (state, action: PayloadAction<PostType>) => {
+      const post = action.payload;
+      if (state.savedPosts.find((p) => p.url === post.url)) throw new Error('already-saved');
+
+      state.savedPosts.push(post);
     },
-    unsave: (state, action: PayloadAction<string>) => {
-      const url = action.payload;
-      let index = state.refUrls.findIndex((el) => el === url);
-      if (index !== -1) {
-        state.refUrls.splice(index, 1);
-      }
+    unsave: (state, action: PayloadAction<PostType>) => {
+      const post = action.payload;
+      let index = state.savedPosts.findIndex((p) => p.url === post.url);
+      if (index === -1) throw new Error('no post found');
+
+      state.savedPosts.splice(index, 1);
     }
   }
 });

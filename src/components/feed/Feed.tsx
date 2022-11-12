@@ -10,7 +10,8 @@ import { Post } from './Post';
 
 export const Feed = () => {
   const visRef:any = useRef();
-  const isVisible = useOnScreen(visRef)
+  const isVisible = useOnScreen(visRef);
+  
   const [feedPosts, setFeedPosts] = useState<PostType[]>([]);
   
   const {
@@ -41,7 +42,7 @@ export const Feed = () => {
       {/* Content */}
       {(feedPosts.length)
         ? feedPosts.map((post: any) => {
-          return <Post post={post} savedPosts={savedPosts} saved={savedPosts.includes(post.link)} key={'' + post.title + post.score + post.subreddit}/>;
+          return <Post post={post} saved={!!savedPosts.find((p) => p.url === post.url)} key={'' + post.title + post.score + post.subreddit}/>;
         }) 
         : <div className='post'>
             <p style={{display: 'flex', justifyContent: 'center'}}>{loading ? 'Loading...' : 'There are no posts to display!'}</p>
