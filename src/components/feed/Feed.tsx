@@ -23,13 +23,15 @@ export const Feed = () => {
     sortField,
   } = useFeed(setFeedPosts, isVisible);
 
+  const disabled = feed === 'saved';
+
   return (
     <div id="feed">
       {/* Customization buttons */}
       <section className='post'>
         <div className="query-buttons">
           {sortFields.map(([field, title]) => (
-            <button onClick={sortBy} key={title} className={clsx('sort', { active: sortField === field })} value={field}>{title}</button>
+            <button onClick={sortBy} key={title} className={clsx('sort', { 'active': sortField === field && !disabled, 'disabled': disabled })} value={field}>{title}</button>
           ))}
         </div>
         <footer className='feed-buttons'>
