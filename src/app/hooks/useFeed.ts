@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { setQuery } from "../reducers/querySlice";
 import { getFeedPosts, PostType } from "../../utility";
 import { base } from "../../utility/data";
@@ -16,24 +16,23 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
   const subs = useAppSelector((state) => state.subreddits.subs);
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [currentUrl, setCurrentUrl] = useState<string>(base);
   const [sortField, setSortField] = useState<SortField>(searchQueries.sort as SortField);
   const [feedField, setFeedField] = useState<FeedField>(searchQueries.feed as FeedField);
   const [adding, setAdding] = useState<boolean>(false);
-  
-  const srNames = useMemo<string[]>(() => {
-    return subs.map((sub) => sub.name);
-  }, [subs])
 
-  // Change sort query (handler)
+  // Prevent useEffect loop
+  const srNames = useMemo<string[]>(() => subs.map((s) => s.name), [subs]);
+
+  const currentUrl = useRef<string>('');
+  
+  // Change sort/feed state
   const sortBy = useCallback(({target}:any) => {
     let type = target.classList[0];
 
-    // Don't update when clicking already active button
+    // Button is already clicked
     if ((type === 'sort' && target.value === sortField) || 
        (type === 'feed' && target.value === feedField)) return;
 
-    // Clear feed & set respective field
     setFeedPosts([]);
     (type === 'sort')
       ? setSortField(target.value)
@@ -46,7 +45,6 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
   useEffect(() => {
     let url = base;
 
-    // Build url
     switch (feed) {
       case 'home':
         url += sort;
@@ -65,12 +63,12 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
         }
         return;
     }
-    setCurrentUrl(url);
+    currentUrl.current = url;
 
     if (!loading || adding) return;
 
     // Fetch posts
-    getFeedPosts(`${url}?limit=10`)
+    getFeedPosts(`${currentUrl.current}?limit=10`)
     .then((res) => {
       setFeedPosts(res.posts);
       if (res.after) {
@@ -78,7 +76,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
       }
       setTimeout(() => {
         setLoading(false);
-      }, 5000);
+      }, 3000);
     });
   }, [adding, dispatch, feed, loading, savedPosts, setFeedPosts, sort, srNames]);
 
@@ -87,7 +85,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
     if (isVisible) {
       setLoading(true);
       setAdding(true);
-      getFeedPosts(`${currentUrl}?limit=10&after=${after}`)
+      getFeedPosts(`${currentUrl.current}?limit=10&after=${after}`)
         .then((res) => {
           setFeedPosts((prev) => [...prev, ...res.posts]);
           if (res.after) {
@@ -96,10 +94,10 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
           setTimeout(() => {
             setLoading(false);
             setAdding(false);
-          }, 5000)
+          }, 1000)
       })
     }
-  }, [isVisible, after, dispatch, currentUrl, setFeedPosts]);
+  }, [isVisible, after, dispatch, setFeedPosts]);
 
   return {
     sortBy,
