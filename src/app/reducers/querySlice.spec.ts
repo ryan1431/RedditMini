@@ -11,15 +11,15 @@ describe("querySlice", () => {
   })
 
   it('should update proper query fields given various inputs', () => {
-    let actual = querySliceReducer(initialState, setQuery(['custom', 'feed']));
+    let actual = querySliceReducer(initialState, setQuery(['feed', 'custom']));
     let expected = { ...initialState, feed: 'custom' };
     expect(actual).toEqual(expected);
 
-    actual = querySliceReducer(initialState, setQuery(['hot', 'sort']));
+    actual = querySliceReducer(initialState, setQuery(['sort', 'hot']));
     expected = { ...initialState, sort: 'hot' };
     expect(actual).toEqual(expected);
 
-    actual = querySliceReducer(initialState, setQuery(['y31351', 'sort']));
+    actual = querySliceReducer(initialState, setQuery(['sort', 'y31351']));
     expected = { ...initialState, sort: 'y31351' };
     expect(actual).toEqual(expected);
   })
