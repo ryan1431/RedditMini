@@ -10,11 +10,10 @@ import { save, unsave } from '../../app/reducers/savedSlice';
 
 interface PostProps { 
   post: PostType;
-  savedPosts: string[]
   saved?: boolean;
 }
 
-export const Post = ({post, savedPosts, saved}: PostProps) => {
+export const Post = ({post, saved}: PostProps) => {
 
   const dispatch = useDispatch();
 
@@ -22,11 +21,11 @@ export const Post = ({post, savedPosts, saved}: PostProps) => {
 
   const handleSave = useCallback(() => {
     if (saved) {
-      dispatch(unsave(post.link));
+      dispatch(unsave(post));
     } else {
-      dispatch(save(post.link));
+      dispatch(save(post));
     }
-  }, [dispatch, post.link, saved]);
+  }, [dispatch, post, saved]);
   
   return (post && (
     <article className="post">

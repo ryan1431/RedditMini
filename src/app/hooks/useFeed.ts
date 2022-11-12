@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { setQuery } from "../reducers/querySlice";
-import { getFeedPosts, fetchData, formatUrl, formatPost, PostType } from "../../utility";
+import { getFeedPosts, PostType } from "../../utility";
 import { base } from "../../utility/data";
 import { useAppDispatch, useAppSelector } from "./hooks";
 
@@ -10,22 +10,17 @@ export type FeedField = 'home' | 'custom' | 'saved';
 export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostType[]>>, isVisible: boolean) => {
   const dispatch = useAppDispatch();
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [currentUrl, setCurrentUrl] = useState<string>(base);
-
   const searchQueries = useAppSelector((s) => s.query);
-
-  const [sortField, setSortField] = useState<SortField>(searchQueries.sort as SortField);
-  const [feedField, setFeedField] = useState<FeedField>(searchQueries.feed as FeedField);
-
-  
-
-  const [adding, setAdding] = useState<boolean>(false);
-
-  const savedPosts = useAppSelector((state) => state.saved.refUrls);
-  
+  const savedPosts = useAppSelector((state) => state.saved.savedPosts);
   const {after, feed, sort} = useAppSelector((state) => state.query);
   const subs = useAppSelector((state) => state.subreddits.subs);
+
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentUrl, setCurrentUrl] = useState<string>(base);
+  const [sortField, setSortField] = useState<SortField>(searchQueries.sort as SortField);
+  const [feedField, setFeedField] = useState<FeedField>(searchQueries.feed as FeedField);
+  const [adding, setAdding] = useState<boolean>(false);
+  
   const srNames = useMemo<string[]>(() => {
     return subs.map((sub) => sub.name);
   }, [subs])
@@ -48,23 +43,10 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
     setLoading(true);
   }, [dispatch, feedField, sortField, setFeedPosts]);
 
-  // Requires fetch for each saved url
-  const setSaved = useCallback(() => {
-    savedPosts.forEach((url) => {
-      fetchData(formatUrl(url))
-        .then((res) => {
-          let post = formatPost(res);
-          if (post) {
-            setFeedPosts((p) => [...p, post]);
-          }
-        });
-    })
-  }, [savedPosts, setFeedPosts]);
-
   useEffect(() => {
     let url = base;
 
-    // Structure url according to selected feed (home / custom / saved)
+    // Build url
     switch (feed) {
       case 'home':
         url += sort;
@@ -78,7 +60,8 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
         break;
       case 'saved':
         if (loading) {
-          setSaved();
+          setFeedPosts(savedPosts);
+          setLoading(false);
         }
         return;
     }
@@ -97,7 +80,7 @@ export const useFeed = (setFeedPosts: React.Dispatch<React.SetStateAction<PostTy
         setLoading(false);
       }, 5000);
     });
-  }, [adding, dispatch, feed, loading, setFeedPosts, setSaved, sort, srNames]);
+  }, [adding, dispatch, feed, loading, savedPosts, setFeedPosts, sort, srNames]);
 
   // Infinite scroll
   useEffect(() => {
