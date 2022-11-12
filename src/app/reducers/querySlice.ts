@@ -5,7 +5,7 @@ interface QueryState {
   sort: string,
 }
 
-const initialState: QueryState = {
+export const initialState: QueryState = {
   after: '',
   feed: 'home',
   sort: 'best',
@@ -21,7 +21,7 @@ try {
 
 export const queryReducer = createSlice({
   name: 'query',
-  initialState: savedState || initialState,
+  initialState: {...initialState, ...savedState} || initialState,
   reducers: {
     setQuery: (state, action: PayloadAction<[string, keyof QueryState]>) => {
       state[action.payload[1]] = action.payload[0];
@@ -29,6 +29,8 @@ export const queryReducer = createSlice({
   }
 });
 
+
+export { savedState }
 export const { setQuery } = queryReducer.actions;
 
 export default queryReducer.reducer;
