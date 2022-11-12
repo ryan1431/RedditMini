@@ -28,39 +28,6 @@
   padding: 6px;
 }
 
-/* Sort post (option) */
-.query-buttons, .feed-buttons {
-  height: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.feed-buttons {
-  height:20px;
-  width: 100%;
-}
-
-.sort, .feed { /* sort button */
-  width: calc(100% / 5);
-  color: white;
-  background-color: rgba(45, 44, 44, 0.564);
-  border: 1px solid rgba(94, 94, 94, 0.331);
-}
-
-.feed {
-  width: calc(100%/3);
-}
-
-.sort:hover, .feed:hover {
-  background-color: rgba(69, 68, 68, 0.564);
-  color: rgb(214, 209, 209)
-}
-
-.sort.active, .feed.active {
-  background-color: rgba(69, 68, 68, 0.564);
-}
-
 /* Info */
 .post article {
   display: flex;
