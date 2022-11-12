@@ -1,5 +1,5 @@
 import { PostType, setType } from ".";
-import { base, keys } from './data';
+import { keys } from './data';
 
 /** Recursively format & remove unneeded key-value fields from an array of comment objects & replies
  * 
@@ -146,31 +146,5 @@ export const formatUrl = (url: string) => {
       ? `${url}?raw_json=1`
       : `${url}&raw_json=1`
   }
-  return url;
-}
-
-/** Builds a url from the provided queries
- * 
- * @param feed home or custom
- * @param subs list of subreddits
- * @param after optional after token for reddit query
- * @param sort sort query (hot, new, rising, etc)
- * @returns Properly structured url from provided queries
- */
-export const buildUrl = (feed: string, subs: string[], after: string, sort: string) => {
-  let url = base;
-  // Home feed url
-  if (feed === 'home') {
-    url += `${sort}`
-
-  // Custom (subreddits) mixed feed
-  } else if (feed === 'custom') {
-    if (!subs.length) throw new Error('nosub');
-    url += `r/${subs.join('+')}/${sort}`
-  }
-  const params = new URLSearchParams()
-  params.set('limit', '10')
-  params.set('after', after)
-  url += `?${params.toString()}`
   return url;
 }
