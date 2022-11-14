@@ -37,7 +37,7 @@ export const Subreddits = (props: SubredditsProps) => {
 
         <div id="selected-subs">
           {subs.map((sub) => (
-            <div key={`sub-${sub.name}`} onClick={() => onClick(sub)} id={`added-${sub.name}`} className={`sub ${sub.name}`}>
+            <div key={`sub-${sub.name}`} onClick={() => onClick(sub)} className={`sub ${sub.name}`}>
               <Sub sub={sub} clicked={clicked === sub.name}  />
             </div>
           ))}
