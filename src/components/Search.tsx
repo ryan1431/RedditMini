@@ -14,15 +14,22 @@ export const Search = () => {
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
-  useDebounce(() => {
-    setSearchQuery(searchInput)
+  useDebounce(() => { 
+    // Prevent repeat fetch
+    if (searchInput === searchQuery) return; 
+
+    setSearchQuery(searchInput);
   }, 1000, [searchInput]);
 
   const onChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
-    setInSearch(true);
     dispatch(setLoading('loading'));
-  }, [dispatch]);
+
+    // Show results already in state if input reverts to previous value
+    if (e.target.value === searchQuery) {
+      dispatch(setLoading('idle'));
+    }
+  }, [dispatch, searchQuery]);
 
   const onClick = useCallback((e: MouseEvent) => {
     let element = e.target;

@@ -22,11 +22,11 @@ export const useDebounce = (callback: (...args: any) => any, delay: number, depe
     return clear;
   }, [delay, set, clear]);
 
-  const reset = useCallback(() => {
+  useEffect(() => {
     clear();
     set();
-  }, [clear, set]);
-
-  useEffect(reset, [...dependencies, reset]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...dependencies, clear, set]);
+  
   useEffect(clear, [clear]);
 }
