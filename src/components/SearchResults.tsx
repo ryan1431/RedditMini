@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
-import { getSubreddits, setLoading, toggleSubreddit } from '../app/reducers/subredditsSlice';
+import { getSubreddits, toggleSubreddit } from '../app/reducers/subredditsSlice';
 import { Subreddit } from '../types';
 import './SearchResults.css';
 import { Sub } from './sub/Sub';
@@ -30,11 +30,6 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
 
   // Search subreddits
   useEffect(() => {
-    if (searchQuery.length < 3) {
-      dispatch(setLoading('idle'));
-      return;
-    };
-
     dispatch(getSubreddits(searchQuery));
   }, [searchQuery, dispatch]);
 
