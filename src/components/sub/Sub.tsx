@@ -37,7 +37,7 @@ export const Sub = ({sub, result}: SubProps) => {
   return (
     <div onClick={onClick}
       style={{height: size, width: size}}
-      className={clsx('sub', {'add': !(subs.some((sr) => sr.name === sub.name))})}>
+      className={clsx('sub', {'result': result}, {'add': add})}>
       <div style={{display: 'flex'}}>
         <img className='sr-icon' src={sub.iconUrl || srdefault} alt="" />
         <p><span style={{color: 'grey', marginLeft: '7px'}}>r/</span>{sub.name}</p>

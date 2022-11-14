@@ -22,6 +22,7 @@ export const Search = () => {
   }, 1000, [searchInput]);
 
   const onChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
+    setInSearch(true);
     setSearchInput(e.target.value);
     dispatch(setLoading('loading'));
 
