@@ -13,7 +13,7 @@
   height: 3rem;
   width: 100%;
 
-  transition: height 0.2s, width 0.2s;
+  transition: height 0.2s, width 0.2s, background-color 0.3s;
   overflow: hidden;
 }
 
@@ -50,7 +50,7 @@
   width: 50px;
 }
 
-.sub:hover .sub-wrapper {
+.sub:hover {
   background: rgba(255,255,255,.9);
 }
 
@@ -67,10 +67,17 @@
   color: green;
 }
 
+.sub.result {
+  background: rgba(116, 155, 122, 0.174);
+}
+.sub.result.add {
+  background: white;
+}
+
 /* Elements in.sub won't trigger parent mouseUp event */
-/* .sub * {
+.sub * {
   pointer-events: none;
-} */
+}
 
 /* Trash icon */
 .remove-sub {
