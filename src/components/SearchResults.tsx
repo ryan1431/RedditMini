@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { clearToggleQueue, getSubreddits, toggleSubreddit } from '../app/reducers/subredditsSlice';
 import { Subreddit } from '../types';
@@ -25,7 +24,7 @@ interface SearchResultsProps {
 export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:SearchResultsProps) => {
   const dispatch = useAppDispatch();
 
-  const {searchResults: results, searchStatus, subs} = useAppSelector((state) => state.subreddits);
+  const {searchResults: results, searchStatus} = useAppSelector((state) => state.subreddits);
   const toggled = useAppSelector((s) => s.subreddits.toggleQueue);
 
   // Search subreddits
@@ -42,7 +41,8 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
   const setSubs = useCallback(() => {
     toggled.forEach((sub) => {
       dispatch(toggleSubreddit(sub));
-    })
+    });
+
     setInSearch(false);
     dispatch(clearToggleQueue());
   }, [dispatch, setInSearch, toggled]);
@@ -51,24 +51,20 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
     <>
       {inSearch && (
         <div className="search-results">
-          {
-          searchInput.length < 3 
+          { (searchInput.length < 3)
             ? <p>Enter a search of at least 3 characters.</p>
-            : searchStatus === 'idle' && results.length
+            : (searchStatus === 'idle' && results.length)
               ? <>
-                {results.map((result: Subreddit) => 
-                (<div key={`sub-${result.name}`} 
-                      style={{width: '100%'}} 
-                      className={clsx('sub', {'add': !(subs.some((sub) => sub.name === result.name))})}>
-                    <Sub key={result.name} sub={result} result />
-                  </div>))}
+                {results.map((sub: Subreddit) => 
+                  <Sub key={'result-' + sub.name} sub={sub} result />
+                )}
                 <div className='save-wrapper'>
                   <input type='button' onClick={() => setSubs()} className='save-results' value='Save'></input>
                 </div>
               </>
-              : searchStatus === 'loading'
+              : (searchStatus === 'loading')
                 ? <p>Loading...</p>
-                : <p>No results found.</p>
+                : <p>No results found.</p> 
           }
         </div>
       )}
