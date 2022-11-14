@@ -57,7 +57,7 @@ export const queryReducer = createSlice({
     },
     setAdd: (state, action: PayloadAction<boolean>) => {
       state.add = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder

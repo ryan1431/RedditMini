@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { fetchFeed, setFeedPosts, setQuery } from "../reducers/querySlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { base } from "../../utility/data";
@@ -15,21 +15,34 @@ export const useFeed = (isVisible: boolean) => {
 
   const currentUrl = useRef<string>('');
 
-  const srNames = useMemo<string[]>(() => subs.map((s) => s.name), [subs]);
+  useEffect(() => {
+    if (feed === 'custom') {
+      dispatch(setQuery(['after', '']));
+    }
+  }, [subs, feed, dispatch]);
 
   useEffect(() => {
-    if (feed === 'saved') {
-      dispatch(setFeedPosts(savedPosts));
-      return;
-    } else if (feed === 'custom' && !srNames.length) {
+    if (feed === 'saved') return;
+    if (feed === 'custom' && !subs.length) {
       dispatch(setFeedPosts([]));
       return;
     }
-    let url = base + ((feed === 'custom' && `r/${srNames.join('+')}/`) || '');
+
+    let url = base;
+    if (feed === 'custom') {
+      url += `r/${subs.map((s) => s.name).join('+')}/`;
+    } 
     currentUrl.current = url + sort;
     
     dispatch(fetchFeed(currentUrl.current));
-  }, [dispatch, feed, savedPosts, sort, srNames]);
+  }, [dispatch, feed, sort, subs]);
+
+  // Set feed to saved posts
+  useEffect(() => {
+    if (feed === 'saved') {
+      dispatch(setFeedPosts(savedPosts));
+    }
+  }, [savedPosts, feed, dispatch]);
 
   // Infinite scroll
   useEffect(() => {
