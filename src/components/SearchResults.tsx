@@ -7,9 +7,18 @@ import './SearchResults.css';
 import { Sub } from './sub/Sub';
 
 interface SearchResultsProps {
+  /**
+   * Represents whether or not the search results are currently showing
+   */
   inSearch: boolean;
   setInSearch: React.Dispatch<React.SetStateAction<boolean>>;
+  /**
+   * Actual query used to fetch after a one second debounce
+   */
   searchQuery: string;
+  /**
+   * Text in the input field, to be queried
+   */
   searchInput: string;
 }
 
@@ -28,6 +37,11 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
 
     dispatch(getSubreddits(searchQuery));
   }, [searchQuery, dispatch]);
+
+  // Reset selected subs when closing search results or changing searchquery
+  useEffect(() => {
+    setToggled([]);
+  }, [inSearch, searchQuery]);
 
   const onClick = useCallback((sub: Subreddit) => {
     setToggled((p) => {
