@@ -16,7 +16,7 @@ export const Search = () => {
 
   useDebounce(() => { 
     // Prevent repeat fetch
-    if (searchInput === searchQuery) return; 
+    if (searchInput === searchQuery || searchInput.length < 3) return; 
 
     setSearchQuery(searchInput);
   }, 1000, [searchInput]);
