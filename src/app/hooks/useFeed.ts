@@ -14,15 +14,8 @@ export const useFeed = (isVisible: boolean) => {
   const subs = useAppSelector((state) => state.subreddits.subs);
 
   const currentUrl = useRef<string>('');
-  const srNames = useMemo<string[]>(() => subs.map((s) => s.name), [subs]);
-  
-  const sortBy = useCallback(({target}:any) => {
-    if (target.value === sort || target.value === feed) return;
 
-    dispatch(setQuery(['after', '']));
-    dispatch(setFeedPosts([]));
-    dispatch(setQuery([target.classList[0], target.value]));
-  }, [sort, feed, dispatch]);
+  const srNames = useMemo<string[]>(() => subs.map((s) => s.name), [subs]);
 
   useEffect(() => {
     if (feed === 'saved') {
@@ -32,7 +25,6 @@ export const useFeed = (isVisible: boolean) => {
       dispatch(setFeedPosts([]));
       return;
     }
-
     let url = base + ((feed === 'custom' && `r/${srNames.join('+')}/`) || '');
     currentUrl.current = url + sort;
     
@@ -43,6 +35,14 @@ export const useFeed = (isVisible: boolean) => {
   useEffect(() => {
     if (isVisible) dispatch(fetchFeed(currentUrl.current));
   }, [isVisible, dispatch]);
+
+  const sortBy = useCallback(({target}:any) => {
+    if (target.value === sort || target.value === feed) return;
+
+    dispatch(setQuery(['after', '']));
+    dispatch(setFeedPosts([]));
+    dispatch(setQuery([target.classList[0], target.value]));
+  }, [sort, feed, dispatch]);
 
   return {
     sortBy,

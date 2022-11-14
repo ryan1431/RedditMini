@@ -5,7 +5,8 @@ import type { CSS } from './Home';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
 import { Search } from './Search';
-import { removeSubreddit } from '../app/reducers/subredditsSlice';
+import { Subreddit } from '../types';
+import { toggleSubreddit } from '../app/reducers/subredditsSlice';
 
 interface SubredditsProps extends CSS {}
 
@@ -19,13 +20,10 @@ export const Subreddits = (props: SubredditsProps) => {
 
   const [clicked, setClicked] = useState<string>('');
 
-  const onMouseUp = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const element = e.target;
-    if (!(element instanceof HTMLDivElement)) return;
-    const name = element.id.split('-')[1];
-    setClicked(name);
+  const onClick = useCallback((sub: Subreddit) => {
+    setClicked(sub.name);
     setTimeout(() => {
-      dispatch(removeSubreddit(name));
+      dispatch(toggleSubreddit(sub));
       setClicked('');
     }, 150)
   }, [dispatch]);
@@ -37,9 +35,9 @@ export const Subreddits = (props: SubredditsProps) => {
           <Search />
         </div>
 
-        <div id="selected-subs" onMouseUp={onMouseUp}>
+        <div id="selected-subs">
           {subs.map((sub) => (
-            <div key={`sub-${sub.name}`} id={`added-${sub.name}`} className={`sub ${sub.name}`}>
+            <div key={`sub-${sub.name}`} onClick={() => onClick(sub)} id={`added-${sub.name}`} className={`sub ${sub.name}`}>
               <Sub sub={sub} clicked={clicked === sub.name}  />
             </div>
           ))}

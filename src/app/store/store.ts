@@ -29,7 +29,7 @@ listener.startListening({
 
 listener.startListening({
   predicate(action) {
-    return action.type === `${subredditsReducer.name}/addSubreddit` || action.type === `${subredditsReducer.name}/removeSubreddit`;
+    return action.type === `${subredditsReducer.name}/toggleSubreddit`;
   },
   effect: (_, api) => {
     localStorage.setItem('subreddits/subs', JSON.stringify((api.getState() as any)[subredditsReducer.name].subs));
