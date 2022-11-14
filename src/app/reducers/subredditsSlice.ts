@@ -39,11 +39,9 @@ export const subredditsReducer = createSlice({
   reducers: {
     toggleSubreddit: (state, action: PayloadAction<Subreddit>) => {
       let index = state.subs.findIndex((s) => s.name === action.payload.name);
-      if (index === -1) {
-        state.subs.push(action.payload);
-      } else {
-        state.subs.splice(index, 1)
-      }
+      (index === -1)
+        ? state.subs.push(action.payload)
+        : state.subs.splice(index, 1)
     },
     setLoading: (state, action: PayloadAction<string>) => {
       state.searchStatus = action.payload;
