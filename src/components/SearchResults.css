@@ -10,6 +10,8 @@
 
   margin: 1px;
   border-radius: 5px;
+
+  z-index: 1;
 }
 
 .save-wrapper {

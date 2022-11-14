@@ -8,12 +8,14 @@ interface SubredditsState {
   subs: Subreddit[],
   searchStatus: string,
   searchResults: Subreddit[],
+  toggleQueue: Subreddit[],
 }
 
 const initialState: SubredditsState = {
   subs: [],
   searchStatus: 'idle',
   searchResults: [],
+  toggleQueue: [],
 }
 
 let savedSubs: Subreddit[] | undefined;
@@ -48,7 +50,18 @@ export const subredditsReducer = createSlice({
     },
     setLoading: (state, action: PayloadAction<string>) => {
       state.searchStatus = action.payload;
-    }
+    },
+    toggleResult: (state, action: PayloadAction<Subreddit>) => {
+      let index = state.toggleQueue.findIndex((sr) => sr.name === action.payload.name);
+      if (index === -1) {
+        state.toggleQueue.push(action.payload);
+      } else {
+        state.toggleQueue.splice(index, 1);
+      }
+    },
+    clearToggleQueue: (state) => {
+      state.toggleQueue = [];
+    },
   }, 
   extraReducers: (builder) => {
     builder
@@ -68,6 +81,6 @@ export const subredditsReducer = createSlice({
   }
 });
 
-export const { toggleSubreddit, setLoading } = subredditsReducer.actions;
+export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue } = subredditsReducer.actions;
 
 export default subredditsReducer.reducer;

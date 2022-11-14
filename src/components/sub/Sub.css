@@ -12,7 +12,7 @@
 }
 
 /* Shrinks on click */
-#sub-wrapper {
+.sub-wrapper {
   background: white;
   color: black;
 
@@ -35,16 +35,16 @@
   margin-left: 10px;
 }
 
-#sub-wrapper > p {
+.sub-wrapper > p {
   margin-left: 10px;
 }
 
-#sub-wrapper > button {
+.sub-wrapper > button {
   height: 100%;
   width: 50px;
 }
 
-.sub:hover #sub-wrapper {
+.sub:hover .sub-wrapper {
   background: rgba(255,255,255,.9);
 }
 
@@ -62,9 +62,9 @@
 }
 
 /* Elements in.sub won't trigger parent mouseUp event */
-.sub * {
+/* .sub * {
   pointer-events: none;
-}
+} */
 
 /* Trash icon */
 .remove-sub {
