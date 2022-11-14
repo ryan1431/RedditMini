@@ -12,11 +12,20 @@
   border-radius: 5px;
 
   z-index: 1;
+
+  transition: all 0.3s;
 }
 
 .save-wrapper {
   display: flex;
   justify-content: center;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.save-wrapper > input {
+  width: 80%;
+  border-radius: 8px;
+  cursor: pointer;
 }
 .save-results {
   width: fit-content;

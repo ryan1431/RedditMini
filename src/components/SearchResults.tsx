@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { clearToggleQueue, getSubreddits, toggleSubreddit } from '../app/reducers/subredditsSlice';
 import { Subreddit } from '../types';
@@ -27,6 +27,17 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
   const {searchResults: results, searchStatus} = useAppSelector((state) => state.subreddits);
   const toggled = useAppSelector((s) => s.subreddits.toggleQueue);
 
+  const style = useMemo(() => {
+    return toggled.length 
+      ? {
+        height: '2.5rem',
+        margin: '8px',
+      } : {
+        height: '0',
+        margin: '0',
+      };
+  }, [toggled]);
+
   // Search subreddits
   useEffect(() => {
     dispatch(getSubreddits(searchQuery));
@@ -54,14 +65,14 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
           { (searchInput.length < 3)
             ? <p>Enter a search of at least 3 characters.</p>
             : (searchStatus === 'idle' && results.length)
-              ? <>
+              ? <div style={{height: 'fit-content'}}>
                 {results.map((sub: Subreddit) => 
                   <Sub key={'result-' + sub.name} sub={sub} result />
                 )}
-                <div className='save-wrapper'>
+                <div className='save-wrapper' style={style}>
                   <input type='button' onClick={() => setSubs()} className='save-results' value='Save'></input>
                 </div>
-              </>
+              </div>
               : (searchStatus === 'loading')
                 ? <p>Loading...</p>
                 : <p>No results found.</p> 
