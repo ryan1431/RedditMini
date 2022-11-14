@@ -68,7 +68,6 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
                 {results.map((result: Subreddit) => 
                 (<div key={`sub-${result.name}`} 
                       onClick={() => onClick(result)}
-                      id={`result-${result.name}`} 
                       style={{width: '100%'}} 
                       className={clsx('sub', {'add': !(subs.some((sub) => sub.name === result.name))})}>
                     <Sub key={result.name} sub={result} clicked={false} toggled={toggled} />
