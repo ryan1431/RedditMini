@@ -40,6 +40,10 @@ export const Navbar = (props: NavbarProps) => {
       {/* Light / Dark mode button */}
       <div> 
         {process.env.NODE_ENV === 'development' && <input type='button' value='clearlocal' onClick={() => localStorage.clear()}></input>}
+        {process.env.NODE_ENV === 'development' && <input type='button' value='local size' onClick={() => {
+          const kb = (new Blob(Object.values(localStorage)).size / 1000).toFixed(2);
+          console.log('%cLocal Storage: %c' + kb + 'kb (%c' + (Number(kb) / 5000).toFixed(3) + '%)', 'color: ghostwhite', 'color: yellow', 'color: orange');
+        }}></input>}
         <input type="button" value='darkmode'></input>
       </div>
     </div>
