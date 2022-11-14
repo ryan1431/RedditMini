@@ -7,11 +7,8 @@ import { Search } from './Search';
 
 interface SubredditsProps extends CSS {}
 
-export type size = '' | '0';
-
 export const Subreddits = (props: SubredditsProps) => {
   const { basis, border } = props;
-
   const subs = useAppSelector((state) => state.subreddits.subs);
 
   return (
@@ -22,12 +19,9 @@ export const Subreddits = (props: SubredditsProps) => {
         </div>
 
         <div id="selected-subs">
-          {subs.map((sub) => (
-            <div key={`sub-${sub.name}`} 
-              className={`sub ${sub.name}`}>
-              <Sub sub={sub} />
-            </div>
-          ))}
+          {subs.map((sub) =>
+            <Sub sub={sub} key={'selected-' + sub.name}/>
+          )}
         </div>
       </div>
       

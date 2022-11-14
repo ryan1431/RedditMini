@@ -1,14 +1,20 @@
 /* Persists height and width during shrink */
-.sub {
-  margin: 2px 0;
-
-  height: 3rem;
-  width: 70%;
-
-  /* shrink to middle */
+.sub {  
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  
+  background: white;
+  color: black;
+
+  margin: 2px 0;
+  border-radius: 10px;
+  
+  height: 3rem;
+  width: 100%;
+
+  transition: height 0.2s, width 0.2s;
+  overflow: hidden;
 }
 
 /* Shrinks on click */

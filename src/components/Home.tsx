@@ -54,6 +54,7 @@ export const Home = () => {
         <Subreddits basis={css.basis} border={css.border}/>
         <Feed />
       </div>
+
     </div>
   )
 }

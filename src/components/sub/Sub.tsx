@@ -42,41 +42,14 @@ export const Sub = ({sub, result}: SubProps) => {
       setSize('0');
       setTimeout(() => {
         dispatch(toggleSubreddit(sub));
-      }, 150);
+      }, 180);
     }
   }, [dispatch, result, sub])
 
-
-  /* from searchResults.tsx:
-
-  const onClick = useCallback((sub: Subreddit) => {
-    setToggled((p) => {
-      let index = p.findIndex((sr) => sr.name === sub.name);
-
-      if (index === -1) return [...p, sub]
-      else return p.slice(0, index).concat(p.slice(index + 1));
-    })
-  }, []);
-  */
-
-  /* from subreddits
-
-  const onClick = useCallback((sub: Subreddit) => {
-    setClicked(sub.name);
-    setTimeout(() => {
-      dispatch(toggleSubreddit(sub));
-      setClicked('');
-    }, 150)
-  }, [dispatch]);
-
-  */
-
   return (
-    <div className={clsx('sub', {'add': !(subs.some((sr) => sr.name === sub.name))})}>
-      <div 
-      style={{height: size, width: size}} 
-      onClick={onClick}
-      className='sub-wrapper'>
+    <div onClick={onClick}
+      style={{height: size, width: size}}
+      className={clsx('sub', {'add': !(subs.some((sr) => sr.name === sub.name))})}>
       <div style={{display: 'flex'}}>
         <img className='sr-icon' src={sub.iconUrl || srdefault} alt="" />
         <p><span style={{color: 'grey', marginLeft: '7px'}}>r/</span>{sub.name}</p>
@@ -89,7 +62,5 @@ export const Sub = ({sub, result}: SubProps) => {
         }
       </button>
     </div>
-    </div>
-    
   );
 }
