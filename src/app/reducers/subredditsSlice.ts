@@ -37,11 +37,13 @@ export const subredditsReducer = createSlice({
   name: 'subreddits',
   initialState: savedSubs ? { ...initialState, subs: savedSubs || []} : initialState,
   reducers: {
-    addSubreddit: (state, action: PayloadAction<Subreddit>) => {
-      state.subs.push(action.payload);
-    },
-    removeSubreddit: (state, action: PayloadAction<string>) => {
-      state.subs = state.subs.filter((sub) => sub.name !== action.payload);
+    toggleSubreddit: (state, action: PayloadAction<Subreddit>) => {
+      let index = state.subs.findIndex((s) => s.name === action.payload.name);
+      if (index === -1) {
+        state.subs.push(action.payload);
+      } else {
+        state.subs.splice(index, 1)
+      }
     },
     setLoading: (state, action: PayloadAction<string>) => {
       state.searchStatus = action.payload;
@@ -65,6 +67,6 @@ export const subredditsReducer = createSlice({
   }
 });
 
-export const { addSubreddit, removeSubreddit, setLoading } = subredditsReducer.actions;
+export const { toggleSubreddit, setLoading } = subredditsReducer.actions;
 
 export default subredditsReducer.reducer;

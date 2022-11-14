@@ -7,4 +7,17 @@
   position: absolute;
   top: 3rem;
   width: 100%;
+
+  margin: 1px;
+  border-radius: 5px;
+}
+
+.save-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.save-results {
+  width: fit-content;
+  padding: 10px;
+
 }
