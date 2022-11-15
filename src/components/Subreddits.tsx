@@ -13,14 +13,16 @@ export const Subreddits = (props: SubredditsProps) => {
 
   return (
     <div id="subreddits" style={{flexBasis: basis, maxWidth: basis, border: border}}>
-      <div id='search-bar'  >
-        <Search />
-      </div>
+      <div className='subs-results-container'> 
+        <div id='search-bar'  >
+          <Search />
+        </div>
 
-      <div id="selected-subs">
-        {subs.map((sub) =>
-          <Sub sub={sub} key={'selected-' + sub.name}/>
-        )}
+        <div id="selected-subs">
+          {subs.map((sub) =>
+            <Sub sub={sub} key={'selected-' + sub.name}/>
+          )}
+        </div>
       </div>
     </div>
   )

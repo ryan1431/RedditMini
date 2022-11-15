@@ -1,3 +1,8 @@
+.subs-results-container {
+  width: 100%;
+  max-width: 600px;
+}
+
 #subreddits {
   background: rgba(103, 103, 103, 0);
   color: white;
@@ -11,8 +16,8 @@
 
 /* Search bar */
 #search-bar {
-  width: 100%;
-  /* padding: 15px; */
+  width: 90%;
+  margin: 0 auto;
 }
 
 /* Selected subreddits */
@@ -21,9 +26,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  width: 70%;
+  width: 96%;
+  margin: 0 auto;
 }
-
-
-
