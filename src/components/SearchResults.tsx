@@ -65,7 +65,7 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
           { (searchInput.length < 3)
             ? <p>Enter a search of at least 3 characters.</p>
             : (searchStatus === 'idle' && results.length)
-              ? <div style={{height: 'fit-content'}}>
+              ? <div style={{height: 'fit-content', maxWidth: '100%'}}>
                 {results.map((sub: Subreddit) => 
                   <Sub key={'result-' + sub.name} sub={sub} result />
                 )}
