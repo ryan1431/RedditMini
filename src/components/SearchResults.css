@@ -12,15 +12,13 @@
   border-radius: 5px;
 
   z-index: 1;
-
-  transition: all 0.3s;
 }
 
 .save-wrapper {
   display: flex;
   justify-content: center;
   overflow: hidden;
-  transition: all 0.2s;
+  transition: height 0.2s;
 }
 .save-wrapper > input {
   width: 80%;

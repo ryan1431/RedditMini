@@ -20,7 +20,7 @@
   background: black;
   z-index: 1;
 
-  transition: all 0.3s;
+  transition: width 0.2s;
 }
 
 /* Search bar */

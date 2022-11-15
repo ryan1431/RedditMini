@@ -11,7 +11,7 @@ export const Navbar = ({setOpen}: NavbarProps) => {
     <div id='navbar'>
       {/* Navbar hamburger menu */}
       <div id='left'>
-        <input type="button" value='left pane' onClick={() => setOpen((p) => !p)}/>
+        <input type="button" value='Custom Feed' onClick={() => setOpen((p) => !p)}/>
       </div>
 
       {/* Reddit logo */}

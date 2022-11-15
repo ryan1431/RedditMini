@@ -47,8 +47,8 @@ export const Sub = ({sub, result}: SubProps) => {
       </div>
       <button className="remove-sub">
         { add
-          ? <BiAddToQueue className={'trash-icon'} />
-          : <CiTrash className={'trash-icon'} />
+          ? <BiAddToQueue className={'toggle-icon'} />
+          : <CiTrash className={'toggle-icon'} />
         }
       </button>
     </div>

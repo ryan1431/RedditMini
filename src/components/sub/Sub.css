@@ -30,7 +30,7 @@
   height: 100%;
   width: 100%;
 
-  transition: all 0.2s;
+  transition: height 0.2s, width 0.2s;
   overflow: hidden;
 }
 
@@ -58,12 +58,12 @@
   cursor: pointer;
 }
 
-.sub:hover .trash-icon {
+.sub:hover .toggle-icon {
   opacity: 1;
   color: red;
 }
 
-.sub.add:hover .trash-icon {
+.sub.add:hover .toggle-icon {
   color: green;
 }
 
@@ -86,8 +86,8 @@
   border-radius: 10px;
 }
 
-.trash-icon {
+.toggle-icon {
   font-size: 20px;
   opacity: 0.2;
-  transition: all 0.2s;
+  transition: opacity 0.2s, color 0.2s;
 }
