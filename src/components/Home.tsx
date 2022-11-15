@@ -11,7 +11,6 @@ export interface CSS {
 }
 
 export const Home = () => {
-
   // Initializes width state & used in later calls
   const getWindowWidth = () => {
     const { innerWidth: width } = window;

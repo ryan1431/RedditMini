@@ -8,9 +8,7 @@ interface NavbarProps {
   width: number,
 }
 
-export const Navbar = (props: NavbarProps) => {
-
-  const { css, setCss } = props;
+export const Navbar = ({ css, setCss }: NavbarProps) => {
 
   const toggleLeftPane = () => {
     const values = 

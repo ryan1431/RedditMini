@@ -24,7 +24,7 @@ h2 {
   border: 2px solid red;
   
   flex-shrink: 0;
-  flex-basis: 310px;
+  flex-basis: 350px;
   flex-grow: 1;
 
   /* transition */
