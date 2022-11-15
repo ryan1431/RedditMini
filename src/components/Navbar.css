@@ -22,7 +22,7 @@
 
 #navbar:first-child,
 #navbar:last-child {
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 #navbar > div > button {
@@ -33,7 +33,15 @@
   height: 2rem;
 }
 
-.icon-button:hover {
-  background: rgb(75, 75, 75);
 
+
+.drop-down {
+  font-size: 16px;
+  position: relative;
+  top: -2px;
+  left: 1px;
+
+  rotate: 0deg;
+  transition: rotate 0.2s;
 }
+

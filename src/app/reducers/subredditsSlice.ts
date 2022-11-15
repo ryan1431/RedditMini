@@ -9,6 +9,7 @@ interface SubredditsState {
   searchStatus: string,
   searchResults: Subreddit[],
   toggleQueue: Subreddit[],
+  open: boolean,
 }
 
 const initialState: SubredditsState = {
@@ -16,6 +17,7 @@ const initialState: SubredditsState = {
   searchStatus: 'idle',
   searchResults: [],
   toggleQueue: [],
+  open: false,
 }
 
 let savedSubs: Subreddit[] | undefined;
@@ -62,6 +64,9 @@ export const subredditsReducer = createSlice({
     clearToggleQueue: (state) => {
       state.toggleQueue = [];
     },
+    toggleOpen: (state, action: PayloadAction<boolean | undefined>) => {
+      state.open = action.payload ?? !state.open;
+    }
   }, 
   extraReducers: (builder) => {
     builder
@@ -81,6 +86,6 @@ export const subredditsReducer = createSlice({
   }
 });
 
-export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue } = subredditsReducer.actions;
+export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue, toggleOpen } = subredditsReducer.actions;
 
 export default subredditsReducer.reducer;

@@ -1,29 +1,30 @@
 import './Subreddits.css';
 
-import { useAppSelector } from '../app/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
 import { Search } from './Search';
 import React, { MutableRefObject, useCallback, useEffect, useRef } from 'react';
+import { toggleOpen } from '../app/reducers/subredditsSlice';
 
 interface SubredditsProps {
   open: boolean,
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
   navBarRef: MutableRefObject<HTMLDivElement>,
 }
 
-export const Subreddits = ({open, setOpen, navBarRef}: SubredditsProps) => {
+export const Subreddits = ({open, navBarRef}: SubredditsProps) => {
+  const dispatch = useAppDispatch();
   const subs = useAppSelector((state) => state.subreddits.subs);
 
-  let width = open ? '' : '0';
+  let height = open ? '' : '0';
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
   const onClick = useCallback((e: any) => {
     if (!wrapper.current.contains(e.target) 
     && !navBarRef.current.contains(e.target)
     && !(e.target.classList.contains('save-results'))) {
-      setOpen(false);
+      dispatch(toggleOpen(false));
     } 
-  }, [navBarRef, setOpen]);
+  }, [dispatch, navBarRef]);
 
   useEffect(() => {
     window.addEventListener('click', onClick);
@@ -31,7 +32,7 @@ export const Subreddits = ({open, setOpen, navBarRef}: SubredditsProps) => {
   }, [onClick]);
 
   return (
-    <div id="subreddits" ref={wrapper} style={{width: width, maxWidth: '100vw', border: open ? '' : 'none'}}>
+    <div id="subreddits" ref={wrapper} style={{height: height, maxWidth: '100vw', border: open ? '' : 'none'}}>
       <div className='subs-results-container'> 
         <div id='search-bar'  >
           <Search />
