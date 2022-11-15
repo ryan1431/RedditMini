@@ -72,7 +72,7 @@
   border: 1px solid rgba(128, 128, 128, 0);;
   border-bottom: 1px solid rgba(128, 128, 128, 0.451);
   margin: 3px;
-
+  
   max-width: 98%;
 
   transition: border-color 0.2s;
