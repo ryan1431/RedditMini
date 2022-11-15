@@ -15,7 +15,6 @@ export const Feed = () => {
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef);
   
-  const feedPosts = useAppSelector((s) => s.query.feedPosts);
   const fetching = useAppSelector((s) => s.query.fetching);
   const subs = useAppSelector((s) => s.subreddits.subs);
   const { feed, sort } = useAppSelector((s) => s.query);
@@ -23,6 +22,7 @@ export const Feed = () => {
   const {
     sortBy,
     savedPosts,
+    userFeed,
   } = useFeed(isVisible);
 
   const disabled = feed === 'saved';
@@ -44,8 +44,8 @@ export const Feed = () => {
       </section>
 
       {/* Content */}
-      {(feedPosts.length)
-        ? feedPosts.map((post: any) => {
+      {(userFeed.length)
+        ? userFeed.map((post: any) => {
           return <Post post={post} saved={!!savedPosts.find((p) => p.url === post.url)} key={'' + post.title + post.score + post.subreddit}/>;
         }) 
         : <div className='post' style={{textAlign: 'center'}}>
@@ -62,7 +62,7 @@ export const Feed = () => {
       {/* Infinite scroll visible trigger for home & custom feeds */}
       {<div ref={feed !== 'saved' ? visRef : null} style={{
           opacity: '0', 
-          display: `${!fetching && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext
+          display: `${!fetching && userFeed.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext
         </div>
       }
     </div>
