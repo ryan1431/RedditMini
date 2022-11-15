@@ -59,13 +59,21 @@ code {
 /* For buttons with a react-icon icon as their content */
 .icon-button {
   font-size: 22px;
-  height:fit-content;
-  width:fit-content;
+  color:rgb(200, 200, 200);
   cursor:pointer;
 
-  padding: 8px;
+  height:fit-content;
+  width:fit-content;
 
+  padding: 6px;
   border-radius: 5px;
+  border: 1px solid rgba(113, 113, 113, 0.298);
 
-  transition: background-color 0.1s;
+  position: relative;
+
+  transition: background-color 0.1s, border-color 0.2s;
+}
+
+.icon-button:hover {
+  background: rgba(75, 75, 75, 0.524);
 }
