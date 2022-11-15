@@ -1,7 +1,7 @@
 import './Sub.css';
 import { CiTrash } from 'react-icons/ci';
 import { BiAddToQueue } from 'react-icons/bi';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { Subreddit } from '../../types';
 import srdefault from '../../images/srdefault.jpeg';
@@ -20,12 +20,17 @@ export const Sub = ({sub, result}: SubProps) => {
   const { subs } = useAppSelector((state) => state.subreddits);
 
   const [size, setSize] = useState<size>('');
-  const [add, setAdd] = useState<boolean>(!(subs.some((sr) => sr.name === sub.name)));
+  const toggleQueue = useAppSelector((s) => s.subreddits.toggleQueue)
+
+  const add = useMemo(() => {
+    let willAdd = !subs.some((s) => s.name === sub.name);
+    return result && toggleQueue.some((s) => s.name === sub.name) ? !willAdd : willAdd;
+  }, [result, sub.name, subs, toggleQueue]);
 
   const onClick = useCallback(() => {
     if (result) {
       dispatch(toggleResult(sub));
-      setAdd((p) => !p);
+      // setAdd((p) => !p);
     } else {
       setSize('0');
       setTimeout(() => {

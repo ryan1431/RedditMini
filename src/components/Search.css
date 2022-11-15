@@ -11,6 +11,8 @@
 
 .search-wrapper {
   margin: 10px auto;
+
   width: 60%;
   height: 3rem;
+  min-width: 300px
 }
