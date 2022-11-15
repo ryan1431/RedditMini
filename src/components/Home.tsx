@@ -3,54 +3,21 @@ import './Home.css';
 import { Feed } from "./feed/Feed";
 import { Subreddits } from "./Subreddits";
 import { Navbar } from "./Navbar";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-export interface CSS {
-  basis: string,
-  border: string,
-}
 
 export const Home = () => {
-  // Initializes width state & used in later calls
-  const getWindowWidth = () => {
-    const { innerWidth: width } = window;
-    return width;
-  }
 
-  const [width, setWidth] = useState<number>(getWindowWidth());
-  const [css, setCss] = useState<CSS>({ basis: '', border: ''});
-
-  useEffect(() => {
-    const handleResize = () => {
-      let currentWidth = getWindowWidth();
-      setWidth(currentWidth);
-    }
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    }
-  }, [])
-
-  // Calls on window resize
-  useEffect(() => {
-    // Uses css defaults when width > 900
-    if (width > 900 && css.basis !== '') {
-      setCss({
-        basis: '',
-        border: '',
-      })
-    }    
-  }, [css, width])
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <div id='page'>
       {/* Top navigation / header */}
-      <Navbar css={css} setCss={setCss} width={width}/>
+      <Navbar setOpen={setOpen}/>
 
       {/* Subreddits & feed split */}
       <div id='splitfeed'>
-        <Subreddits basis={css.basis} border={css.border}/>
+        <Subreddits open={open}/>
         <Feed />
       </div>
 

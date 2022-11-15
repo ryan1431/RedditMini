@@ -1,18 +1,20 @@
 import './Subreddits.css';
 
-import type { CSS } from './Home';
 import { useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
 import { Search } from './Search';
 
-interface SubredditsProps extends CSS {}
+interface SubredditsProps {
+  open: boolean,
+}
 
-export const Subreddits = (props: SubredditsProps) => {
-  const { basis, border } = props;
+export const Subreddits = ({open}: SubredditsProps) => {
   const subs = useAppSelector((state) => state.subreddits.subs);
 
+  let width = open ? '' : '0';
+
   return (
-    <div id="subreddits" style={{flexBasis: basis, maxWidth: basis, border: border}}>
+    <div id="subreddits" style={{flexBasis: width, maxWidth: width, border: open ? '' : 'none'}}>
       <div className='subs-results-container'> 
         <div id='search-bar'  >
           <Search />
