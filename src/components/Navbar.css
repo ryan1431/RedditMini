@@ -14,7 +14,6 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  height: 100%;
 }
 
 #navbar > div > * {
@@ -32,4 +31,9 @@
 
 #navbar button {
   height: 2rem;
+}
+
+.icon-button:hover {
+  background: rgb(75, 75, 75);
+
 }

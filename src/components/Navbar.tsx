@@ -1,5 +1,6 @@
 import React from 'react';
 import './Navbar.css';
+import { GiHamburgerMenu } from 'react-icons/gi';
 
 interface NavbarProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -11,7 +12,9 @@ export const Navbar = ({setOpen}: NavbarProps) => {
     <div id='navbar'>
       {/* Navbar hamburger menu */}
       <div id='left'>
-        <button type="button" value='Custom Feed' onClick={() => setOpen((p) => !p)}>Custom Feed</button>
+        <div className='icon-button' onClick={() => setOpen(p => !p)}>
+          <GiHamburgerMenu />
+        </div>
       </div>
 
       {/* Reddit logo */}
