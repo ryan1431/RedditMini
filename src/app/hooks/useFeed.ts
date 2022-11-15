@@ -32,15 +32,20 @@ export const useFeed = (isVisible: boolean) => {
   }, [subs, feed, dispatch]);
 
   useEffect(() => {
-    if (subsDebounced !== subsRef.current && feed !== 'custom') return;
+    if (subsDebounced.length !== subsRef.current.length && feed !== 'custom') {
+      subsRef.current = subsDebounced;
+      return;
+    };
     if (feed === 'saved') return;
     if (feed === 'custom') {
+      subsRef.current = subsDebounced;
+
       if (!subsDebounced.length) {
         dispatch(setFeedPosts([]));
         return;
       }
-      subsRef.current = subsDebounced;
     }
+
 
     let url = base;
     if (feed === 'custom') {
