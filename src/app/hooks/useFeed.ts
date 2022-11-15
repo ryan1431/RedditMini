@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { fetchFeed, setFeedPosts, setQuery } from "../reducers/querySlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { base } from "../../utility/data";
+import { Subreddit } from "../../types";
 
 export type SortField = 'best' | 'hot' | 'new' | 'top' | 'rising';
 export type FeedField = 'home' | 'custom' | 'saved';
@@ -15,6 +16,8 @@ export const useFeed = (isVisible: boolean) => {
 
   const currentUrl = useRef<string>('');
 
+  const subsRef = useRef<Subreddit[]>(subs);
+
   useEffect(() => {
     if (feed === 'custom') {
       dispatch(setQuery(['after', '']));
@@ -22,10 +25,14 @@ export const useFeed = (isVisible: boolean) => {
   }, [subs, feed, dispatch]);
 
   useEffect(() => {
+    if (subs !== subsRef.current && feed !== 'custom') return;
     if (feed === 'saved') return;
-    if (feed === 'custom' && !subs.length) {
-      dispatch(setFeedPosts([]));
-      return;
+    if (feed === 'custom') {
+      if (!subs.length) {
+        dispatch(setFeedPosts([]));
+        return;
+      }
+      subsRef.current = subs;
     }
 
     let url = base;
@@ -33,7 +40,8 @@ export const useFeed = (isVisible: boolean) => {
       url += `r/${subs.map((s) => s.name).join('+')}/`;
     } 
     currentUrl.current = url + sort;
-    
+
+    console.log('predispatch');
     dispatch(fetchFeed(currentUrl.current));
   }, [dispatch, feed, sort, subs]);
 

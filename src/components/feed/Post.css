@@ -84,7 +84,7 @@
   background: rgba(159, 154, 154, 0.287);
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 670px) {
   .post{ 
     min-width: 0;
     max-width: 100%;
