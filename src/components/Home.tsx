@@ -4,13 +4,8 @@ import { Feed } from "./feed/Feed";
 import { Subreddits } from "./Subreddits";
 import { Navbar } from "./Navbar";
 import { useRef } from 'react';
-import { useAppSelector } from '../app/hooks/hooks';
-
 
 export const Home = () => {
-
-  const open = useAppSelector(s => s.subreddits.open);
-
   const navBarRef = useRef<HTMLDivElement>(undefined!);
 
   return (
@@ -22,7 +17,7 @@ export const Home = () => {
 
       {/* Subreddits & feed split */}
       <div id='splitfeed'>
-        <Subreddits open={open} navBarRef={navBarRef}/>
+        <Subreddits navBarRef={navBarRef}/>
         <Feed />
       </div>
 

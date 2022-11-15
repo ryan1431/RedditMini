@@ -3,24 +3,28 @@ import './Subreddits.css';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
 import { Search } from './Search';
-import React, { MutableRefObject, useCallback, useEffect, useRef } from 'react';
+import React, { MutableRefObject, useCallback, useEffect, useMemo, useRef } from 'react';
 import { toggleOpen } from '../app/reducers/subredditsSlice';
 
 interface SubredditsProps {
-  open: boolean,
   navBarRef: MutableRefObject<HTMLDivElement>,
 }
 
-export const Subreddits = ({open, navBarRef}: SubredditsProps) => {
+export const Subreddits = ({navBarRef}: SubredditsProps) => {
+  const open = useAppSelector(s => s.subreddits.open);
   const dispatch = useAppDispatch();
   const subs = useAppSelector((state) => state.subreddits.subs);
 
-  let height = open ? '' : '0';
+  const height = useMemo(() => {
+    return open ? '' : '0';
+  }, [open]);
+
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
   const onClick = useCallback((e: any) => {
     if (!wrapper.current.contains(e.target) 
     && !navBarRef.current.contains(e.target)
+    && !(e.target.classList.contains('open-subreddits'))
     && !(e.target.classList.contains('save-results'))) {
       dispatch(toggleOpen(false));
     } 
