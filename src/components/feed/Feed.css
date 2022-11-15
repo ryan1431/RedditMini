@@ -43,3 +43,12 @@
   opacity: 0.6;
   pointer-events: none;
 }
+
+.open-subreddits {
+  color: rgb(199, 202, 255);
+  cursor: pointer;
+}
+
+.open-subreddits:hover {
+  text-decoration: underline;
+}

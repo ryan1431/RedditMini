@@ -1,20 +1,23 @@
 import clsx from 'clsx'
 import { useRef } from 'react';
-import { useAppSelector } from '../../app/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { useFeed } from '../../app/hooks/useFeed';
 import { useOnScreen } from '../../app/hooks/useOnScreen';
+import { toggleOpen } from '../../app/reducers/subredditsSlice';
 import { feedFields, sortFields } from '../../utility/data';
 import './Feed.css';
 
 import { Post } from './Post';
 
 export const Feed = () => {
+  const dispatch = useAppDispatch();
+  
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef);
   
   const feedPosts = useAppSelector((s) => s.query.feedPosts);
   const fetching = useAppSelector((s) => s.query.fetching);
-
+  const subs = useAppSelector((s) => s.subreddits.subs);
   const { feed, sort } = useAppSelector((s) => s.query);
 
   const {
@@ -45,8 +48,14 @@ export const Feed = () => {
         ? feedPosts.map((post: any) => {
           return <Post post={post} saved={!!savedPosts.find((p) => p.url === post.url)} key={'' + post.title + post.score + post.subreddit}/>;
         }) 
-        : <div className='post'>
-            <p style={{display: 'flex', justifyContent: 'center'}}>{fetching ? 'Loading...' : 'There are no posts to display!'}</p>
+        : <div className='post' style={{textAlign: 'center'}}>
+            {fetching 
+              ? <p>Loading...</p>
+              : feed === 'custom' && !subs.length 
+                ? (<div >
+                  <p>You have not selected any subreddits. <span onClick={() => dispatch(toggleOpen())} className='open-subreddits'>Click here</span>  to add subreddits.</p>
+                </div>)
+                : <p>There are no posts to display!</p>}
         </div>
       }
 
