@@ -1,33 +1,17 @@
+import React from 'react';
 import './Navbar.css';
 
-import type { CSS } from './Home';
-
 interface NavbarProps {
-  css: CSS,
-  setCss: React.Dispatch<React.SetStateAction<CSS>>,
-  width: number,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export const Navbar = ({ css, setCss }: NavbarProps) => {
-
-  const toggleLeftPane = () => {
-    const values = 
-      css.basis === '' 
-        ? {
-          basis: '99vw',
-          border: '2px solid red',
-        } : {
-          basis: '',
-          border: '',
-        }
-    setCss(values);
-  }
+export const Navbar = ({setOpen}: NavbarProps) => {
 
   return (
     <div id='navbar'>
       {/* Navbar hamburger menu */}
       <div id='left'>
-        <input type="button" value='left pane' onClick={toggleLeftPane}/>
+        <input type="button" value='left pane' onClick={() => setOpen((p) => !p)}/>
       </div>
 
       {/* Reddit logo */}
