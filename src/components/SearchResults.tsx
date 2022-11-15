@@ -46,7 +46,7 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
   // Reset selected subs when closing search results or changing searchquery
   useEffect(() => {
     dispatch(clearToggleQueue());
-  }, [dispatch, inSearch, searchQuery]);
+  }, [dispatch, searchQuery]);
 
   // Submit / save new subs
   const setSubs = useCallback(() => {
