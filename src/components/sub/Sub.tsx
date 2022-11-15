@@ -30,17 +30,16 @@ export const Sub = ({sub, result}: SubProps) => {
   const onClick = useCallback(() => {
     if (result) {
       dispatch(toggleResult(sub));
-      // setAdd((p) => !p);
     } else {
       setSize('0');
       setTimeout(() => {
         dispatch(toggleSubreddit(sub));
-      }, 180);
+      }, 200);
     }
   }, [dispatch, result, sub])
 
   return (
-    <div onClick={onClick} style={{height: size, width: size}} className={clsx('sub', {'result': result}, {'add': add})}>
+    <div onClick={onClick} style={{height: size, width: size, margin: size}} className={clsx('sub', {'result': result}, {'add': add})}>
       <div style={{display: 'flex', maxWidth: '80%'}}>
         <img className='sr-icon' src={sub.iconUrl || srdefault} alt="" />
         <p style={{overflow: 'hidden'}}><span style={{color: 'grey', marginLeft: '7px'}}>r/</span>{sub.name}</p>

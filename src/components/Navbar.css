@@ -26,10 +26,10 @@
   padding: 0 2rem;
 }
 
-#navbar > div > input {
+#navbar > div > button {
   font-size: 10px;;
 }
 
-#navbar input {
+#navbar button {
   height: 2rem;
 }
