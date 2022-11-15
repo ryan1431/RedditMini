@@ -14,7 +14,7 @@ export const Subreddits = ({open}: SubredditsProps) => {
   let width = open ? '' : '0';
 
   return (
-    <div id="subreddits" style={{flexBasis: width, maxWidth: width, border: open ? '' : 'none'}}>
+    <div id="subreddits" style={{transition: 'all 0.2s', width: width, maxWidth: '100vw', border: open ? '' : 'none'}}>
       <div className='subs-results-container'> 
         <div id='search-bar'  >
           <Search />
