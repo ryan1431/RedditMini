@@ -95,7 +95,6 @@ export const Feed = () => {
           ? userFeed.map((post: PostType) => {
             const clicked = selected === post.link;
             return <Post post={post} 
-              saved={!!savedPosts.find((p) => p.url === post.url)} 
               key={'' + post.title + post.score + post.subreddit}
               clicked={clicked}
               setOpenPost={setOpenPost}/>;

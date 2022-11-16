@@ -5,10 +5,10 @@ interface ModalProps {
   open: boolean,
   onClose?: (...args: any) => any,
   children?: React.ReactNode,
-  closeButton?: boolean,
+  closePrompt?: boolean,
 }
 
-const Modal = ({open, onClose, children, closeButton = false}: ModalProps) => {
+const Modal = ({open, onClose, children, closePrompt = false}: ModalProps) => {
   const header = React.Children.map(children, (child: any) => child.type.displayName === 'Header' ? child : null);
   const content = React.Children.map(children, (child: any) => child.type.displayName !== 'Header' ? child : null);
 
@@ -32,10 +32,10 @@ const Modal = ({open, onClose, children, closeButton = false}: ModalProps) => {
   
   return (
     <div className='ui-modal' style={{ display: forceClose.current ? 'none' : open ? 'flex' : 'none'}}>
-      <div className='ui-modal-content' ref={modalRef}>
+      <div className='ui-modal-content' ref={modalRef} style={{maxWidth: '100%', overflow: 'auto'}}>
         {header && <header>
           {header}
-          {closeButton && <button></button>}
+          {closePrompt && <button></button>}
         </header>}
         <main style={{maxHeight: 'fit-content'}}>
           {content}

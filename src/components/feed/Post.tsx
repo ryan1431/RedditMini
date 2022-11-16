@@ -7,16 +7,19 @@ import { ImageBody } from './body/ImageBody';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { save, unsave } from '../../app/reducers/savedSlice';
+import { useAppSelector } from '../../app/hooks/hooks';
 
 interface PostProps { 
   post: PostType;
   clicked?: boolean;
-  saved?: boolean;
   setOpenPost?: React.Dispatch<React.SetStateAction<PostType | null>>;
 }
 
-export const Post = ({post, saved, clicked, setOpenPost}: PostProps) => {
+export const Post = ({post, clicked, setOpenPost}: PostProps) => {
   const dispatch = useDispatch();
+
+  const savedPosts = useAppSelector(s => s.saved.savedPosts);
+  const saved = savedPosts.some(p => p.link === post.link);
 
   const onSave = useCallback(() => {
     if (saved) {
