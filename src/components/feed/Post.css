@@ -7,10 +7,8 @@
   border-radius: 10px;
   margin: 12px auto;
   
-  width: 97%;
-  min-width: 500px;
-  max-width: 670px;
-
+  width: 100%;
+  
   transition: border-color 0.2s;
 }
 
@@ -83,9 +81,4 @@
   background: rgba(159, 154, 154, 0.287);
 }
 
-@media only screen and (max-width: 670px) {
-  .post{ 
-    min-width: 0;
-    max-width: 100%;
-  }
-}
+
