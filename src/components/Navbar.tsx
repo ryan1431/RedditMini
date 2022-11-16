@@ -33,12 +33,12 @@ export const Navbar = () => {
 
       {/* Light / Dark mode button */}
       <div> 
-        {process.env.NODE_ENV === 'development' && <button type='button' onClick={() => localStorage.clear()}>clearlocal</button>}
-        {process.env.NODE_ENV === 'development' && <button type='button' onClick={() => {
+        {process.env.NODE_ENV === 'development' && <button onClick={() => localStorage.clear()}>clearlocal</button>}
+        {process.env.NODE_ENV === 'development' && <button onClick={() => {
           const kb = (new Blob(Object.values(localStorage)).size / 1000).toFixed(2);
           console.log('%cLocal Storage: %c' + kb + 'kb (%c' + (Number(kb) / 5000).toFixed(3) + '%)', 'color: ghostwhite', 'color: yellow', 'color: orange');
         }}>local size</button>}
-        <button type="button" >darkmode</button>
+        <button>darkmode</button>
       </div>
     </div>
   )

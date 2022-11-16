@@ -27,6 +27,9 @@ interface PostType {
   content_url: string,
   permalink: string,
   subreddit_name_prefixed: string, 
+  /**
+   * Link to original post on Reddit
+   */
   link: string,
 }
 

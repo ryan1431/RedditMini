@@ -1,0 +1,31 @@
+.ui-modal {
+  position: fixed;
+  left: 0;
+  /* top: 0; */
+
+  width: 100%;
+  height: calc(100vh - 3.9rem);
+
+  background: rgba(0, 0, 0, 0.555);
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1;
+}
+
+.ui-modal-content {
+  height: fit-content;
+  width: fit-content;
+
+  padding: 100px 0;
+  border-radius: 10px;
+  border: 1px solid rgb(91, 91, 91);
+
+  background: rgb(22, 22, 22);
+}
+
+.ui-modal .post {
+  margin: 0;
+  width: 100%;
+}
