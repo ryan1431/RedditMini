@@ -44,6 +44,13 @@
   pointer-events: none;
 }
 
+.sort, .feed {
+  cursor: pointer;
+}
+.sort.active, .feed.active {
+  cursor: default !important;
+}
+
 .open-subreddits {
   color: rgb(199, 202, 255);
   cursor: pointer;
@@ -51,4 +58,16 @@
 
 .open-subreddits:hover {
   text-decoration: underline;
+}
+
+
+/* Feed posts layout */
+
+.feed-posts .post:first-child {
+  margin-top: 70px;
+  margin-bottom: 40px;
+}
+
+.feed-posts .post:nth-last-child(2) {
+  margin-bottom: 100px;
 }

@@ -3,25 +3,24 @@
   overflow-wrap: 'break-word';
   overflow: hidden;
 
-  border: 1px solid rgb(234, 22, 22);
+  border: 1px solid rgb(65, 65, 65);
   border-radius: 10px;
+  margin: 12px auto;
   
   width: 97%;
   min-width: 500px;
   max-width: 670px;
-  /* max-height: 800px; */
-  /* min-height: 100px; */
-  
-  margin: 12px auto;
+
+  transition: border-color 0.2s;
 }
 
-.post:first-child {
-  margin-top: 70px;
-  margin-bottom: 40px;
+.feed-posts .post:hover {
+  border: 1px solid rgb(131, 131, 131);
+  cursor: pointer;
 }
 
-.post:nth-last-child(2) {
-  margin-bottom: 100px;
+.post video {
+  cursor:default;
 }
 
 .post h3, p {
@@ -43,12 +42,12 @@
 
 /* Title */
 .post-title {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.651);
+  margin-bottom: 3px;
 }
 
 /* Body */
 .post-body {
-  border-bottom: 1px solid rgb(234, 22, 22);
+  border-bottom: 1px solid rgb(65, 65, 65);
 }
 
 .post-body.text {

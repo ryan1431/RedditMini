@@ -1,16 +1,39 @@
 import clsx from 'clsx'
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { useFeed } from '../../app/hooks/useFeed';
 import { useOnScreen } from '../../app/hooks/useOnScreen';
 import { toggleOpen } from '../../app/reducers/subredditsSlice';
+import { PostType } from '../../utility';
 import { feedFields, sortFields } from '../../utility/data';
+import Modal from '../ui/Modal';
 import './Feed.css';
+import { OpenPost } from './OpenPost';
 
 import { Post } from './Post';
 
 export const Feed = () => {
   const dispatch = useAppDispatch();
+
+  const [selected, setSelected] = useState<string>('');
+  const [openPost, setOpenPost] = useState<PostType | null>(null);
+
+
+  const onOpenPost = useCallback((e:any) => {
+    if (e.target instanceof HTMLVideoElement
+      || (e.target && e.target.classList?.contains('info-save'))
+      || !e.target.closest('.post')) 
+        return setSelected('');
+    
+    setSelected(e.target.closest('.post').classList[1] || '');
+  }, []);
+
+  const onClosePost = useCallback(() => {
+    setOpenPost(null);
+    setSelected('');
+  }, []);
+
+  useEffect(() => {console.log(selected)}, [selected]);
   
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef);
@@ -28,9 +51,14 @@ export const Feed = () => {
   const disabled = feed === 'saved';
 
   return (
-    <div id="feed">
+    <div id="feed" style={{overflow: !!openPost ? 'hidden' : 'auto'}}>
+      {/* Open post modal */}
+      <Modal open={!!openPost} onClose={onClosePost}>
+        <OpenPost post={openPost} setOpenPost={setOpenPost} />
+      </Modal>
+      
       {/* Customization buttons */}
-      <section className='post'>
+      <section className='post' style={{cursor: 'pointer'}}>
         <div className="query-buttons">
           {sortFields.map(([field, title]) => (
             <button onClick={sortBy} key={title} className={clsx('sort', { 'active': sort === field && !disabled, 'disabled': disabled })} value={field}>{title}</button>
@@ -44,20 +72,28 @@ export const Feed = () => {
       </section>
 
       {/* Content */}
-      {(userFeed.length)
-        ? userFeed.map((post: any) => {
-          return <Post post={post} saved={!!savedPosts.find((p) => p.url === post.url)} key={'' + post.title + post.score + post.subreddit}/>;
-        }) 
-        : <div className='post' style={{textAlign: 'center'}}>
-            {fetching 
-              ? <p>Loading...</p>
-              : feed === 'custom' && !subs.length 
-                ? (<div >
-                  <p>You have not selected any subreddits. <span onClick={() => dispatch(toggleOpen())} className='open-subreddits'>Click here</span>  to add subreddits.</p>
-                </div>)
-                : <p>There are no posts to display!</p>}
-        </div>
-      }
+      <section className='feed-posts' onClick={onOpenPost}>
+        {(userFeed.length)
+          ? userFeed.map((post: PostType) => {
+            const clicked = selected === post.link;
+            return <Post post={post} 
+              saved={!!savedPosts.find((p) => p.url === post.url)} 
+              key={'' + post.title + post.score + post.subreddit}
+              clicked={clicked}
+              setOpenPost={setOpenPost}/>;
+          }) 
+          : <div className='post' style={{textAlign: 'center'}}>
+              {fetching 
+                ? <p>Loading...</p>
+                : feed === 'custom' && !subs.length 
+                  ? (<div >
+                    <p>You have not selected any subreddits. <span onClick={() => dispatch(toggleOpen())} className='open-subreddits'>Click here</span>  to add subreddits.</p>
+                  </div>)
+                  : <p>There are no posts to display!</p>}
+          </div>
+        }
+      </section>
+      
 
       {/* Infinite scroll visible trigger for home & custom feeds */}
       {<div ref={feed !== 'saved' ? visRef : null} style={{
