@@ -58,16 +58,15 @@ export const queryReducer = createSlice({
     setAdd: (state, action: PayloadAction<boolean>) => {
       state.add = action.payload;
     },
+    setFetching: (state, action: PayloadAction<boolean>) => {
+      state.fetching = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFeed.pending, (state, action) => {
-        state.fetching = true;
-      })
       .addCase(fetchFeed.fulfilled, (state, action: PayloadAction<{posts: PostType[],after: string}>) => {
         const res = action.payload;
         
-        state.fetching = false;
         state.after = res.after;
 
         state.feedPosts = state.add
@@ -75,11 +74,13 @@ export const queryReducer = createSlice({
           : res.posts;
 
         state.add = false;
+
+        state.fetching = false;
       });
   }
 });
 
 export { savedState }
-export const { setQuery, setFeedPosts, setAdd } = queryReducer.actions;
+export const { setQuery, setFeedPosts, setAdd, setFetching } = queryReducer.actions;
 
 export default queryReducer.reducer;
