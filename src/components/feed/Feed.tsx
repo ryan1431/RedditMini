@@ -17,7 +17,7 @@ export const Feed = () => {
 
   const [selected, setSelected] = useState<string>('');
   const [openPost, setOpenPost] = useState<PostType | null>(null);
-
+  const [fetchingLocal, setFetchingLocal] = useState<boolean>(true);
 
   const onOpenPost = useCallback((e:any) => {
     if (e.target instanceof HTMLVideoElement
@@ -33,14 +33,32 @@ export const Feed = () => {
     setSelected('');
   }, []);
 
-  useEffect(() => {console.log(selected)}, [selected]);
-  
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef);
+
+  useEffect(() => {
+    console.log(`%cVisible: %c${isVisible}`, 'color: purple', 'color: white');
+  }, [isVisible]);
   
   const fetching = useAppSelector((s) => s.query.fetching);
   const subs = useAppSelector((s) => s.subreddits.subs);
   const { feed, sort } = useAppSelector((s) => s.query);
+
+
+  useEffect(() => {
+    console.log(`%cLocal fetch: %c${fetchingLocal}`, 'color: green', 'color: white');
+  }, [fetchingLocal])
+  
+  useEffect(() => {
+    console.log(`%cGlobal fetch: %c${fetching}`, 'color: red', 'color: white');
+    if (fetching) {
+      setFetchingLocal(true);
+    } else {
+      setTimeout(() => {
+        setFetchingLocal(false);
+      }, 1000)
+    }
+  }, [fetching]);
 
   const {
     sortBy,
@@ -92,15 +110,18 @@ export const Feed = () => {
                   : <p>There are no posts to display!</p>}
           </div>
         }
+
+          {/* Infinite scroll visible trigger for home & custom feeds */}
+        {<div ref={feed !== 'saved' ? visRef : null} style={{
+            opacity: '0', 
+            display: `${!fetchingLocal && userFeed.length && feed !== 'saved' ? 'block' : 'none'}`
+            }}>invisibletext
+          </div>
+        }
       </section>
       
 
-      {/* Infinite scroll visible trigger for home & custom feeds */}
-      {<div className='post' ref={feed !== 'saved' ? visRef : null} style={{
-          opacity: '0', 
-          display: `${!fetching && userFeed.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext
-        </div>
-      }
+      
     </div>
   )
 }         
