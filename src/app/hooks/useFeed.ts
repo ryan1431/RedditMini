@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchFeed, setFeedPosts, setFetching, setQuery } from "../reducers/querySlice";
+import { fetchFeed, setFeedPosts, setQuery } from "../reducers/querySlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { base } from "../../utility/data";
 import { Subreddit } from "../../types";
@@ -86,7 +86,6 @@ export const useFeed = (isVisible: boolean) => {
   // Infinite scroll
   useEffect(() => {
     if (isVisible) {
-      dispatch(setFetching(true));
       dispatch(fetchFeed(currentUrl.current));
     }
   }, [isVisible, dispatch]);

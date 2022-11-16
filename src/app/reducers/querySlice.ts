@@ -31,6 +31,7 @@ try {
 export const fetchFeed = createAsyncThunk(
   'query/fetchFeed',
   async (url: string, _api) => {
+    
     const after = (_api.getState() as RootState).query.after;
     const params = new URLSearchParams();
 
@@ -58,12 +59,12 @@ export const queryReducer = createSlice({
     setAdd: (state, action: PayloadAction<boolean>) => {
       state.add = action.payload;
     },
-    setFetching: (state, action: PayloadAction<boolean>) => {
-      state.fetching = action.payload;
-    }
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchFeed.pending, (state) => {
+        state.fetching = true;
+      })
       .addCase(fetchFeed.fulfilled, (state, action: PayloadAction<{posts: PostType[],after: string}>) => {
         const res = action.payload;
         
@@ -81,6 +82,6 @@ export const queryReducer = createSlice({
 });
 
 export { savedState }
-export const { setQuery, setFeedPosts, setAdd, setFetching } = queryReducer.actions;
+export const { setQuery, setFeedPosts, setAdd } = queryReducer.actions;
 
 export default queryReducer.reducer;

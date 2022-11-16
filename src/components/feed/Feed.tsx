@@ -101,13 +101,13 @@ export const Feed = () => {
               setOpenPost={setOpenPost}/>;
           }) 
           : <div className='post' style={{textAlign: 'center'}}>
-              {fetching 
-                ? <p>Loading...</p>
-                : feed === 'custom' && !subs.length 
-                  ? (<div >
+              {feed === 'custom' && !subs.length 
+                  ? (
+                  <div >
                     <p>You have not selected any subreddits. <span onClick={() => dispatch(toggleOpen())} className='open-subreddits'>Click here</span>  to add subreddits.</p>
-                  </div>)
-                  : <p>There are no posts to display!</p>}
+                  </div>) : feed === 'saved' && !savedPosts.length
+                  ? <p>You have not saved any posts!</p>
+                : <p>Loading...</p>}
           </div>
         }
 
