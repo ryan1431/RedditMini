@@ -51,14 +51,14 @@ export const Feed = () => {
   const disabled = feed === 'saved';
 
   return (
-    <div id="feed" style={{overflow: !!openPost ? 'hidden' : 'auto'}}>
+    <div id="feed" >
       {/* Open post modal */}
       <Modal open={!!openPost} onClose={onClosePost}>
         <OpenPost post={openPost} setOpenPost={setOpenPost} />
       </Modal>
       
       {/* Customization buttons */}
-      <section className='post' style={{cursor: 'pointer'}}>
+      <section className='feed-customize' style={{cursor: 'pointer'}}>
         <div className="query-buttons">
           {sortFields.map(([field, title]) => (
             <button onClick={sortBy} key={title} className={clsx('sort', { 'active': sort === field && !disabled, 'disabled': disabled })} value={field}>{title}</button>
@@ -96,7 +96,7 @@ export const Feed = () => {
       
 
       {/* Infinite scroll visible trigger for home & custom feeds */}
-      {<div ref={feed !== 'saved' ? visRef : null} style={{
+      {<div className='post' ref={feed !== 'saved' ? visRef : null} style={{
           opacity: '0', 
           display: `${!fetching && userFeed.length && feed !== 'saved' ? 'block' : 'none'}`}}>invisibletext
         </div>
