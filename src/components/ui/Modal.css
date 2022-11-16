@@ -1,11 +1,12 @@
 .ui-modal {
   position: fixed;
   left: -5px;
+  top: 3.7rem;
 
   width: 100%;
-  height: calc(100vh - 3.9rem);
+  height: calc(100vh - 3.7rem);
 
-  background: rgba(0, 0, 0, 0.555);
+  background: rgba(0, 0, 0, 0.7);
 
   justify-content: center;
   align-items: center;

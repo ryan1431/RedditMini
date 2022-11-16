@@ -1,6 +1,6 @@
 #feed {
   margin: 0 auto;
-  box-sizing: content-box;
+  /* box-sizing: content-box; */
   padding: 70px 30px;
 
   min-width: 500px;
@@ -14,6 +14,7 @@
   #feed{ 
     min-width: 0;
     max-width: 100%;
+    padding: 70px 0;
   }
 }
 
