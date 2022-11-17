@@ -49,10 +49,10 @@ export interface CommentData {
    * The name of the subreddit alone, without r/ prefix
    */
   subreddit: string,
-  replies: Comment[]
+  replies: CommentType[]
 }
 
-export interface Comment {
+export interface CommentType {
   /**
    * @param t1 - represents a comment type
    * 

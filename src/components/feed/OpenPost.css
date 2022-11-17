@@ -4,4 +4,16 @@
 
   max-width: 100%;
   width: 670px;
+
+  max-height: calc(100vh - 3.7rem);
+  overflow: scroll;
+}
+
+.open-post .post {
+  margin: 0 !important;
+}
+
+.comment-wrapper {
+  margin-top: 20px;
+  overflow: auto;
 }

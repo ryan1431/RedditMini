@@ -8,6 +8,7 @@
   margin: 12px auto;
   
   width: 100%;
+  background: rgba(19, 19, 19, 0.942);
   
   transition: border-color 0.2s;
 }
