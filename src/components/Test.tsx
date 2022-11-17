@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useState } from "react";
 import { useAppDispatch } from "../app/hooks/hooks";
 import { fetchComments } from "../app/reducers/commentsSlice";
-import { Comment } from "../types/commentType";
+import { CommentType } from "../types/commentType";
 import { getSinglePost, formatComments, formatPost, PostType } from '../utility/';
 import './Test.css';
 
@@ -11,7 +11,7 @@ const Test = () => {
   
   const [url, setUrl] = useState<string>('');
   const [post, setPost] = useState<string | PostType>('');
-  const [comments, setComments] = useState<Comment[] | null>();
+  const [comments, setComments] = useState<CommentType[] | null>();
 
   const updateUrlField = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

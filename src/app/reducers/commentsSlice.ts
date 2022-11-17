@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Comment } from "../../types/commentType"
+import { CommentType } from "../../types/commentType"
 import { formatComments, getSinglePost } from "../../utility"
 
 
 export interface CommentsState {
   fetchStatus: 'idle' | 'fetching',
   lastId: string,
-  comments: Comment[],
+  comments: CommentType[],
 }
 
 export const initialState: CommentsState = {
@@ -40,7 +40,7 @@ export const commentsReducer = createSlice({
       .addCase(fetchComments.pending, (state) => {
         state.fetchStatus = 'fetching';
       })
-      .addCase(fetchComments.fulfilled, (state, action: PayloadAction<{ comments: Comment[], postId: string} | undefined>) => {
+      .addCase(fetchComments.fulfilled, (state, action: PayloadAction<{ comments: CommentType[], postId: string} | undefined>) => {
         if (!action.payload) return;
         const { comments, postId } = action.payload;
 

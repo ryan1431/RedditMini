@@ -1,5 +1,5 @@
 import { PostType, setType } from ".";
-import { Comment } from "../types/commentType";
+import { CommentType } from "../types/commentType";
 import { keys } from './data';
 
 /** Recursively format & remove unneeded key-value fields from an array of comment objects & replies
@@ -125,7 +125,7 @@ export const getFeedPosts = async (url: string): Promise<{posts: PostType[], aft
  * @param res Json response object
  * @returns All formatted comments and replies
  */
-export const formatComments = (res: any): Comment[] => {
+export const formatComments = (res: any): CommentType[] => {
   return formatCommentsRecursive(res[1].data.children);
 }
 
