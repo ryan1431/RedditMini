@@ -1,7 +1,7 @@
 import './OpenPost.css';
 import React from 'react';
 import { PostType } from '../../utility';
-import { Post } from './Post';
+import { Post } from './post/Post';
 
 interface OpenPostProps {
   post: PostType | null,
@@ -10,12 +10,13 @@ interface OpenPostProps {
 
 export const OpenPost = ({post, setOpenPost}:  OpenPostProps) => {
 
+  
+
   return (
     <>
       {post && <div className='open-post'>
         <Post post={post}/>
 
-        {/* <Comments /> */}
         
       </div>}
     </>

@@ -83,5 +83,4 @@ export const queryReducer = createSlice({
 
 export { savedState }
 export const { setQuery, setFeedPosts, setAdd } = queryReducer.actions;
-
 export default queryReducer.reducer;

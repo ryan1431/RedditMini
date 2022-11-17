@@ -10,7 +10,7 @@ import Modal from '../ui/Modal';
 import './Feed.css';
 import { OpenPost } from './OpenPost';
 
-import { Post } from './Post';
+import { Post } from './post/Post';
 
 export const Feed = () => {
   const dispatch = useAppDispatch();
@@ -52,21 +52,11 @@ export const Feed = () => {
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef);
 
-  useEffect(() => {
-    console.log(`%cVisible: %c${isVisible}`, 'color: purple', 'color: white');
-  }, [isVisible]);
-  
   const fetching = useAppSelector((s) => s.query.fetching);
   const subs = useAppSelector((s) => s.subreddits.subs);
   const { feed, sort } = useAppSelector((s) => s.query);
 
-
   useEffect(() => {
-    console.log(`%cLocal fetch: %c${fetchingLocal}`, 'color: green', 'color: white');
-  }, [fetchingLocal])
-  
-  useEffect(() => {
-    console.log(`%cGlobal fetch: %c${fetching}`, 'color: red', 'color: white');
     if (fetching) {
       setFetchingLocal(true);
     } else {

@@ -13,4 +13,4 @@ export const setType = (post: any) => {
 }  
 
 export * from './fetch-format'
-export * from './types'
+export * from '../types/postType'

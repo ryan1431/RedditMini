@@ -1,13 +1,13 @@
 import './Post.css';
 
-import { PostType } from '../../utility';
-import { Video } from './body/Video';
-import { TextBody } from './body/TextBody';
-import { ImageBody } from './body/ImageBody';
+import { PostType } from '../../../utility';
+import { Video } from '.././post/Video';
+import { TextBody } from '.././post/TextBody';
+import { ImageBody } from '.././post/ImageBody';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { save, unsave } from '../../app/reducers/savedSlice';
-import { useAppSelector } from '../../app/hooks/hooks';
+import { save, unsave } from '../../../app/reducers/savedSlice';
+import { useAppSelector } from '../../../app/hooks/hooks';
 
 interface PostProps { 
   post: PostType;
@@ -60,6 +60,7 @@ export const Post = ({post, clicked, setOpenPost}: PostProps) => {
         {/* Info / Actions */}
         <footer className='info'>
           <p>{post.score} score</p>
+          <p><a href={post.link}>link</a></p>
           <p>{post.num_comments} comments</p>
           <button className='info-save' onClick={onSave}>{saved ? 'Unsave' : 'Save'}</button>
         </footer>
