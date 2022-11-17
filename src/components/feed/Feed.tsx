@@ -19,6 +19,22 @@ export const Feed = () => {
   const [openPost, setOpenPost] = useState<PostType | null>(null);
   const [fetchingLocal, setFetchingLocal] = useState<boolean>(true);
 
+  const windowTimerRef = useRef<NodeJS.Timeout>();
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+
+  const resize = useCallback(() => {
+    clearTimeout(windowTimerRef.current);
+    windowTimerRef.current = setTimeout(() => {
+      setWindowWidth(window.innerWidth);
+    }, 100)
+  }, []);
+  
+  useEffect(() => {
+    window.addEventListener('resize', resize);
+    return () => window.removeEventListener('resize', resize);
+  }, [resize]);
+  
+  
   const onOpenPost = useCallback((e:any) => {
     if (e.target instanceof HTMLVideoElement
       || (e.target && e.target.classList?.contains('info-save'))
@@ -71,7 +87,7 @@ export const Feed = () => {
   return (
     <div id="feed" >
       {/* Open post modal */}
-      <Modal open={!!openPost} onClose={onClosePost}>
+      <Modal open={!!openPost} onClose={onClosePost} closePrompt={windowWidth < 500}>
         <OpenPost post={openPost} setOpenPost={setOpenPost} />
       </Modal>
       

@@ -14,6 +14,12 @@
   z-index: 1;
 }
 
+.ui-modal-header {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
 .ui-modal-content {
   height: fit-content;
   width: fit-content;
@@ -27,4 +33,11 @@
 .ui-modal .post {
   margin: 0;
   width: 100%;
+}
+
+.ui-modal-close.icon-button {
+  width:fit-content;
+  padding: 2px;
+  line-height:1rem;
+  border:none;
 }

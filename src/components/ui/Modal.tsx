@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import './Modal.css';
+import { AiOutlineClose } from 'react-icons/ai';
 
 interface ModalProps {
   open: boolean,
@@ -15,13 +16,15 @@ const Modal = ({open, onClose, children, closePrompt = false}: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(undefined!);
   const forceClose = useRef<boolean>(false);
   
-  const onClick = useCallback((e: any) => {
-    if (modalRef.current.contains(e.target)
-    || !!e.target.closest('.post')) return;
-
+  const close = useCallback(() => {
     if (onClose) onClose();
     else forceClose.current = true;
   }, [onClose]);
+
+  const onClick = useCallback((e: any) => {
+    if (modalRef.current.contains(e.target) || !!e.target.closest('.post')) return;
+    close();
+  }, [close]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -33,10 +36,10 @@ const Modal = ({open, onClose, children, closePrompt = false}: ModalProps) => {
   return (
     <div className='ui-modal' style={{ display: forceClose.current ? 'none' : open ? 'flex' : 'none'}}>
       <div className='ui-modal-content' ref={modalRef} style={{maxWidth: '100%', overflow: 'auto'}}>
-        {header && <header>
+        <header className='ui-modal-header'>
+          {closePrompt && <div onClick={close} className='ui-modal-close icon-button'><AiOutlineClose /></div>}
           {header}
-          {closePrompt && <button></button>}
-        </header>}
+        </header>
         <main style={{maxHeight: 'fit-content'}}>
           {content}
           
