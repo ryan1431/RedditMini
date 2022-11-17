@@ -1,4 +1,4 @@
-import { PostType } from "./types";
+import { PostType } from "../types/postType";
 
 export const keys = [
   'subreddit', 'selftext', 'saved', 'clicked', 'title',

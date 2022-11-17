@@ -6,6 +6,7 @@ import { queryReducer } from '../reducers/querySlice';
 import savedSlice from '../reducers/savedSlice';
 import querySlice from '../reducers/querySlice';
 import subredditsSlice from '../reducers/subredditsSlice';
+import commentsSlice from '../reducers/commentsSlice';
 
 const listener = createListenerMiddleware();
 
@@ -41,6 +42,7 @@ export const store = configureStore({
     query: querySlice,
     saved: savedSlice,
     subreddits: subredditsSlice,
+    comments: commentsSlice,
   },
   middleware(getDefaultMiddleware) {
     return getDefaultMiddleware().prepend(listener.middleware);

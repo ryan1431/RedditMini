@@ -1,4 +1,5 @@
 import { PostType, setType } from ".";
+import { Comment } from "../types/commentType";
 import { keys } from './data';
 
 /** Recursively format & remove unneeded key-value fields from an array of comment objects & replies
@@ -7,28 +8,29 @@ import { keys } from './data';
  * @returns Array of formatted comments
  */
  export const formatCommentsRecursive = (commentsArray: any) => {
-  // Remove 'data' nesting level
-  return commentsArray.map((comment: { data: Object} ) => {
-    return comment.data; 
-
-  // Select fields from json object
-  }).map((comment: any) => {
-      let { 
-        author, body, body_html, collapsed, created_utc, 
-        depth, is_submitter, permalink, score, replies
-      } = comment;
-      
-      // Recursive case
-      if (replies) {
-        replies = formatCommentsRecursive(replies.data.children);
+  return commentsArray.map(({kind, data}:any) => {
+    if (kind === 'more') {
+      return {
+        kind, 
+        data
       }
+    }
+    let { 
+      author, id, body, body_html, collapsed, created_utc, depth, is_submitter, permalink, score, replies, subreddit
+    } = data;
+    
+    // Recursive case
+    if (replies) {
+      replies = formatCommentsRecursive(replies.data.children);
+    }
 
-      // Return new object with select fields
-      return { 
-        author, body, body_html, collapsed,
-        created_utc, depth, is_submitter, 
-        permalink, score, replies
+    // Return new object with select fields
+    return { 
+      kind,
+      data: {
+        author, id, body, body_html, collapsed, created_utc, depth, is_submitter, permalink, score, replies, subreddit
       }
+    }
   });
 }
 
@@ -104,28 +106,27 @@ export const getFeedPosts = async (url: string): Promise<{posts: PostType[], aft
   }
 }
 
-/** Gets json data of all comments and their replies
- * 
- * @param res Json response object
- * @returns All formatted comments and replies
- */
-export const formatComments = (res: any) => {
-  return formatCommentsRecursive(res[1].data.children);
-}
-
 /** Fetches (get) data from provided url
  * 
  * @param url Url to fetch
  * @returns Json data from url
  */
-export const fetchData = async (url: string) => {
+ export const getSinglePost = async (url: string) => {
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${formatUrl(url)}`);
     const data = await response.json();
     return data;
   } catch(e) {
-    
   }
+}
+
+/** Gets json data of all comments and their replies
+ * 
+ * @param res Json response object
+ * @returns All formatted comments and replies
+ */
+export const formatComments = (res: any): Comment[] => {
+  return formatCommentsRecursive(res[1].data.children);
 }
 
 /** Appends .json to reddit url if it is missing from the url.
