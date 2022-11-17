@@ -6,7 +6,7 @@ export const keys = [
   'is_self', 'created_utc', 'selftext_html', 'over_18',
   'spoiler', 'visited', 'author', 'num_comments', 'is_video', 'url',
   'preview', 'media', 'removal_reason', 'removed_by', 'removed_by_category',
-  'permalink', 'subreddit_name_prefixed',
+  'permalink', 'subreddit_name_prefixed', 'name',
 ];
 
 export const base = 'https://www.reddit.com/';
