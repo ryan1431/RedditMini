@@ -13,6 +13,7 @@ interface PostType {
   over_18: boolean,
   spoiler: boolean,
   visited: boolean,
+  name: string,
   author: string,
   num_comments: number,
   created_utc: number,

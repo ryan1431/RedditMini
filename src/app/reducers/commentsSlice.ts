@@ -44,8 +44,8 @@ export const commentsReducer = createSlice({
         if (!action.payload) return;
         const { comments, postId } = action.payload;
 
-        state.comments = comments;
         state.lastId = postId;
+        state.comments = comments;
         state.fetchStatus = 'idle';
       })
   }

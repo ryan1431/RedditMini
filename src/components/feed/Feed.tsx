@@ -78,7 +78,7 @@ export const Feed = () => {
     <div id="feed" >
       {/* Open post modal */}
       <Modal open={!!openPost} onClose={onClosePost} closePrompt={windowWidth < 500}>
-        <OpenPost post={openPost} setOpenPost={setOpenPost} />
+        {openPost && <OpenPost post={openPost} setOpenPost={setOpenPost} />}
       </Modal>
       
       {/* Customization buttons */}
