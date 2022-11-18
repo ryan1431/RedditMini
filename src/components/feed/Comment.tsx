@@ -7,8 +7,13 @@ interface CommentProps {
 
 export const Comment = ({comment}: CommentProps) => {
 
+
   
   return (
-    <div className='comment' dangerouslySetInnerHTML={{__html: comment.body_html}} />
+    <div 
+      className={`comment depth-${comment.depth}`} 
+      dangerouslySetInnerHTML={{__html: comment.body_html}} 
+      style={{marginLeft: 10 + (comment.depth * 15)}}  
+    />
   )
 }

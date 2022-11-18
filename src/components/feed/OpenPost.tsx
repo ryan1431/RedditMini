@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { fetchComments } from '../../app/reducers/commentsSlice';
 import type { CommentData, CommentType } from '../../types/commentType';
 import { Comment } from './Comment';
+import clsx from 'clsx';
 
 interface OpenPostProps {
   post: PostType,
@@ -30,25 +31,42 @@ export const OpenPost = ({post}:  OpenPostProps) => {
   }, [comments, commentsState, dispatch, lastPostId, post.link, post.name]);
 
   const renderCommentsRecurse = (comments: CommentType[]) => {
-    return comments.map((comment) => {
-      if (comment.kind === 't1') {
-        let data = comment.data as CommentData;
-        return (
-          <div>
-            <Comment key={data.id} comment={data} />
-            {data.replies && renderCommentsRecurse(data.replies)}
-          </div>
-        )
 
-        // 'Show more' or 'Continue thread' on reddit.com...
-      } else {
-        return (
-          <>
-          
-          </>
-        )
-      }
-    })
+    
+    return (
+      <>
+        {comments.map((comment) => {
+          if (comment.kind === 't1') {
+            let data = comment.data as CommentData;
+            let id = `depth-${data.depth}_${data.id}`;
+            return (
+              <div className={clsx({'comment-chain': !data.depth})}>
+                
+                <div id={id}>
+                  <Comment key={data.id} comment={data} />
+                </div>
+                {!data.depth && data.replies.length && <div className='comment-chain-close'
+                  style={{
+                    height: `calc(100% - ${document.querySelector(`#${id}`)?.getBoundingClientRect().height}px - 10px)`
+                  }}
+                ></div> }
+
+                {data.replies && renderCommentsRecurse(data.replies)}
+
+              </div>
+            )
+
+            // 'Show more' or 'Continue thread' on reddit.com...
+          } else {
+            return (
+              <>
+              
+              </>
+            )
+          }
+        })}
+      </>
+    ) 
   }
 
   return (
