@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CommentData } from '../../types/commentType';
 import './Comment.css';
@@ -38,14 +39,18 @@ export const Comment = ({comment}: CommentProps) => {
     <div className='comment-chain' >
 
       {/* Comment */}
-      <div className='comment'
+      <div className={clsx('comment', { 'mod-comment': comment.distinguished === 'moderator'})}
         style={{marginLeft: 10 + (comment.depth * 15)}}  
         ref={commentRef}
       >
         <div className='comment-bar'>
           {/* Left */}
           <div>
-            <p><span className='name-prefix'>u/</span>{comment.author}</p>
+            <p>
+              <span className='name-prefix'>u/</span>
+              {comment.author}
+              {comment.distinguished === 'moderator' && <span className='moderator'>MOD</span>}
+            </p>
           </div>
           {/* Right */}
           <div>

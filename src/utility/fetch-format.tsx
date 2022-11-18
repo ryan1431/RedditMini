@@ -9,14 +9,10 @@ import { keys } from './data';
  */
  export const formatCommentsRecursive = (commentsArray: any) => {
   return commentsArray.map(({kind, data}:any) => {
-    if (kind === 'more') {
-      return {
-        kind, 
-        data
-      }
-    }
+    if (kind === 'more') return { kind, data }
+
     let { 
-      author, id, body, body_html, collapsed, created_utc, depth, is_submitter, permalink, score, replies, subreddit
+      author, distinguished, id, body, body_html, collapsed, created_utc, depth, is_submitter, permalink, score, replies, subreddit
     } = data;
     
     // Recursive case
@@ -28,7 +24,7 @@ import { keys } from './data';
     return { 
       kind,
       data: {
-        author, id, body, body_html, collapsed, created_utc, depth, is_submitter, permalink, score, replies, subreddit
+        author, distinguished, id, body, body_html, collapsed, created_utc, depth, is_submitter, permalink, score, replies, subreddit
       }
     }
   });
