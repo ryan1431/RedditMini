@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { CommentData, MoreComments } from '../../types/commentType';
 import { base } from '../../utility/data';
 import './Comment.css';
+import { More } from './More';
 
 interface CommentProps {
   comment: CommentData,
@@ -98,31 +99,9 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Replies */}
       {comment.replies && showReplies && comment.replies.map((comment) => {
-        if (comment.kind === 't1') { 
-          return (
-            <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>
-          )
-
-        // 'Show n more replies' or 'Continue thread' --> on reddit.com
-        } else {
-          let data = comment.data as MoreComments;
-
-          let link = `${base}r/${sub}/comments/${postId.slice(3)}`
-          if (data.parent_id[1] === '1') link += `/comment/${data.parent_id.slice(3)}`
-          return (
-            <div className='comment-see-more'
-              style={{
-                left: `${7 + (data.depth * 15)}px`,
-              }}  
-            >
-              {data.count ? (
-                <p><a href={link} target='_blank' rel='noreferrer'>{data.count} more repl{data.count === 1 ? 'y' : 'ies'} - view on reddit.com</a></p>
-              ) : (
-                <p><a href={link} target='_blank' rel='noreferrer'>continue thread on reddit.com</a></p>
-              )}
-            </div>
-          )
-        }
+        return (comment.kind === 't1')  
+          ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>
+          : <More data={comment.data as MoreComments} postId={postId} sub={sub} />
       })}
     </div>
   )
