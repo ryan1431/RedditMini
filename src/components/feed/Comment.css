@@ -18,15 +18,23 @@ blockquote {
 .comment-chain-close {
   position:absolute;
   cursor: pointer;
+
+  width: 5px;
+  z-index: 1;
+
+  padding: 0 7px;
+}
+.comment-chain-close > div {
   background: rgb(62, 61, 61);
+  transition: background-color 0.2s;
 
   width: 1px;
+  margin: 0 auto;
   
-  /* left: 11px; */
-
-  transition: background-color 0.2s;
+  height: 100%;
 }
 
-.comment-chain-close:hover {
-  background: rgb(90, 89, 89);
+.comment-chain-close:hover > div {
+  background: rgb(88, 87, 87);
+
 }

@@ -31,7 +31,7 @@ export const Comment = ({comment}: CommentProps) => {
   
   return (
     // Tree
-    <div className={clsx({'comment-chain': true})} >
+    <div className='comment-chain' >
 
       {/* Comment */}
       <div 
@@ -42,12 +42,15 @@ export const Comment = ({comment}: CommentProps) => {
       />
 
       {/* Close chain bar */}
-      {comment.replies && <div className='comment-chain-close'
-        style={{
-          height: `calc(100% - ${bounding && bounding.height}px - 10px)`,
-          left: `${11 + (comment.depth * 15)}px`,
-        }}
-      ></div> }
+      {comment.replies 
+        && <div className='comment-chain-close'
+          style={{
+            height: `calc(100% - ${bounding && bounding.height}px - 10px)`,
+            left: `${7 + (comment.depth * 15)}px`,
+          }}
+        >
+          <div></div> {/* inner bar */}
+        </div> }
 
       {/* Replies */}
       {comment.replies && comment.replies.map((comment) => {
