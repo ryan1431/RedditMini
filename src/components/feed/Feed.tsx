@@ -77,7 +77,7 @@ export const Feed = () => {
   return (
     <div id="feed" >
       {/* Open post modal */}
-      <Modal open={!!openPost} onClose={onClosePost} closePrompt={windowWidth < 500}>
+      <Modal open={!!openPost} onClose={onClosePost} closePrompt={windowWidth < 750}>
         {openPost && <OpenPost post={openPost}/>}
       </Modal>
       

@@ -37,7 +37,7 @@ const Modal = ({open, onClose, children, closePrompt = false}: ModalProps) => {
     <div className='ui-modal' style={{ display: forceClose.current ? 'none' : open ? 'flex' : 'none'}}>
       <div className='ui-modal-content' ref={modalRef} style={{maxWidth: '100%', overflow: 'auto'}}>
         <header className='ui-modal-header'>
-          {closePrompt && <div onClick={close} className='ui-modal-close icon-button'><AiOutlineClose /></div>}
+          {closePrompt && <div onClick={close} className='ui-modal-close icon-button'><p>Close</p><AiOutlineClose /></div>}
           {header}
         </header>
         <main style={{maxHeight: 'fit-content'}}>

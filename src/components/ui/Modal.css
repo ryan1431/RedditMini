@@ -35,9 +35,18 @@
   width: 100%;
 }
 
+.ui-modal-close.icon-button p {
+  padding: 0 4px;
+}
 .ui-modal-close.icon-button {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
   width:fit-content;
-  padding: 2px;
-  line-height:1rem;
+  padding: 5px 12px;
   border:none;
+}
+.ui-modal-close.icon-button svg{
+  position: relative;
+  top: 1px;
 }
