@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CommentData } from '../../types/commentType';
 import './Comment.css';
@@ -12,6 +11,7 @@ export const Comment = ({comment}: CommentProps) => {
   const timeoutRef = useRef<NodeJS.Timeout>();
 
   const [bounding, setBounding] = useState<DOMRect>();
+  const [showReplies, setShowReplies] = useState<boolean>(true);
 
   const onResize = useCallback(() => {
     clearTimeout(timeoutRef.current);
@@ -28,22 +28,49 @@ export const Comment = ({comment}: CommentProps) => {
   useEffect(() => {
     setBounding(commentRef.current.getBoundingClientRect());
   }, []);
+
+  const onCloseBar = useCallback(() => {
+    setShowReplies(false);
+  }, []);
   
   return (
     // Tree
     <div className='comment-chain' >
 
       {/* Comment */}
-      <div 
-        className={`comment depth-${comment.depth}`} 
-        dangerouslySetInnerHTML={{__html: comment.body_html}} 
+      <div className='comment'
         style={{marginLeft: 10 + (comment.depth * 15)}}  
         ref={commentRef}
-      />
+      >
+        <div className='comment-bar'>
+          {/* Left */}
+          <div>
+            <p><span className='name-prefix'>u/</span>{comment.author}</p>
+          </div>
+          {/* Right */}
+          <div>
+          </div>
+        </div>
+        <div className='comment-content'
+          dangerouslySetInnerHTML={{__html: comment.body_html}}>
+        </div>
+        <div className='comment-actions'>
+          {/* Left */}
+          <div style={{display: 'flex'}}>
+            <p>{comment.score}</p>
+          </div>
+          {/* Right */}
+          <div>
+            
+          </div>
+        </div>
+      </div>
+      
 
       {/* Close chain bar */}
       {comment.replies 
         && <div className='comment-chain-close'
+          onClick={onCloseBar}
           style={{
             height: `calc(100% - ${bounding && bounding.height}px - 10px)`,
             left: `${7 + (comment.depth * 15)}px`,
@@ -53,7 +80,7 @@ export const Comment = ({comment}: CommentProps) => {
         </div> }
 
       {/* Replies */}
-      {comment.replies && comment.replies.map((comment) => {
+      {comment.replies && showReplies && comment.replies.map((comment) => {
         if (comment.kind === 't1') { 
           return (
             <Comment comment={comment.data as CommentData} />

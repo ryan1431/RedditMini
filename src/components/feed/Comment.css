@@ -3,6 +3,35 @@
   border-radius: 7px;
 
   margin: 10px;
+}
+.comment p { 
+  padding: 5px;
+}
+
+.comment > * {
+  min-height: 5px;
+  width: 100%;
+}
+
+/* Top bar / header of comment */
+.comment-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.name-prefix {
+  color: rgba(255, 255, 255, 0.617);
+  font-weight: normal;
+  margin-right: 1px;
+  font-size: 11px;
+}
+
+/* Comment */
+.comment-content {
   padding: 5px;
 }
 
@@ -11,6 +40,18 @@ blockquote {
   padding-left: 3px;
 }
 
+/* Comment details (reply count, etc) */
+.comment-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid grey;
+
+  font-size: 13px;
+}
+
+
+/* Close comment left bar */
 .comment-chain {
   position:relative;
 }
@@ -18,23 +59,22 @@ blockquote {
 .comment-chain-close {
   position:absolute;
   cursor: pointer;
+  z-index: 1;
 
   width: 5px;
-  z-index: 1;
 
   padding: 0 7px;
 }
+
 .comment-chain-close > div {
   background: rgb(62, 61, 61);
   transition: background-color 0.2s;
 
   width: 1px;
-  margin: 0 auto;
-  
   height: 100%;
+  margin: 0 auto;
 }
 
 .comment-chain-close:hover > div {
   background: rgb(88, 87, 87);
-
 }
