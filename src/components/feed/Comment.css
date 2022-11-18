@@ -1,5 +1,5 @@
 .comment {
-  border: 1px solid grey;
+  /* border: 1px solid rgba(128, 128, 128, 0.22); */
   border-radius: 7px;
 
   margin: 10px;
@@ -25,7 +25,7 @@
   color: rgba(255, 255, 255, 0.617);
   font-weight: normal;
   margin-right: 1px;
-  font-size: 11px;
+  font-size: 0.85em;
 }
 .moderator {
   color: rgb(21, 179, 21);

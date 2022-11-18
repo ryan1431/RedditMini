@@ -13,6 +13,12 @@
   transition: border-color 0.2s;
 }
 
+.post-username {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.763);
+  margin-left: 10px;
+}
+
 .feed-posts .post:hover {
   border: 1px solid rgb(131, 131, 131);
   cursor: pointer;
