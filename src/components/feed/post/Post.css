@@ -61,10 +61,16 @@
   overflow: hidden;
 }
 
+.post-body.video,
+.post-body.image {
+  display: flex;
+  justify-content: center;
+}
+
 .post-body.video video,
 .post-body.image img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  max-width: 100%;
   max-height: 650px;
 }
 
