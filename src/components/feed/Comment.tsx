@@ -16,6 +16,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
   const [bounding, setBounding] = useState<DOMRect>();
   const [showReplies, setShowReplies] = useState<boolean>(true);
+  const [avatar, setAvatar] = useState<string>();
 
   const onResize = useCallback(() => {
     clearTimeout(timeoutRef.current);
@@ -31,7 +32,12 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
   
   useEffect(() => {
     setBounding(commentRef.current.getBoundingClientRect());
-  }, []);
+    comment.author !== '[deleted]' && fetch(`${base}user/${comment.author}/about.json?raw_json=1`)
+      .then(res => res.json())
+      .then(data => {
+        setAvatar(data.data.snoovatar_img || data.data.icon_img);
+      })
+  }, [comment.author]);
 
   const onCloseBar = useCallback(() => {
     setShowReplies(false);
@@ -49,6 +55,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
         <div className='comment-bar'>
           {/* Left */}
           <div>
+            {avatar && <img src={avatar} alt='user-avatar' className={clsx('user-avatar', {'snoovatar': avatar.includes('snoovatar')})}></img>}
             <p>
               <span className='name-prefix'>u/</span>
               {comment.author}
