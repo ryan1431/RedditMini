@@ -40,8 +40,13 @@ export const Post = ({post, clicked, setOpenPost}: PostProps) => {
       {post && (
       <article className={`post ${post.link}`}>
         {/* Subreddit & Poster Info */}
-        <address>
-          <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a></p>
+        <address style={{ display: 'flex', alignItems: 'flex-end'}}>
+          <p>
+            <a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a>
+          </p>
+          <p className='post-username'>
+            posted by <span className='name-prefix'>u/</span>{post.author}
+          </p>
         </address>
 
         {/* Title */}
