@@ -1,5 +1,12 @@
 .comment {
-  margin: 10px;
   border: 1px solid grey;
-  
+  border-radius: 7px;
+
+  margin: 10px;
+  padding: 5px;
+}
+
+blockquote {
+  border-left: 3px solid grey;
+  padding-left: 3px;
 }
