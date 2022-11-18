@@ -26,6 +26,14 @@ img {
   pointer-events: none;
 }
 
+a {
+  color: grey;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
 /* */
 body {
   margin: 0;

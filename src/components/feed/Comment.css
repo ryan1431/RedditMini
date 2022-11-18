@@ -7,7 +7,6 @@
 .comment p { 
   padding: 5px;
 }
-
 .comment > * {
   min-height: 5px;
   width: 100%;
@@ -22,19 +21,23 @@
   font-size: 12px;
   font-weight: bold;
 }
-
 .name-prefix {
   color: rgba(255, 255, 255, 0.617);
   font-weight: normal;
   margin-right: 1px;
   font-size: 11px;
 }
+.moderator {
+  color: rgb(21, 179, 21);
+  font-size: 11px;
+  position: relative;
+  left: 6px
+}
 
 /* Comment */
 .comment-content {
   padding: 5px;
 }
-
 blockquote {
   border-left: 3px solid grey;
   padding-left: 3px;
@@ -45,17 +48,15 @@ blockquote {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid grey;
+  border-top: 1px solid rgba(128, 128, 128, 0.323);
 
   font-size: 13px;
 }
-
 
 /* Close comment left bar */
 .comment-chain {
   position:relative;
 }
-
 .comment-chain-close {
   position:absolute;
   cursor: pointer;
@@ -65,7 +66,6 @@ blockquote {
 
   padding: 0 7px;
 }
-
 .comment-chain-close > div {
   background: rgb(62, 61, 61);
   transition: background-color 0.2s;
@@ -74,7 +74,12 @@ blockquote {
   height: 100%;
   margin: 0 auto;
 }
-
 .comment-chain-close:hover > div {
   background: rgb(88, 87, 87);
+}
+
+/* extra styling */
+.mod-comment {
+  box-shadow: 0 0 10px -3px rgb(53, 186, 53);
+  margin-bottom: 20px;
 }

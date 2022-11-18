@@ -24,6 +24,10 @@ export interface CommentData {
    * The commenter's username
    */
   author: string,
+  /**
+   * Identifies moderators
+   */
+  distinguished: string,
   id: string,
   body: string,
   body_html: string,

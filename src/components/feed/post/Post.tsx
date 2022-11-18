@@ -41,7 +41,7 @@ export const Post = ({post, clicked, setOpenPost}: PostProps) => {
       <article className={`post ${post.link}`}>
         {/* Subreddit & Poster Info */}
         <address>
-          <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>/r/{post.subreddit}</a></p>
+          <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a></p>
         </address>
 
         {/* Title */}
