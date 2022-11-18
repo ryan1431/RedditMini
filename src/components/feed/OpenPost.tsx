@@ -29,15 +29,37 @@ export const OpenPost = ({post}:  OpenPostProps) => {
     dispatch(fetchComments({ url: post.link, postId: post.name}))
   }, [comments, commentsState, dispatch, lastPostId, post.link, post.name]);
 
+  const renderCommentsRecurse = (comments: CommentType[]) => {
+    return comments.map((comment) => {
+      if (comment.kind === 't1') {
+        let data = comment.data as CommentData;
+        return (
+          <div>
+            <Comment key={data.id} comment={data} />
+            {data.replies && renderCommentsRecurse(data.replies)}
+          </div>
+        )
+
+        // 'Show more' or 'Continue thread' on reddit.com...
+      } else {
+        return (
+          <>
+          
+          </>
+        )
+      }
+    })
+  }
+
   return (
     <div style={{position: 'relative'}}>
       {post && <div className='open-post'>
         <Post post={post}/>
+        
         <div className='comment-wrapper'>
-          {comments.length ? comments.map((comment) => {
-            if (comment.kind === 't1') return <Comment key={comment.data.id} comment={comment.data as CommentData} />
-            else return <></>
-          }) : <div>Loading comments...</div>}
+          {comments.length 
+            ? renderCommentsRecurse(comments)
+            : <div>Loading comments...</div>}
         </div>
         
       </div>}
