@@ -10,3 +10,23 @@ blockquote {
   border-left: 3px solid grey;
   padding-left: 3px;
 }
+
+.comment-chain {
+  position:relative;
+}
+
+.comment-chain-close {
+  position:absolute;
+  cursor: pointer;
+  background: rgb(62, 61, 61);
+
+  width: 1px;
+  
+  /* left: 11px; */
+
+  transition: background-color 0.2s;
+}
+
+.comment-chain-close:hover {
+  background: rgb(90, 89, 89);
+}
