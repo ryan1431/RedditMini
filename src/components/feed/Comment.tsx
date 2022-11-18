@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CommentData } from '../../types/commentType';
 import './Comment.css';
 
@@ -8,10 +8,23 @@ interface CommentProps {
 }
 
 export const Comment = ({comment}: CommentProps) => {
-
   const commentRef = useRef<HTMLDivElement>(undefined!);
+  const timeoutRef = useRef<NodeJS.Timeout>();
+
   const [bounding, setBounding] = useState<DOMRect>();
 
+  const onResize = useCallback(() => {
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setBounding(commentRef.current.getBoundingClientRect());
+    }, 100);
+  }, []);
+  
+  useEffect(() => {
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [onResize]);
+  
   useEffect(() => {
     setBounding(commentRef.current.getBoundingClientRect());
   }, []);
@@ -43,6 +56,7 @@ export const Comment = ({comment}: CommentProps) => {
             <Comment comment={comment.data as CommentData} />
           )
 
+        // 'Show n more replies' or 'Continue thread' --> on reddit.com
         } else {
           return (
             <>
