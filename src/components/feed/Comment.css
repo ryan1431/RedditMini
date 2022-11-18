@@ -3,6 +3,13 @@
   border-radius: 7px;
 
   margin: 10px;
+
+  color: rgb(228, 227, 227);
+  overflow: hidden;
+}
+.comment-see-more {
+  position: relative;
+  font-size: 12px;
 }
 .comment p { 
   padding: 5px;
@@ -40,7 +47,8 @@
 }
 blockquote {
   border-left: 3px solid grey;
-  padding-left: 3px;
+  padding-left: 6px;
+  margin-left: 20px;
 }
 
 /* Comment details (reply count, etc) */
