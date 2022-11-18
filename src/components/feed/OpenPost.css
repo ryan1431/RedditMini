@@ -17,23 +17,3 @@
   margin-top: 20px;
   overflow: auto;
 }
-
-.comment-chain {
-  position:relative;
-}
-
-.comment-chain-close {
-  background: rgb(62, 61, 61);
-  position:absolute;
-
-  width: 3px;
-  left: 11px;
-
-  cursor: pointer;
-
-  transition: background-color 0.2s;
-}
-
-.comment-chain-close:hover {
-  background: rgb(90, 89, 89);
-}
