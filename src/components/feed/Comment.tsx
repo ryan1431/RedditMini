@@ -18,26 +18,28 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
   const [showReplies, setShowReplies] = useState<boolean>(true);
   const [avatar, setAvatar] = useState<string>();
 
-  const onResize = useCallback(() => {
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setBounding(commentRef.current.getBoundingClientRect());
-    }, 100);
-  }, []);
-  
-  useEffect(() => {
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [onResize]);
-  
   useEffect(() => {
     setBounding(commentRef.current.getBoundingClientRect());
+  }, [])
+  
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        setBounding(commentRef.current.getBoundingClientRect());
+
+      }, 200)
+    })
+    resizeObserver.observe(commentRef.current);    
+  }, []);
+
+  useEffect(() => {
     comment.author !== '[deleted]' && fetch(`${base}user/${comment.author}/about.json?raw_json=1`)
       .then(res => res.json())
       .then(data => {
         setAvatar(data.data.snoovatar_img || data.data.icon_img);
-      })
-  }, [comment.author]);
+      });
+  }, [comment.author])
 
   const onCloseBar = useCallback(() => {
     setShowReplies(false);
