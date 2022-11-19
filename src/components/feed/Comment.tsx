@@ -85,11 +85,11 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Replies */}
       {comment.replies && comment.replies.map((comment) => 
-        <div style={{display: showReplies ? 'block' : 'none'}}>
+        <div key={comment.data.id} style={{display: showReplies ? 'block' : 'none'}}>
           {
             (comment.kind === 't1')  
-            ? <Comment key={'cmnt' + comment.data.id} comment={comment.data as CommentData} postId={postId} sub={sub}/>
-            : <More key={'more' + comment.data.id} data={comment.data as MoreComments} postId={postId} sub={sub} />
+            ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>
+            : <More data={comment.data as MoreComments} postId={postId} sub={sub} />
           }
         </div>
       )}
