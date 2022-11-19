@@ -16,7 +16,7 @@ export const More = ({data, postId, sub}: MoreProps) => {
         left: `${7 + (data.depth * 15)}px`,
       }}  
     >
-      <p><a href={link} target='_blank' rel='noreferrer'>+{data.count} more repl{data.count === 1 ? 'y' : 'ies'} - view on reddit.com</a></p>
+      <p><a href={link} target='_blank' rel='noreferrer'>{data.count} more repl{data.count === 1 ? 'y' : 'ies'} - view on reddit.com</a></p>
     </div>
   )
 }

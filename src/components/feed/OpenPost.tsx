@@ -36,8 +36,8 @@ export const OpenPost = ({post}:  OpenPostProps) => {
           {comments.length 
             ? comments.map((comment) => {
               return (comment.kind === 't1') 
-                ? <Comment comment={comment.data as CommentData} postId={post.name} sub={post.subreddit}/>
-                : <More data={comment.data as MoreComments} postId={post.name} sub={post.subreddit}/>
+                ? <Comment key={'Comment' + comment.data.id} comment={comment.data as CommentData} postId={post.name} sub={post.subreddit}/>
+                : <More key={'More' + comment.data.id} data={comment.data as MoreComments} postId={post.name} sub={post.subreddit}/>
             })
             : <div>Loading comments...</div>}
         </div> : <div className='comment-wrapper'>No comments</div>}
