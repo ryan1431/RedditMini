@@ -13,26 +13,9 @@ interface CommentProps {
 
 export const Comment = ({comment, postId, sub}: CommentProps) => {
   const commentRef = useRef<HTMLDivElement>(undefined!);
-  const timeoutRef = useRef<NodeJS.Timeout>();
 
-  const [bounding, setBounding] = useState<DOMRect>();
   const [showReplies, setShowReplies] = useState<boolean>(true);
   const [avatar, setAvatar] = useState<string>();
-
-  useEffect(() => {
-    setBounding(commentRef.current.getBoundingClientRect());
-  }, [])
-  
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(() => {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => {
-        setBounding(commentRef.current.getBoundingClientRect());
-
-      }, 200)
-    })
-    resizeObserver.observe(commentRef.current);    
-  }, []);
 
   useEffect(() => {
     comment.author !== '[deleted]' && fetch(`${base}user/${comment.author}/about.json?raw_json=1`)
@@ -43,7 +26,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
   }, [comment.author])
 
   const onCloseBar = useCallback(() => {
-    setShowReplies(false);
+    setShowReplies(p => !p);
   }, []);
   
   return (
@@ -52,9 +35,10 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Comment */}
       <div className={clsx('comment', { 'mod-comment': comment.distinguished === 'moderator'})}
-        style={{marginLeft: 10 + (comment.depth * 15)}}  
+        style={{marginLeft: 8 + (comment.depth * 15)}}  
         ref={commentRef}
       >
+        {/* Top Bar (username, posted time) */}
         <div className='comment-bar'>
           {/* Left */}
           <div>
@@ -69,10 +53,12 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
           <div>
           </div>
         </div>
-        <div className='comment-content'
+        {/* Content */}
+        <div className='comment-content' style={{marginLeft: '14px', display: showReplies ? 'block' : 'none'}}
           dangerouslySetInnerHTML={{__html: comment.body_html}}>
         </div>
-        <div className='comment-actions'>
+        {/* Score, reply button, etc */}
+        <div className='comment-actions' style={{marginLeft: '26px'}}>
           {/* Left */}
           <div style={{display: 'flex'}}>
             <p>{comment.score}</p>
@@ -86,23 +72,27 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
       
 
       {/* Close chain bar */}
-      {comment.replies 
-        && <div className='comment-chain-close'
+      {<div className='comment-chain-close'
           onClick={onCloseBar}
           style={{
-            height: `calc(100% - ${bounding && bounding.height}px - 10px)`,
-            left: `${7 + (comment.depth * 15)}px`,
+            height: `calc(100% - ${avatar && avatar.includes('snoovatar') ? '40px' : '35px'})`,
+            top: avatar && avatar.includes('snoovatar') ? '40px' : '35px',
+            left: `${11 + (comment.depth * 15)}px`,
           }}
         >
           <div></div> {/* inner bar */}
         </div> }
 
       {/* Replies */}
-      {comment.replies && showReplies && comment.replies.map((comment) => {
-        return (comment.kind === 't1')  
-          ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>
-          : <More data={comment.data as MoreComments} postId={postId} sub={sub} />
-      })}
+      {comment.replies && comment.replies.map((comment) => 
+        <div style={{display: showReplies ? 'block' : 'none'}}>
+          {
+            (comment.kind === 't1')  
+            ? <Comment key={'cmnt' + comment.data.id} comment={comment.data as CommentData} postId={postId} sub={sub}/>
+            : <More key={'more' + comment.data.id} data={comment.data as MoreComments} postId={postId} sub={sub} />
+          }
+        </div>
+      )}
     </div>
   )
 }

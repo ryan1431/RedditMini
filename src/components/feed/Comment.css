@@ -37,6 +37,7 @@
   width: 25px;
   border-radius: 50%;
   margin-right: 2px;
+  margin-left: 2px
 }
 .user-avatar.snoovatar {
   border-radius: 0;
@@ -69,7 +70,7 @@ blockquote {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(128, 128, 128, 0.323);
+  /* border-top: 1px solid rgba(128, 128, 128, 0.323); */
 
   font-size: 13px;
 }
@@ -102,5 +103,5 @@ blockquote {
 
 /* extra styling */
 .mod-comment {
-  box-shadow: 0 0 10px -3px rgb(53, 186, 53);
+  box-shadow: -30px 30px 70px -90px rgb(53, 186, 53) inset;
 }
