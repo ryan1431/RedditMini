@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useDynamicTransition } from '../../app/hooks/useDynamicTransition';
 import { CommentData, MoreComments } from '../../types/commentType';
 import { base } from '../../utility/data';
 import './Comment.css';
@@ -12,41 +13,22 @@ interface CommentProps {
 }
 
 export const Comment = ({comment, postId, sub}: CommentProps) => {
+  const wrapperRef = useRef<HTMLDivElement>(undefined!);
   const commentRef = useRef<HTMLDivElement>(undefined!);
-  const tref = useRef<HTMLDivElement>(undefined!);
-  const resizeTimeoutRef = useRef<NodeJS.Timeout>();
 
-  const [showReplies, setShowReplies] = useState<boolean>(true);
   const [avatar, setAvatar] = useState<string>();
-
-  const [wrapperFullSize, setWrapperFullSize] = useState<number>();
-  const maxHeightRef = useRef<string>('');
-
-  const onResize = useCallback(() => {
-    clearTimeout(resizeTimeoutRef.current);
-    setTimeout(() => {
-      if (showReplies) {
-        const h = tref.current.getBoundingClientRect().height;
-        maxHeightRef.current = `${h}px`;
-        setWrapperFullSize(h);
-      } else {
-        setWrapperFullSize(undefined);
-      }
-    }, 400);
-  }, [showReplies]);
+  const [collapsed, setCollapsed] = useState<boolean>(false);
   
+  const { onToggle, maxHeightRef } = useDynamicTransition(wrapperRef);
+  const { onToggle: onToggleComment, maxHeightRef: maxCommentHeight, showReplies} = useDynamicTransition(commentRef);
+  
+  const collapsedTimeoutRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
-    if (!tref.current) return;
-    const h = tref.current.getBoundingClientRect().height;
-    setWrapperFullSize(h);
-    maxHeightRef.current = (h + 'px');
-
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [onResize])
+    clearTimeout(collapsedTimeoutRef.current);
+    collapsedTimeoutRef.current = setTimeout(() => {
+      setCollapsed(!showReplies);
+    }, 500);
+  }, [showReplies]);
 
   useEffect(() => {
     comment.author !== '[deleted]' && fetch(`${base}user/${comment.author}/about.json?raw_json=1`)
@@ -55,32 +37,14 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
         setAvatar(data.data.snoovatar_img || data.data.icon_img);
       });
   }, [comment.author])
-
-  const resetHeightTimeoutRef = useRef<NodeJS.Timeout>();
-  useEffect(() => {
-    clearTimeout(resetHeightTimeoutRef.current);
-    if (wrapperFullSize || !showReplies) return;
-
-    resetHeightTimeoutRef.current = setTimeout(() => {
-      const h = tref.current.getBoundingClientRect().height;
-      maxHeightRef.current = `${h}px`;
-      setWrapperFullSize(h);
-    }, 350)
-  }, [wrapperFullSize, showReplies, onResize]);
-
-  const onToggleClose = useCallback(() => {
-    maxHeightRef.current = (showReplies ? '0px' : wrapperFullSize ? `${wrapperFullSize}px` : '');
-    setShowReplies(p => !p);
-  }, [wrapperFullSize, showReplies]);
   
   return (
     // Tree
-    <div className='comment-chain' ref={tref}>
+    <div className='comment-chain' ref={wrapperRef}>
 
       {/* Comment */}
       <div className={clsx('comment', { 'mod-comment': comment.distinguished === 'moderator'})}
         style={{marginLeft: 8 + (comment.depth * 15)}}  
-        ref={commentRef}
       >
         {/* Top Bar (username, posted time) */}
         <div className='comment-bar'>
@@ -98,7 +62,12 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
           </div>
         </div>
         {/* Content */}
-        <div className='comment-content' style={{marginLeft: '14px', }}
+        <div className='comment-content' 
+          ref={commentRef} 
+          style={{
+            maxHeight: maxCommentHeight.current,
+            transition: `max-height 0.2s ${collapsed ? '0s' : '0.2s'}`
+          }}
           dangerouslySetInnerHTML={{__html: comment.body_html}}>
         </div>
         {/* Score, reply button, etc */}
@@ -117,7 +86,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Close chain bar */}
       {<div className='comment-chain-close'
-          onClick={onToggleClose}
+          onClick={() => {onToggle(); onToggleComment()}}
           style={{
             height: `calc(100% - ${avatar && avatar.includes('snoovatar') ? '40px' : '35px'})`,
             top: avatar && avatar.includes('snoovatar') ? '40px' : '35px',

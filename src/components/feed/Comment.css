@@ -58,6 +58,8 @@
 /* Comment */
 .comment-content {
   padding: 5px;
+  overflow: hidden;
+  margin-left: 14px;
 }
 blockquote {
   border-left: 3px solid grey;
