@@ -13,9 +13,22 @@ interface CommentProps {
 
 export const Comment = ({comment, postId, sub}: CommentProps) => {
   const commentRef = useRef<HTMLDivElement>(undefined!);
+  const tref = useRef<HTMLDivElement>(undefined!);
 
   const [showReplies, setShowReplies] = useState<boolean>(true);
   const [avatar, setAvatar] = useState<string>();
+
+  const [height, setHeight] = useState<number>();
+  const [maxHeight, setMaxHeight] = useState('');
+
+  const timeoutRef = useRef<NodeJS.Timeout[]>([]);
+  
+  useEffect(() => {
+    if (!tref.current) return;
+    const h = tref.current.getBoundingClientRect().height;
+    setHeight(h);
+    setMaxHeight(h + 'px');
+  }, []);
 
   useEffect(() => {
     comment.author !== '[deleted]' && fetch(`${base}user/${comment.author}/about.json?raw_json=1`)
@@ -26,12 +39,13 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
   }, [comment.author])
 
   const onCloseBar = useCallback(() => {
+    setMaxHeight(showReplies ? '0px' : `${height}px`);
     setShowReplies(p => !p);
-  }, []);
+  }, [height, showReplies]);
   
   return (
     // Tree
-    <div className='comment-chain' >
+    <div className='comment-chain' ref={tref}>
 
       {/* Comment */}
       <div className={clsx('comment', { 'mod-comment': comment.distinguished === 'moderator'})}
@@ -54,7 +68,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
           </div>
         </div>
         {/* Content */}
-        <div className='comment-content' style={{marginLeft: '14px', display: showReplies ? 'block' : 'none'}}
+        <div className='comment-content' style={{marginLeft: '14px', }}
           dangerouslySetInnerHTML={{__html: comment.body_html}}>
         </div>
         {/* Score, reply button, etc */}
@@ -85,7 +99,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Replies */}
       {comment.replies && comment.replies.map((comment) => 
-        <div key={comment.data.id} style={{display: showReplies ? 'block' : 'none'}}>
+        <div key={comment.data.id} style={{overflow: 'hidden', maxHeight: maxHeight, transition: 'max-height 0.2s'}}>
           {
             (comment.kind === 't1')  
             ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>
