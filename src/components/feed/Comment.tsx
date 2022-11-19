@@ -14,21 +14,39 @@ interface CommentProps {
 export const Comment = ({comment, postId, sub}: CommentProps) => {
   const commentRef = useRef<HTMLDivElement>(undefined!);
   const tref = useRef<HTMLDivElement>(undefined!);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout>();
 
   const [showReplies, setShowReplies] = useState<boolean>(true);
   const [avatar, setAvatar] = useState<string>();
 
-  const [height, setHeight] = useState<number>();
-  const [maxHeight, setMaxHeight] = useState('');
+  const [wrapperFullSize, setWrapperFullSize] = useState<number>();
+  const maxHeightRef = useRef<string>('');
 
-  const timeoutRef = useRef<NodeJS.Timeout[]>([]);
+  const onResize = useCallback(() => {
+    clearTimeout(resizeTimeoutRef.current);
+    setTimeout(() => {
+      if (showReplies) {
+        const h = tref.current.getBoundingClientRect().height;
+        maxHeightRef.current = `${h}px`;
+        setWrapperFullSize(h);
+      } else {
+        setWrapperFullSize(undefined);
+      }
+    }, 400);
+  }, [showReplies]);
   
   useEffect(() => {
     if (!tref.current) return;
     const h = tref.current.getBoundingClientRect().height;
-    setHeight(h);
-    setMaxHeight(h + 'px');
+    setWrapperFullSize(h);
+    maxHeightRef.current = (h + 'px');
+
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [onResize])
 
   useEffect(() => {
     comment.author !== '[deleted]' && fetch(`${base}user/${comment.author}/about.json?raw_json=1`)
@@ -38,10 +56,22 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
       });
   }, [comment.author])
 
-  const onCloseBar = useCallback(() => {
-    setMaxHeight(showReplies ? '0px' : `${height}px`);
+  const resetHeightTimeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    clearTimeout(resetHeightTimeoutRef.current);
+    if (wrapperFullSize || !showReplies) return;
+
+    resetHeightTimeoutRef.current = setTimeout(() => {
+      const h = tref.current.getBoundingClientRect().height;
+      maxHeightRef.current = `${h}px`;
+      setWrapperFullSize(h);
+    }, 350)
+  }, [wrapperFullSize, showReplies, onResize]);
+
+  const onToggleClose = useCallback(() => {
+    maxHeightRef.current = (showReplies ? '0px' : wrapperFullSize ? `${wrapperFullSize}px` : '');
     setShowReplies(p => !p);
-  }, [height, showReplies]);
+  }, [wrapperFullSize, showReplies]);
   
   return (
     // Tree
@@ -87,7 +117,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Close chain bar */}
       {<div className='comment-chain-close'
-          onClick={onCloseBar}
+          onClick={onToggleClose}
           style={{
             height: `calc(100% - ${avatar && avatar.includes('snoovatar') ? '40px' : '35px'})`,
             top: avatar && avatar.includes('snoovatar') ? '40px' : '35px',
@@ -99,7 +129,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Replies */}
       {comment.replies && comment.replies.map((comment) => 
-        <div key={comment.data.id} style={{overflow: 'hidden', maxHeight: maxHeight, transition: 'max-height 0.2s'}}>
+        <div key={comment.data.id} style={{overflow: 'hidden', maxHeight: maxHeightRef.current, transition: 'max-height 0.3s'}}>
           {
             (comment.kind === 't1')  
             ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>
