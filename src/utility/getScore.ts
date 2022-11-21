@@ -8,7 +8,6 @@ export const getScore = (n: number) => {
   if (length < 4) return `${n}`;
   if (length < 6) {
     let reduced = toLFixed(n / 1000, 1);
-    console.log(reduced);
     if (reduced.split('.')[1] === '0') reduced = reduced.split('.')[0]
     return `${reduced}k`
   }

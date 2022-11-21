@@ -4,9 +4,9 @@ import { useDynamicTransition } from '../../app/hooks/useDynamicTransition';
 import { CommentData, MoreComments } from '../../types/commentType';
 import { base } from '../../utility/data';
 import { getRelativeTime } from '../../utility/getRelativeTime';
-import { getScore } from '../../utility/getScore';
 import './Comment.css';
 import { More } from './More';
+import { Votes } from './post/Votes';
 
 interface CommentProps {
   comment: CommentData,
@@ -21,8 +21,8 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
   const [avatar, setAvatar] = useState<string>();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   
-  const { onToggle, maxHeightRef } = useDynamicTransition(wrapperRef);
-  const { onToggle: onToggleComment, maxHeightRef: maxCommentHeight, showReplies} = useDynamicTransition(commentRef);
+  const { onToggle, maxHeightRef } = useDynamicTransition(wrapperRef, 250);
+  const { onToggle: onToggleComment, maxHeightRef: maxCommentHeight, showReplies} = useDynamicTransition(commentRef, 250);
   
   const collapsedTimeoutRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
@@ -66,19 +66,22 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
           </div>
         </div>
         {/* Content */}
-        <div className='comment-content' 
-          ref={commentRef} 
-          style={{
-            maxHeight: maxCommentHeight.current,
-            transition: `max-height 0.2s ${collapsed ? '0s' : '0.2s'}`
-          }}
-          dangerouslySetInnerHTML={{__html: comment.body_html}}>
+        <div style={{height: 'fit-content'}} ref={commentRef}>
+          <div className='comment-content' 
+            style={{
+              height: 'fit-content',
+              maxHeight: maxCommentHeight.current,
+              transition: `max-height 0.1s ${collapsed ? '0s' : '0.15s'}`
+            }}
+            dangerouslySetInnerHTML={{__html: comment.body_html}}>
+          </div>
         </div>
+        
         {/* Score, reply button, etc */}
         <div className='comment-actions' style={{marginLeft: '26px'}}>
           {/* Left */}
           <div style={{display: 'flex'}}>
-            <p>{getScore(comment.score)}</p>
+            <Votes score={comment.score} />
           </div>
           {/* Right */}
           <div>
@@ -102,7 +105,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Replies */}
       {comment.replies && comment.replies.map((comment) => 
-        <div key={comment.data.id} style={{overflow: 'hidden', maxHeight: maxHeightRef.current, transition: 'max-height 0.3s'}}>
+        <div key={comment.data.id} style={{overflow: 'hidden', maxHeight: maxHeightRef.current, transition: 'max-height 0.20s'}}>
           {
             (comment.kind === 't1')  
             ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>

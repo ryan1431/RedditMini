@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 
-export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivElement>) => {
+export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivElement>, duration: number = 300) => {
   const [showReplies, setShowReplies] = useState<boolean>(true);
   const [wrapperFullSize, setWrapperFullSize] = useState<number>();
 
   const maxHeightRef = useRef<string>('');
-
   const resizeTimeoutRef = useRef<NodeJS.Timeout>();
+  
   const onResize = useCallback(() => {
     clearTimeout(resizeTimeoutRef.current);
-    setTimeout(() => {
+    if (showReplies) {
+      maxHeightRef.current = '';
+    }
+    resizeTimeoutRef.current = setTimeout(() => {
       if (showReplies) {
         const h = wrapperRef.current.getBoundingClientRect().height;
         maxHeightRef.current = `${h}px`;
@@ -18,8 +21,8 @@ export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivE
       } else {
         setWrapperFullSize(undefined);
       }
-    }, 400);
-  }, [showReplies, wrapperRef]);
+    }, duration);
+  }, [duration, showReplies, wrapperRef]);
   
   useEffect(() => {
     if (!wrapperRef.current) return;
@@ -43,8 +46,8 @@ export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivE
       const h = wrapperRef.current.getBoundingClientRect().height;
       maxHeightRef.current = `${h}px`;
       setWrapperFullSize(h);
-    }, 350)
-  }, [wrapperFullSize, showReplies, onResize, wrapperRef]);
+    }, duration)
+  }, [wrapperFullSize, showReplies, onResize, wrapperRef, duration]);
 
   const onToggle = useCallback(() => {
     maxHeightRef.current = (showReplies ? '0px' : wrapperFullSize ? `${wrapperFullSize}px` : '');
