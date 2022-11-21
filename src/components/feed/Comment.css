@@ -28,6 +28,10 @@
   font-size: 12px;
   font-weight: bold;
 }
+.op {
+  background:rgba(112, 112, 188, 0.054);
+  border-radius: 7px;
+}
 .comment-details {
   font-size: 11px;
   font-weight: 100;
@@ -54,11 +58,16 @@
   margin-right: 1px;
   font-size: 0.85em;
 }
-.moderator {
+.spec {
   color: rgb(21, 179, 21);
   font-size: 11px;
   position: relative;
   left: 6px
+}
+.spec.op {
+  font-size: 12px;
+  color: rgb(96, 170, 194);
+  margin-right:3px;
 }
 
 /* Comment */
@@ -114,4 +123,17 @@ blockquote {
 /* extra styling */
 .mod-comment {
   box-shadow: -30px 30px 70px -90px rgb(53, 186, 53) inset;
+}
+
+.icon {
+  margin-left: 15px;
+  color: grey;
+  font-size: 14px;
+  cursor: pointer;
+
+  transition: color 0.2s;
+}
+
+.icon:hover {
+  color: white;
 }

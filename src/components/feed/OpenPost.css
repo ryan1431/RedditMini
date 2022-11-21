@@ -5,15 +5,24 @@
   max-width: 100%;
   width: 670px;
 
-  max-height: calc(100vh - 3.7rem);
-  overflow-y: scroll;
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
 }
 
 .open-post .post {
   margin: 0 !important;
+  border: none;
 }
 
 .comment-wrapper {
-  margin-top: 20px;
+  margin-top: 10px;
   overflow: hidden;
+}
+
+.comment-wrapper > div:last-child {
+  margin-bottom: 10px;
+}
+
+.skeleton { 
+  text-align: center;
 }

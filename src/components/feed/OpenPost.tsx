@@ -52,8 +52,8 @@ export const OpenPost = ({post}:  OpenPostProps) => {
                 ? <Comment key={'Comment' + comment.data.id} comment={comment.data as CommentData} postId={post.name} sub={post.subreddit} resizeDep={resizeDep}/>
                 : <More key={'More' + comment.data.id} data={comment.data as MoreComments} postId={post.name} sub={post.subreddit}/>
             })
-            : <div>Loading comments...</div>}
-        </div> : <div className='comment-wrapper'>No comments</div>}
+            : <p className='skeleton'>Loading comments...</p>}
+        </div> : <p className='skeleton'>No comments</p>}
         
       </div>}
     </div>
