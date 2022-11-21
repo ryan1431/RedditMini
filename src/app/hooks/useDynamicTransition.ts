@@ -4,10 +4,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivElement>, duration: number = 300) => {
   const [showReplies, setShowReplies] = useState<boolean>(true);
   const [wrapperFullSize, setWrapperFullSize] = useState<number>();
+  const [display, setDisplay] = useState<boolean>(true);
 
   const maxHeightRef = useRef<string>('');
   const resizeTimeoutRef = useRef<NodeJS.Timeout>();
-  
+
   const onResize = useCallback(() => {
     clearTimeout(resizeTimeoutRef.current);
     if (showReplies) {
@@ -49,10 +50,21 @@ export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivE
     }, duration)
   }, [wrapperFullSize, showReplies, onResize, wrapperRef, duration]);
 
+
+  const displayTimeoutRef = useRef<NodeJS.Timeout>();
   const onToggle = useCallback(() => {
+    clearTimeout(displayTimeoutRef.current);
+    if (showReplies) {
+      displayTimeoutRef.current = setTimeout(() => {
+        setDisplay(false);
+      }, duration * 0.8);
+    } else {
+      setDisplay(true);
+    }
+    
     maxHeightRef.current = (showReplies ? '0px' : wrapperFullSize ? `${wrapperFullSize}px` : '');
     setShowReplies(p => !p);
-  }, [wrapperFullSize, showReplies]);
+  }, [showReplies, wrapperFullSize, duration]);
 
-  return { onToggle, maxHeightRef, showReplies }
+  return { onToggle, maxHeightRef, showReplies, display }
 }
