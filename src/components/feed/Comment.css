@@ -66,6 +66,8 @@
   padding: 5px;
   overflow: hidden;
   margin-left: 14px;
+
+  max-height:fit-content;
 }
 blockquote {
   border-left: 3px solid grey;
