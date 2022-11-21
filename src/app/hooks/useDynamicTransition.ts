@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 
-
 export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivElement>) => {
   const [showReplies, setShowReplies] = useState<boolean>(true);
   const [wrapperFullSize, setWrapperFullSize] = useState<number>();

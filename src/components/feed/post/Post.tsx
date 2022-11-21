@@ -8,6 +8,8 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
+import { getScore } from '../../../utility/getScore';
+import { getRelativeTime } from '../../../utility/getRelativeTime';
 
 interface PostProps { 
   post: PostType;
@@ -44,9 +46,10 @@ export const Post = ({post, clicked, setOpenPost}: PostProps) => {
           <p>
             <a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a>
           </p>
-          <p className='post-username'>
+          <p className='post-details'>
             posted by <span className='name-prefix'>u/</span>{post.author}
           </p>
+          <p className='post-details'>{getRelativeTime(post.created_utc * 1000)}</p>
         </address>
 
         {/* Title */}
@@ -64,7 +67,7 @@ export const Post = ({post, clicked, setOpenPost}: PostProps) => {
         
         {/* Info / Actions */}
         <footer className='info'>
-          <p>{post.score} score</p>
+          <p>{getScore(post.score)}</p>
           <p><a href={post.link}>link</a></p>
           <p>{post.num_comments} comments</p>
           <button className='info-save' onClick={onSave}>{saved ? 'Unsave' : 'Save'}</button>
