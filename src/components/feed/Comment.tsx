@@ -12,17 +12,18 @@ interface CommentProps {
   comment: CommentData,
   postId: string,
   sub: string,
+  resizeDep: any,
 }
 
-export const Comment = ({comment, postId, sub}: CommentProps) => {
+export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
   const wrapperRef = useRef<HTMLDivElement>(undefined!);
   const commentRef = useRef<HTMLDivElement>(undefined!);
 
   const [avatar, setAvatar] = useState<string>();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   
-  const { onToggle, maxHeightRef, display } = useDynamicTransition(wrapperRef, 250);
-  const { onToggle: onToggleComment, maxHeightRef: maxCommentHeight, showReplies} = useDynamicTransition(commentRef, 250);
+  const { onToggle, maxHeightRef, display } = useDynamicTransition(wrapperRef, 250, resizeDep);
+  const { onToggle: onToggleComment, maxHeightRef: maxCommentHeight, showReplies} = useDynamicTransition(commentRef, 250, resizeDep);
   
   const collapsedTimeoutRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
@@ -118,7 +119,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
           }}>
           {
             (comment.kind === 't1')  
-            ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>
+            ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub} resizeDep={resizeDep}/>
             : <More data={comment.data as MoreComments} postId={postId} sub={sub} />
           }
         </div>

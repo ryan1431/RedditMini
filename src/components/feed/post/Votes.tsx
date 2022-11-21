@@ -29,7 +29,7 @@ export const Votes = ({score}: VotesProps) => {
       <p ref={pRef} className='votes-count' onMouseOver={onMouseLeave}>{formatted}</p>
       <BiDownvote className='votes-arrow'/>
       <div className='votes-novote' style={{
-        width: mouseOver ? '200px' : '',
+        width: mouseOver ? '15rem' : '',
         opacity: mouseOver ? '1' : '',
       }}><p>Voting is currently not available</p></div>
     </div>

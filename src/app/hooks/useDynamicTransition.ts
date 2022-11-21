@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 
-export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivElement>, duration: number = 300) => {
+export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivElement>, duration: number = 300, resizeDep?: any) => {
   const [showReplies, setShowReplies] = useState<boolean>(true);
   const [wrapperFullSize, setWrapperFullSize] = useState<number>();
   const [display, setDisplay] = useState<boolean>(true);
 
   const maxHeightRef = useRef<string>('');
   const resizeTimeoutRef = useRef<NodeJS.Timeout>();
-
+  
   const onResize = useCallback(() => {
     clearTimeout(resizeTimeoutRef.current);
     if (showReplies) {
@@ -24,6 +24,15 @@ export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivE
       }
     }, duration);
   }, [duration, showReplies, wrapperRef]);
+
+  useEffect(() => {
+    if (resizeDep) {
+      onResize();
+    } else {
+      window.addEventListener('resize', onResize);
+      return () => window.removeEventListener('resize', onResize);
+    }
+  }, [onResize, resizeDep])
   
   useEffect(() => {
     if (!wrapperRef.current) return;
@@ -33,10 +42,7 @@ export const useDynamicTransition = (wrapperRef: React.MutableRefObject<HTMLDivE
 
   }, [wrapperRef]);
 
-  useEffect(() => {
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [onResize])
+  
 
   const resetHeightTimeoutRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
