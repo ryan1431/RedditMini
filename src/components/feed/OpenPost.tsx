@@ -1,5 +1,5 @@
 import './OpenPost.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { PostType } from '../../utility';
 import { Post } from './post/Post';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
@@ -18,6 +18,7 @@ export const OpenPost = ({post}:  OpenPostProps) => {
   const lastPostId = useAppSelector(s => s.comments.lastId);
 
   const [comments, setComments] = useState<CommentType[]>([]);
+  const [resizeDep, setResizeDep] = useState<number>(0);
 
   useEffect(() => {
     if (post.name === lastPostId) {
@@ -26,6 +27,18 @@ export const OpenPost = ({post}:  OpenPostProps) => {
     };
     dispatch(fetchComments({ url: post.link, postId: post.name}))
   }, [comments, commentsState, dispatch, lastPostId, post.link, post.name]);
+
+  const resizeTimeout = useRef<NodeJS.Timeout>();
+  const onResize = useCallback(() => {
+    resizeTimeout.current = setTimeout(() => {
+      setResizeDep(p => p + 1);
+    }, 500);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [onResize]);
 
   return (
     <div style={{position: 'relative'}}>
@@ -36,7 +49,7 @@ export const OpenPost = ({post}:  OpenPostProps) => {
           {comments.length 
             ? comments.map((comment) => {
               return (comment.kind === 't1') 
-                ? <Comment key={'Comment' + comment.data.id} comment={comment.data as CommentData} postId={post.name} sub={post.subreddit}/>
+                ? <Comment key={'Comment' + comment.data.id} comment={comment.data as CommentData} postId={post.name} sub={post.subreddit} resizeDep={resizeDep}/>
                 : <More key={'More' + comment.data.id} data={comment.data as MoreComments} postId={post.name} sub={post.subreddit}/>
             })
             : <div>Loading comments...</div>}

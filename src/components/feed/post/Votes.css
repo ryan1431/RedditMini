@@ -4,7 +4,11 @@
   font-weight: 300;
 
   position:relative;
-  overflow:visible
+  overflow:visible;
+}
+
+.votes p {
+  font-size: 1rem;
 }
 
 .arrow-wrapper {
@@ -34,7 +38,6 @@
   border-radius: 6px;
 
   width: 0px;
-  
   bottom: 25px;
 
   transition: width 0.3s, opacity 0.3s;

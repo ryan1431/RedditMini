@@ -8,8 +8,8 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
-import { getScore } from '../../../utility/getScore';
 import { getRelativeTime } from '../../../utility/getRelativeTime';
+import { Votes } from './Votes';
 
 interface PostProps { 
   post: PostType;
@@ -67,7 +67,7 @@ export const Post = ({post, clicked, setOpenPost}: PostProps) => {
         
         {/* Info / Actions */}
         <footer className='info'>
-          <p>{getScore(post.score)}</p>
+          <Votes score={post.score} />
           <p><a href={post.link}>link</a></p>
           <p>{post.num_comments} comments</p>
           <button className='info-save' onClick={onSave}>{saved ? 'Unsave' : 'Save'}</button>

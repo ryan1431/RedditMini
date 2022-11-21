@@ -38,7 +38,8 @@ export const Feed = () => {
   const onOpenPost = useCallback((e:any) => {
     if (e.target instanceof HTMLVideoElement
       || (e.target && e.target.classList?.contains('info-save'))
-      || !e.target.closest('.post')) 
+      || !e.target.closest('.post')
+      || e.target.closest('.votes')) 
         return setSelected('');
     
     setSelected(e.target.closest('.post').classList[1] || '');
