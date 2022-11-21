@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useDynamicTransition } from '../../app/hooks/useDynamicTransition';
 import { CommentData, MoreComments } from '../../types/commentType';
 import { base } from '../../utility/data';
+import { getRelativeTime } from '../../utility/getRelativeTime';
+import { getScore } from '../../utility/getScore';
 import './Comment.css';
 import { More } from './More';
 
@@ -44,7 +46,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Comment */}
       <div className={clsx('comment', { 'mod-comment': comment.distinguished === 'moderator'})}
-        style={{marginLeft: 8 + (comment.depth * 15)}}  
+        style={{marginLeft: 8 + (comment.depth * 20)}}  
       >
         {/* Top Bar (username, posted time) */}
         <div className='comment-bar'>
@@ -56,6 +58,8 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
               {comment.author}
               {comment.distinguished === 'moderator' && <span className='moderator'>MOD</span>}
             </p>
+            <p className='comment-details'>{getRelativeTime(comment.created_utc * 1000)}</p>
+
           </div>
           {/* Right */}
           <div>
@@ -74,7 +78,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
         <div className='comment-actions' style={{marginLeft: '26px'}}>
           {/* Left */}
           <div style={{display: 'flex'}}>
-            <p>{comment.score}</p>
+            <p>{getScore(comment.score)}</p>
           </div>
           {/* Right */}
           <div>
@@ -90,7 +94,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
           style={{
             height: `calc(100% - ${avatar && avatar.includes('snoovatar') ? '40px' : '35px'})`,
             top: avatar && avatar.includes('snoovatar') ? '40px' : '35px',
-            left: `${11 + (comment.depth * 15)}px`,
+            left: `${15 + (comment.depth * 20)}px`,
           }}
         >
           <div></div> {/* inner bar */}

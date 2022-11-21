@@ -13,7 +13,7 @@ export const More = ({data, postId, sub}: MoreProps) => {
   return (
     <div className='comment-see-more'
       style={{
-        left: `${7 + (data.depth * 15)}px`,
+        left: `${8 + (data.depth * 20)}px`,
       }}  
     >
       <p><a href={link} target='_blank' rel='noreferrer'>{data.count} more repl{data.count === 1 ? 'y' : 'ies'} - view on reddit.com</a></p>
