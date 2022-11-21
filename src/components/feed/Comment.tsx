@@ -7,7 +7,7 @@ import { getRelativeTime } from '../../utility/getRelativeTime';
 import './Comment.css';
 import { More } from './More';
 import { Votes } from './post/Votes';
-
+import { TfiComment } from 'react-icons/tfi';
 interface CommentProps {
   comment: CommentData,
   postId: string,
@@ -50,14 +50,15 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
         style={{marginLeft: 8 + (comment.depth * 20)}}  
       >
         {/* Top Bar (username, posted time) */}
-        <div className='comment-bar'>
+        <div className={clsx('comment-bar', {'op': comment.is_submitter})}>
           {/* Left */}
           <div>
             {avatar && <img src={avatar} alt='user-avatar' className={clsx('user-avatar', {'snoovatar': avatar.includes('snoovatar')})}></img>}
             <p>
               <span className='name-prefix'>u/</span>
               {comment.author}
-              {comment.distinguished === 'moderator' && <span className='moderator'>MOD</span>}
+              {comment.distinguished === 'moderator' && <span className='spec moderator'>MOD</span>}
+              {comment.is_submitter && <span className='spec op'>OP</span>}
             </p>
             <p className='comment-details'>{getRelativeTime(comment.created_utc * 1000)}</p>
 
@@ -85,8 +86,9 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
         {/* Score, reply button, etc */}
         <div className='comment-actions' style={{marginLeft: '26px'}}>
           {/* Left */}
-          <div style={{display: 'flex'}}>
-            <Votes score={comment.score} />
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <Votes score={comment.distinguished === 'moderator' ? 0 : comment.score} />
+            <TfiComment className='icon' onClick={() => {onToggle(); onToggleComment()}} />
           </div>
           {/* Right */}
           <div>
