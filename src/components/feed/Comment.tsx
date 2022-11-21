@@ -21,7 +21,7 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
   const [avatar, setAvatar] = useState<string>();
   const [collapsed, setCollapsed] = useState<boolean>(false);
   
-  const { onToggle, maxHeightRef } = useDynamicTransition(wrapperRef, 250);
+  const { onToggle, maxHeightRef, display } = useDynamicTransition(wrapperRef, 250);
   const { onToggle: onToggleComment, maxHeightRef: maxCommentHeight, showReplies} = useDynamicTransition(commentRef, 250);
   
   const collapsedTimeoutRef = useRef<NodeJS.Timeout>();
@@ -66,12 +66,16 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
           </div>
         </div>
         {/* Content */}
-        <div style={{height: 'fit-content'}} ref={commentRef}>
+        <div style={{
+            height: 'fit-content',
+            display: display ? 'block' : 'none',
+          }} 
+          ref={commentRef}>
           <div className='comment-content' 
             style={{
               height: 'fit-content',
               maxHeight: maxCommentHeight.current,
-              transition: `max-height 0.1s ${collapsed ? '0s' : '0.15s'}`
+              transition: `max-height 0.1s ${collapsed ? '0s' : '0.15s'}`,
             }}
             dangerouslySetInnerHTML={{__html: comment.body_html}}>
           </div>
@@ -105,7 +109,13 @@ export const Comment = ({comment, postId, sub}: CommentProps) => {
 
       {/* Replies */}
       {comment.replies && comment.replies.map((comment) => 
-        <div key={comment.data.id} style={{overflow: 'hidden', maxHeight: maxHeightRef.current, transition: 'max-height 0.20s'}}>
+        <div key={comment.data.id} 
+          style={{
+            overflow: 'hidden', 
+            maxHeight: maxHeightRef.current, 
+            transition: 'max-height 0.20s',
+            display: display ? 'block': 'none',
+          }}>
           {
             (comment.kind === 't1')  
             ? <Comment comment={comment.data as CommentData} postId={postId} sub={sub}/>
