@@ -4,7 +4,6 @@
   top: 3.5rem;
 
   width: 100%;
-  height: calc(100vh - 3.5rem);
 
   background: rgba(0, 0, 0, 0.7);
 
@@ -21,11 +20,13 @@
 }
 
 .ui-modal-content {
-  height: fit-content;
   width: fit-content;
+  height: calc(100vh - 3.5rem);
 
-  border-radius: 10px;
+  
   border: 1px solid rgb(91, 91, 91);
+  border-top: none;
+  border-bottom: none;
 
   background: rgb(22, 22, 22);
 }

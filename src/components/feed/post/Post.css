@@ -48,6 +48,11 @@
 /* Title */
 .post-title {
   margin-bottom: 3px;
+  margin-left: 5px;
+}
+
+.post-title h2 {
+  font-weight: 500;
 }
 
 /* Body */
@@ -59,6 +64,8 @@
   box-shadow: inset 0px -30px 20px -12px rgba(117, 117, 117, 0.485);
   max-height: 140px;
   overflow: hidden;
+  font-weight: 300; 
+  font-size: 0.95em;
 }
 
 .post-body.video,
