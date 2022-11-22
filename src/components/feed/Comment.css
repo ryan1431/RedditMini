@@ -13,6 +13,7 @@
 }
 .comment p { 
   padding: 5px;
+  font-weight: 300;
 }
 .comment > * {
   min-height: 5px;
