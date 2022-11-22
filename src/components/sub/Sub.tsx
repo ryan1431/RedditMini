@@ -39,7 +39,7 @@ export const Sub = ({sub, result}: SubProps) => {
   }, [dispatch, result, sub])
 
   return (
-    <div onClick={onClick} style={{height: size, width: size, margin: size}} className={clsx('sub', {'result': result}, {'add': add})}>
+    <div onClick={onClick} style={{height: size, width: size, margin: size}} className={clsx('sub', {'result': result}, {'add': add}, 'noselect')}>
       <div style={{display: 'flex', maxWidth: '80%'}}>
         {/* Sub icon or default */}
         <img className='sr-icon' src={sub.iconUrl || srdefault} alt="" />
