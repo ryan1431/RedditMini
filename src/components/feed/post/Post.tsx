@@ -13,11 +13,12 @@ import { Votes } from './Votes';
 
 interface PostProps { 
   post: PostType;
+  open?: boolean;
   clicked?: boolean;
   setOpenPost?: React.Dispatch<React.SetStateAction<PostType | null>>;
 }
 
-export const Post = ({post, clicked, setOpenPost}: PostProps) => {
+export const Post = ({post, clicked, setOpenPost, open = false}: PostProps) => {
   const dispatch = useDispatch();
 
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
@@ -43,9 +44,7 @@ export const Post = ({post, clicked, setOpenPost}: PostProps) => {
       <article className={`post ${post.link}`}>
         {/* Subreddit & Poster Info */}
         <address style={{ display: 'flex', alignItems: 'flex-end'}}>
-          <p>
-            <a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a>
-          </p>
+          {!open && <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a></p>}
           <p className='post-details'>
             posted by <span className='name-prefix'>u/</span>{post.author}
           </p>
