@@ -3,8 +3,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
   
-  background: white;
+  background: rgb(40, 40, 40);
   color: black;
 
   margin: 2px 0;
@@ -19,7 +20,7 @@
 
 /* Shrinks on click */
 .sub-wrapper {
-  background: white;
+  background: rgb(33, 33, 33);
   color: black;
 
   display: flex;
@@ -51,37 +52,32 @@
 }
 
 .sub:hover {
-  background: rgba(255,255,255,.9);
-}
-
-.sub:hover {
-  cursor: pointer;
+  background: rgba(58, 57, 57, 0.785);
 }
 
 .sub:hover .toggle-icon {
   opacity: 1;
   color: red;
 }
-
 .sub.add:hover .toggle-icon {
   color: green;
 }
 
 .sub.result {
-  background: rgba(116, 155, 122, 0.174);
+  background: rgba(150, 178, 154, 0.174);
+
   border: 1px solid rgba(128, 128, 128, 0);;
   border-bottom: 1px solid rgba(128, 128, 128, 0.451);
   margin: 3px;
-  
+
   max-width: 98%;
 
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background-color 0.2s;
 }
 .sub.result.add {
-  background: white;
+  background: rgb(48, 48, 48);
   border-color: rgba(128, 128, 128, 0.185);
   border-bottom-color: rgba(128, 128, 128, 0.451);
-  
 }
 
 /* Elements in.sub won't trigger parent mouseUp event */
@@ -100,4 +96,15 @@
   font-size: 20px;
   opacity: 0.2;
   transition: opacity 0.2s, color 0.2s;
+}
+
+.sub-name {
+  color: white;
+  overflow: hidden;
+  font-weight: 300;
+}
+.sub-prefix {
+  color: grey;
+  font-weight: 300;
+  font-size: 0.9em;
 }

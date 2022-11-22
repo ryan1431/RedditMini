@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Navbar.css';
 import { FiSettings } from 'react-icons/fi';
 import { BsChevronDown } from 'react-icons/bs';
@@ -6,23 +6,31 @@ import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { toggleOpen } from '../app/reducers/subredditsSlice';
 
 import { ReactComponent as RedditDark } from '../images/Reddit_Logotype_OnDark.svg';
+import { Subreddits } from './Subreddits';
 
 
 export const Navbar = () => {
   const dispatch = useAppDispatch();
+
+  const navBarRef = useRef<HTMLDivElement>(undefined!);
   const open = useAppSelector(s => s.subreddits.open);
+
+  useEffect(() => { console.log('open/close')}, [open]);
 
   const rotate = open ? '180deg' : '';
 
   return (
-    <div id='navbar'>
+    <div id='navbar' ref={navBarRef}>
       <div id='navbar-items'>
         {/* Navbar settings menu */}
-        <div className='icon-button' onClick={() => dispatch(toggleOpen())}>
-          <FiSettings />
-          <div className='drop-down' style={{rotate}}>
-            <BsChevronDown />
+        <div style={{position: 'relative', maxHeight: '100%', margin: '15px'}}>
+          <div className='icon-button' onClick={() => dispatch(toggleOpen())}>
+            <FiSettings />
+            <div className='drop-down' style={{rotate}}>
+              <BsChevronDown />
+            </div>
           </div>
+          <Subreddits navBarRef={navBarRef}/>
         </div>
 
         {/* Reddit logo */}

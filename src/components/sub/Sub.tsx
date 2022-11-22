@@ -41,9 +41,15 @@ export const Sub = ({sub, result}: SubProps) => {
   return (
     <div onClick={onClick} style={{height: size, width: size, margin: size}} className={clsx('sub', {'result': result}, {'add': add})}>
       <div style={{display: 'flex', maxWidth: '80%'}}>
+        {/* Sub icon or default */}
         <img className='sr-icon' src={sub.iconUrl || srdefault} alt="" />
-        <p style={{overflow: 'hidden'}}><span style={{color: 'grey', marginLeft: '7px'}}>r/</span>{sub.name}</p>
+        {/* Sub name & prefix */}
+        <p className='sub-name'>
+          <span className='sub-prefix'>r/</span>
+          {sub.name}
+        </p>
       </div>
+      {/* Remove sub icon */}
       <button className="remove-sub">
         { add
           ? <BiAddToQueue className={'toggle-icon'} />
