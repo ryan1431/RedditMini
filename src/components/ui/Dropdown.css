@@ -1,0 +1,31 @@
+.ui-dropdown {
+  width: 100%;
+}
+.ui-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  font-weight: 200;
+  font-size: 14px;
+  white-space: nowrap;
+
+  width: 100%;
+
+  cursor:pointer;
+
+  transition: background-color 0.2s;
+}
+.ui-dropdown-toggle:hover {
+  background: rgba(69, 68, 68, 0.284);
+}
+.ui-dropdown-toggle > * {
+  margin: 0 1px;
+}
+.ui-dropdown-toggle hr {
+  width: 100%;
+  margin: 0 6px;
+  border:none;
+  border-bottom: 1px solid rgb(143, 141, 141);
+}
+.ui-dropdown-arrow {
+  transition: rotate 0.2s;
+}
