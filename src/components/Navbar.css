@@ -3,41 +3,31 @@
   background: rgb(35, 35, 35);
   color: #ffffff;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
   height: 3.5rem;
 }
 
-#navbar div {
+#navbar-items {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
+  flex-direction: row-reverse;
+
+  margin: 0 auto;
+  
+  max-height: 100%;
+  width: 100%;
+  max-width: 900px;
 }
 
-#navbar > div > * {
-  margin: 0 5px;
+#navbar .icon-button {
+  display: flex;
+  margin: 15px;
 }
-
-#navbar:first-child,
-#navbar:last-child {
-  padding: 0 1rem;
-}
-
-#navbar > div > button {
-  font-size: 10px;;
-}
-
-#navbar button {
-  height: 2rem;
-}
-
-
 
 .drop-down {
   font-size: 16px;
   position: relative;
+
   top: -2px;
   left: 1px;
 
@@ -45,3 +35,10 @@
   transition: rotate 0.2s;
 }
 
+.navbar-logo {
+  width: fit-content;
+}
+
+.navbar-svg {
+  height: 3.7rem;
+}

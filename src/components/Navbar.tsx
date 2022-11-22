@@ -5,6 +5,7 @@ import { BsChevronDown } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { toggleOpen } from '../app/reducers/subredditsSlice';
 
+import { ReactComponent as RedditDark } from '../images/Reddit_Logotype_OnDark.svg';
 
 
 export const Navbar = () => {
@@ -15,31 +16,33 @@ export const Navbar = () => {
 
   return (
     <div id='navbar'>
-      {/* Navbar hamburger menu */}
-      <div id='left'>
+      <div id='navbar-items'>
+        {/* Navbar settings menu */}
         <div className='icon-button' onClick={() => dispatch(toggleOpen())}>
           <FiSettings />
           <div className='drop-down' style={{rotate}}>
             <BsChevronDown />
-
           </div>
         </div>
-      </div>
 
-      {/* Reddit logo */}
-      <div>
-        <p>Reddit mini (logo)</p>
-      </div>
-
-      {/* Light / Dark mode button */}
-      <div> 
-        {process.env.NODE_ENV === 'development' && <button onClick={() => localStorage.clear()}>clearlocal</button>}
-        {process.env.NODE_ENV === 'development' && <button onClick={() => {
-          const kb = (new Blob(Object.values(localStorage)).size / 1000).toFixed(2);
-          console.log('%cLocal Storage: %c' + kb + 'kb (%c' + (Number(kb) / 5000).toFixed(3) + '%)', 'color: ghostwhite', 'color: yellow', 'color: orange');
-        }}>local size</button>}
-        <button>darkmode</button>
+        {/* Reddit logo */}
+        <div className='navbar-logo' >
+          <RedditDark className='navbar-svg'/>
+        </div>
       </div>
     </div>
   )
 }
+
+/*
+
+<div> 
+{process.env.NODE_ENV === 'development' && <button onClick={() => localStorage.clear()}>clearlocal</button>}
+{process.env.NODE_ENV === 'development' && <button onClick={() => {
+  const kb = (new Blob(Object.values(localStorage)).size / 1000).toFixed(2);
+  console.log('%cLocal Storage: %c' + kb + 'kb (%c' + (Number(kb) / 5000).toFixed(3) + '%)', 'color: ghostwhite', 'color: yellow', 'color: orange');
+}}>local size</button>}
+<button>darkmode</button>
+</div>
+
+*/
