@@ -5,6 +5,9 @@ import { Sub } from './sub/Sub';
 import { Search } from './Search';  
 import React, { MutableRefObject, useCallback, useEffect, useMemo, useRef } from 'react';
 import { toggleOpen } from '../app/reducers/subredditsSlice';
+import { BsChevronDown } from 'react-icons/bs';
+
+
 
 interface SubredditsProps {
   navBarRef: MutableRefObject<HTMLDivElement>,
@@ -38,6 +41,11 @@ export const Subreddits = ({navBarRef}: SubredditsProps) => {
 
   return (
     <div id="subreddits" ref={wrapper} style={{overflow: open ? 'auto' : 'hidden', height: height, border: open ? '' : 'none'}}>
+      <div className='menu-toggle'>
+        <p>Subreddits</p>
+        <BsChevronDown />
+        <hr></hr> 
+      </div>
       <div className='subs-results-container'> 
         <div id='search-bar'  >
           <Search />

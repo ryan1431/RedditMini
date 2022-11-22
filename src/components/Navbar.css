@@ -32,6 +32,8 @@
 
   rotate: 0deg;
   transition: rotate 0.2s;
+
+  max-height: 16px;
 }
 
 .navbar-logo {
