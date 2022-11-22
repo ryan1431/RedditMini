@@ -43,7 +43,7 @@ export const OpenPost = ({post}:  OpenPostProps) => {
   return (
     <div style={{position: 'relative'}}>
       {post && <div className='open-post'>
-        <Post post={post}/>
+        <Post post={post} open/>
         
         {post.num_comments > 0 ? <div className='comment-wrapper'>
           {comments.length 

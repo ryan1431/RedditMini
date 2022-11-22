@@ -1,6 +1,6 @@
 .ui-modal {
   position: fixed;
-  left: -5px;
+  left: 0;
   top: 3.5rem;
 
   width: 100%;
@@ -15,14 +15,16 @@
 
 .ui-modal-header {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+
+  background: rgba(19, 19, 19, 0.942);
 }
 
 .ui-modal-content {
   width: fit-content;
   height: calc(100vh - 3.5rem);
-
   
   border: 1px solid rgb(91, 91, 91);
   border-top: none;
@@ -44,7 +46,8 @@
   align-items: center;
   font-size: 14px;
   width:fit-content;
-  padding: 5px 12px;
+  padding: 8px 4px;
+  margin-right: 8px;
   border:none;
 }
 .ui-modal-close.icon-button svg{

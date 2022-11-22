@@ -12,8 +12,8 @@
 .open-post .post {
   margin: 0 !important;
   border: none;
-  padding: 40px 0;
 }
+
 
 .open-post .post-body.text {
   max-height: fit-content;

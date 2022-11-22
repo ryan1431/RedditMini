@@ -6,12 +6,11 @@ interface ModalProps {
   open: boolean,
   onClose?: (...args: any) => any,
   children?: React.ReactNode,
-  closePrompt?: boolean,
 }
 
-const Modal = ({open, onClose, children, closePrompt = false}: ModalProps) => {
-  const header = React.Children.map(children, (child: any) => child.type.displayName === 'Header' ? child : null);
-  const content = React.Children.map(children, (child: any) => child.type.displayName !== 'Header' ? child : null);
+const Modal = ({open, onClose, children}: ModalProps) => {
+  const header = React.Children.map(children, (child: any) => child?.type?.displayName === 'Header' ? child : null);
+  const content = React.Children.map(children, (child: any) => child?.type?.displayName !== 'Header' ? child : null);
 
   const modalRef = useRef<HTMLDivElement>(undefined!);
   const forceClose = useRef<boolean>(false);
@@ -37,8 +36,8 @@ const Modal = ({open, onClose, children, closePrompt = false}: ModalProps) => {
     <div className='ui-modal' style={{ display: forceClose.current ? 'none' : open ? 'flex' : 'none'}}>
       <div className='ui-modal-content' ref={modalRef} style={{maxWidth: '100%', overflow: 'auto'}}>
         <header className='ui-modal-header'>
-          {closePrompt && <div onClick={close} className='ui-modal-close icon-button'><p>Close</p><AiOutlineClose /></div>}
           {header}
+          <div onClick={close} className='ui-modal-close icon-button'><p>Close</p><AiOutlineClose /></div>
         </header>
         <main style={{maxHeight: 'fit-content'}}>
           {content}
