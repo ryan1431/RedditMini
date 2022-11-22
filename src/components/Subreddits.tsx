@@ -3,8 +3,8 @@ import './Subreddits.css';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
 import { Search } from './Search';  
-import { MutableRefObject, useCallback, useEffect, useMemo, useRef } from 'react';
-import { toggleOpen } from '../app/reducers/subredditsSlice';
+import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
+import { toggleOpen, toggleSrOpen } from '../app/reducers/subredditsSlice';
 import { Dropdown } from './ui/Dropdown';
 
 interface SubredditsProps {
@@ -12,13 +12,11 @@ interface SubredditsProps {
 }
 
 export const Subreddits = ({navBarRef}: SubredditsProps) => {
-  const open = useAppSelector(s => s.subreddits.open);
   const dispatch = useAppDispatch();
-  const subs = useAppSelector((state) => state.subreddits.subs);
-
-  const height = useMemo(() => {
-    return open ? '' : '0';
-  }, [open]);
+  
+  const open = useAppSelector(s => s.subreddits.open);
+  const subs = useAppSelector(s => s.subreddits.subs);
+  const srOpen = useAppSelector(s => s.subreddits.srOpen);
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
@@ -38,8 +36,18 @@ export const Subreddits = ({navBarRef}: SubredditsProps) => {
   }, [onClick]);
 
   return (
-    <div id="subreddits" ref={wrapper} style={{overflow: open ? 'auto' : 'hidden', height: height, border: open ? '' : 'none'}}>
-      <Dropdown label='Subreddits'>
+    <div id="subreddits" 
+      ref={wrapper} 
+      style={{
+        overflow: open ? 'auto' : 'hidden', 
+        height: open ? '' : '0', 
+        border: open ? '' : 'none'
+      }}
+    >
+      <Dropdown label='Subreddits' 
+        open={srOpen} 
+        onToggle={() => dispatch(toggleSrOpen())}
+      >
         <div className='subs-results-container'> 
           <div id='search-bar'  >
             <Search />

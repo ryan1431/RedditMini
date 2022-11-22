@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import './Modal.css';
-import { AiOutlineClose } from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
 
 interface ModalProps {
   open: boolean,
@@ -37,7 +37,7 @@ const Modal = ({open, onClose, children}: ModalProps) => {
       <div className='ui-modal-content' ref={modalRef} style={{maxWidth: '100%', overflow: 'auto'}}>
         <header className='ui-modal-header'>
           {header}
-          <div onClick={close} className='ui-modal-close icon-button'><p>Close</p><AiOutlineClose /></div>
+          <div onClick={close} className='ui-modal-close icon-button'><p>Close</p><IoMdClose /></div>
         </header>
         <main style={{maxHeight: 'fit-content'}}>
           {content}

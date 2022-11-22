@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { useFeed } from '../../app/hooks/useFeed';
 import { useOnScreen } from '../../app/hooks/useOnScreen';
-import { toggleOpen } from '../../app/reducers/subredditsSlice';
+import { toggleOpen, toggleSrOpen } from '../../app/reducers/subredditsSlice';
 import { PostType } from '../../utility';
 import { feedFields, sortFields } from '../../utility/data';
 import Modal from '../ui/Modal';
@@ -33,6 +33,11 @@ export const Feed = () => {
     setOpenPost(null);
     setSelected('');
   }, []);
+
+  const onOpenSubredditPanel = useCallback(() => {
+    dispatch(toggleSrOpen(true));
+    dispatch(toggleOpen())
+  }, [dispatch]);
 
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef);
@@ -97,7 +102,7 @@ export const Feed = () => {
               {feed === 'custom' && !subs.length 
                   ? (
                   <div >
-                    <p>You have not selected any subreddits. <span onClick={() => dispatch(toggleOpen())} className='open-subreddits'>Click here</span>  to add subreddits.</p>
+                    <p>You have not selected any subreddits. <span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</p>
                   </div>) : feed === 'saved' && !savedPosts.length
   
                   ? <p>You have not saved any posts!</p>

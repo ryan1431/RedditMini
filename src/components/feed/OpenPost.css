@@ -9,17 +9,6 @@
   overflow-y: auto;
 }
 
-.open-post .post {
-  margin: 0 !important;
-  border: none;
-}
-
-
-.open-post .post-body.text {
-  max-height: fit-content;
-  box-shadow: none;
-}
-
 .comment-wrapper {
   margin-top: 10px;
   overflow: hidden;
@@ -32,3 +21,17 @@
 .skeleton { 
   text-align: center;
 }
+
+/* Post Overrides */
+.open-post .post {
+  margin: 0 !important;
+  border: none;
+}
+.open-post .post-details {
+  margin: 0;
+}
+.open-post .post-body.text {
+  max-height: fit-content;
+  box-shadow: none;
+}
+
