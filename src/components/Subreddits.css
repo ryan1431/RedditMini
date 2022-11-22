@@ -4,32 +4,42 @@
 }
 
 #subreddits {
-  color: white;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items:center;
+
+  position: absolute;
+  z-index: 1;
+  top: calc(3.7rem - 14px);
+  right: 0;
+
+  background: rgba(33, 33, 33, 0.994);
+  color: white;
+
   overflow: hidden;
   overflow-y: auto;
 
   width: 400px;
-  height: 90%;
+  max-width: calc(100vw - 23px);
+  height: 90vh;
 
-  border: 1px solid rgb(96, 96, 96);
+  border: 1px solid rgba(96, 96, 96, 0.204);
   border-radius: 10px;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.893);
-  z-index: 1;
-
-
 
   transition: height 0.2s;
+
 }
 
 /* Search bar */
 #search-bar {
-  width: 90%;
+  width: 85%;
   margin: 0 auto;
+}
+
+#search-bar input {
+  background-color: rgb(49, 49, 49);
+  height: 100%;
 }
 
 /* Selected subreddits */

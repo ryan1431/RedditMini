@@ -112,6 +112,7 @@ export const Feed = () => {
                   <div >
                     <p>You have not selected any subreddits. <span onClick={() => dispatch(toggleOpen())} className='open-subreddits'>Click here</span>  to add subreddits.</p>
                   </div>) : feed === 'saved' && !savedPosts.length
+  
                   ? <p>You have not saved any posts!</p>
                 : <p>Loading...</p>}
           </div>
