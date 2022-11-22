@@ -1,6 +1,7 @@
 .subs-results-container {
   width: 100%;
   max-width: 600px;
+  margin: 0 auto;
 }
 
 #subreddits {
@@ -56,27 +57,3 @@
   max-width:94%;
 }
 
-.menu-toggle {
-  display: flex;
-  align-items: center;
-  font-weight: 200;
-  font-size: 14px;
-
-  width: 100%;
-
-  cursor:pointer;
-
-  transition: background-color 0.2s;
-}
-.menu-toggle:hover {
-  background: rgba(69, 68, 68, 0.284);
-}
-.menu-toggle > * {
-  margin: 0 1px;
-}
-.menu-toggle hr {
-  width: 100%;
-  margin: 0 6px;
-  border:none;
-  border-bottom: 1px solid rgb(143, 141, 141);
-}
