@@ -81,6 +81,10 @@
   height: 3.9rem;
   margin: 0;
   margin-right: -23px;
+  cursor: default;
+}
+.navbar-logo-ext {
+  cursor: default;
 }
 
 @media only screen and (max-width: 499px) {
@@ -117,6 +121,7 @@
 #navbar .icon-button.feed-select {
   width: 100%;
   justify-content: space-between;
+  position: relative;
 }
 
 /* Search communities */

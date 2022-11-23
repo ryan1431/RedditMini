@@ -1,11 +1,11 @@
 import './Navbar.css';
 
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { toggleInSearch, toggleOpen } from '../app/reducers/subredditsSlice';
 
 import { RiMenu3Line } from 'react-icons/ri';
-import { HiOutlineCog, HiOutlineHome } from 'react-icons/hi';
+import { HiOutlineCog } from 'react-icons/hi';
 import { BsMoonStars, BsMoonStarsFill, BsChevronDown } from 'react-icons/bs'
 
 import { ReactComponent as RedditDark } from '../media/Reddit_Logotype_OnDark.svg';
@@ -13,6 +13,9 @@ import { ReactComponent as RedditIcon } from '../media/Reddit_Mark_OnDark.svg';
 
 import { Settings } from './Settings';
 import { Search } from './Search';
+import { SelectFeed } from './feed/SelectFeed';
+import { feedIcons } from '../utility/feedData';
+import type { FeedIcons } from '../utility/feedData';
 
 export const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -20,8 +23,14 @@ export const Navbar = () => {
   const navBarRef = useRef<HTMLDivElement>(undefined!);
 
   const feed = useAppSelector(s => s.query.feed);
+  const FeedIcon = feedIcons[feed as keyof FeedIcons];
 
   const [darkMode, setDarkMode] = useState<boolean>(true);
+  const [feedSelectOpen, setFeedSelectOpen] = useState<boolean>(false);
+
+  const onClose = useCallback(() => {
+    setFeedSelectOpen(false);
+  }, []);
 
   return (
     <div id='navbar' ref={navBarRef}>
@@ -45,21 +54,14 @@ export const Navbar = () => {
         {/* Feed Select & Search Bar */}
         <div className='navbar-feed-search'>
           <div className='navbar-button-wrapper'>
-            <div className='icon-button feed-select'>
+            <div className='icon-button feed-select' onClick={() => setFeedSelectOpen(p => !p)}>
               <div className='icon-wrapper theme'>
-                {feed === 'home'
-                  ? <HiOutlineHome />
-                  : feed === 'custom'
-                    ? <HiOutlineHome />
-                  : feed === 'saved'
-                    ? <HiOutlineHome />
-                  : feed === 'news' 
-                    ? <HiOutlineHome />
-                  : <HiOutlineHome />}
-                  <p>Home</p>
+                <FeedIcon />
+                <p style={{textTransform: 'capitalize'}}>{feed === 'custom' ? 'Followed' : feed}</p>
               </div>
               <BsChevronDown className='icon-arrow'/>
             </div>
+            <SelectFeed open={feedSelectOpen} onClose={onClose}/>
           </div>
           <div className='nav-desktop nav-search' onClick={() => dispatch(toggleOpen(false))}>
             <div className='search-bar'  >
@@ -72,7 +74,7 @@ export const Navbar = () => {
         <div className='navbar-logo' >
           <RedditIcon className='navbar-svg icon'/>
           <RedditDark className='navbar-svg text'/>
-          <h2 className='navbar-logo-ext'>mini</h2>
+          <h2 className='navbar-logo-ext noselect'>mini</h2>
         </div>
       </div>
     </div>

@@ -27,7 +27,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
 
   const onClick = useCallback((e: any) => {
     if (wrapper.current.contains(e.target)
-      || navBarRef.current.contains(e.target)
+      || (navBarRef.current.contains(e.target) && !e.target.closest('.feed-select'))
       || e.target.classList.contains('open-subreddits')
       || e.target.classList.contains('save-results')) 
     return;
