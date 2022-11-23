@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useAppDispatch } from '../app/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { useDebounce } from '../app/hooks/useDebounce';
-import { setLoading } from '../app/reducers/subredditsSlice';
+import { setLoading, setSearchInput } from '../app/reducers/subredditsSlice';
 import './Search.css';
 import { SearchResults } from './SearchResults';
 
 export const Search = () => {
   const dispatch = useAppDispatch();
 
-  const [searchInput, setSearchInput] = useState<string>('');
+  const searchInput = useAppSelector(s => s.subreddits.searchInput);
+  
   const [inSearch, setInSearch] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -23,7 +24,7 @@ export const Search = () => {
 
   const onChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
     setInSearch(true);
-    setSearchInput(e.target.value);
+    dispatch(setSearchInput(e.target.value));
     dispatch(setLoading('loading'));
 
     // Show results already in state if input reverts to previous value

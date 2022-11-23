@@ -24,7 +24,7 @@ export const Dropdown = ({label, open, onToggle, initiallyOpen = false, children
     maxHeight: '0',
     display: 'none',
   }
-  const style = (open === undefined)
+  const cStyle = (open === undefined)
     ? openLocal ? openStyle : closedStyle
     : open ? openStyle : closedStyle;
   
@@ -40,15 +40,15 @@ export const Dropdown = ({label, open, onToggle, initiallyOpen = false, children
     <div className='ui-dropdown'>
       <div className='ui-dropdown-toggle' onClick={onClick}>
         <p>{label}</p>
-        <BsChevronDown className='ui-dropdown-arrow' style={{rotate: style.rotate}}/>
+        <BsChevronDown className='ui-dropdown-arrow' style={{rotate: cStyle.rotate}}/>
         <hr></hr> 
       </div>
 
       {/* Container Content */}
       <div className='ui-dropdown-content' 
         style={{
-          maxHeight: style.maxHeight,
-          display: style.display,
+          maxHeight: cStyle.maxHeight,
+          display: cStyle.display,
         }}
       >
         {children}
