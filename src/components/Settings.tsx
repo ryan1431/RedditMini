@@ -53,7 +53,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
       style={{
         overflow: open ? 'auto' : 'hidden', 
         height: open ? '' : '0', 
-        border: open ? '' : 'none'
+        // border: open ? '' : 'none'
       }}
     >
       <Dropdown label='Followed Subreddits' 
@@ -95,16 +95,3 @@ export const Settings = ({navBarRef}: SettingsProps) => {
     </div>
   )
 }
-
-
-/*
-<div> 
-{process.env.NODE_ENV === 'development' && <button onClick={() => localStorage.clear()}>clearlocal</button>}
-{process.env.NODE_ENV === 'development' && <button onClick={() => {
-  const kb = (new Blob(Object.values(localStorage)).size / 1000).toFixed(2);
-  console.log('%cLocal Storage: %c' + kb + 'kb (%c' + (Number(kb) / 5000).toFixed(3) + '%)', 'color: ghostwhite', 'color: yellow', 'color: orange');
-}}>local size</button>}
-<button>darkmode</button>
-</div>
-
-*/
