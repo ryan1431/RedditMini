@@ -69,7 +69,7 @@ export const Feed = () => {
       {/* Open post modal */}
       <Modal open={!!openPost} onClose={onClosePost}>
         {openPost && <Modal.Header>
-          <p><span className='sub-prefix' style={{marginRight: '2px'}}>r/</span>{openPost?.subreddit}</p>
+          <span className='sub-prefix' style={{marginRight: '2px'}}>r/</span>{openPost?.subreddit}
         </Modal.Header>}
         {openPost && <OpenPost post={openPost}/>}
       </Modal>

@@ -1,0 +1,31 @@
+.ui-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(53, 53, 53);
+  
+  width: fit-content;
+  padding: 6px;
+  
+  border: 1px solid rgba(98, 97, 97, 0.681);
+  border-radius: 3px;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s;
+}
+
+.ui-button:hover {
+  background: rgb(71, 71, 71);
+}
+
+.ui-button:active {
+  background: rgb(116, 115, 115);
+}
+
+.ui-button p {
+  font-weight: 300;
+  color: rgb(194, 194, 194);
+  font-size: 15px;
+  padding: 0;
+}

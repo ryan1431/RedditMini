@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { toggleOpen } from '../app/reducers/subredditsSlice';
 
 import { ReactComponent as RedditDark } from '../images/Reddit_Logotype_OnDark.svg';
-import { Subreddits } from './Subreddits';
+import { Settings } from './Settings';
 
 
 export const Navbar = () => {
@@ -29,7 +29,7 @@ export const Navbar = () => {
               <BsChevronDown />
             </div>
           </div>
-          <Subreddits navBarRef={navBarRef}/>
+          <Settings navBarRef={navBarRef}/>
         </div>
 
         {/* Reddit logo */}
@@ -40,16 +40,3 @@ export const Navbar = () => {
     </div>
   )
 }
-
-/*
-
-<div> 
-{process.env.NODE_ENV === 'development' && <button onClick={() => localStorage.clear()}>clearlocal</button>}
-{process.env.NODE_ENV === 'development' && <button onClick={() => {
-  const kb = (new Blob(Object.values(localStorage)).size / 1000).toFixed(2);
-  console.log('%cLocal Storage: %c' + kb + 'kb (%c' + (Number(kb) / 5000).toFixed(3) + '%)', 'color: ghostwhite', 'color: yellow', 'color: orange');
-}}>local size</button>}
-<button>darkmode</button>
-</div>
-
-*/

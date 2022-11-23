@@ -6,6 +6,7 @@ import type { Subreddit } from "../../types";
 
 interface SubredditsState {
   subs: Subreddit[],
+  searchInput: string,
   searchStatus: string,
   searchResults: Subreddit[],
   toggleQueue: Subreddit[],
@@ -15,6 +16,7 @@ interface SubredditsState {
 
 const initialState: SubredditsState = {
   subs: [],
+  searchInput: '',
   searchStatus: 'idle',
   searchResults: [],
   toggleQueue: [],
@@ -71,6 +73,15 @@ export const subredditsReducer = createSlice({
     },
     toggleSrOpen: (state, action: PayloadAction<boolean | undefined>) => {
       state.srOpen = action.payload ?? !state.srOpen;
+    },
+    setSearchInput: (state, action: PayloadAction<string>) => {
+      state.searchInput = action.payload;
+    },
+    onClearSubreddits: (state) => {
+      let srOpen = state.srOpen;
+      let open = state.open;
+
+      return {...initialState, open, srOpen}
     }
   }, 
   extraReducers: (builder) => {
@@ -91,6 +102,6 @@ export const subredditsReducer = createSlice({
   }
 });
 
-export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue, toggleOpen, toggleSrOpen } = subredditsReducer.actions;
+export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue, toggleOpen, toggleSrOpen, setSearchInput, onClearSubreddits } = subredditsReducer.actions;
 
 export default subredditsReducer.reducer;

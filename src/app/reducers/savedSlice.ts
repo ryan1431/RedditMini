@@ -33,10 +33,13 @@ export const savedReducer = createSlice({
       if (index === -1) throw new Error('no post found');
 
       state.savedPosts.splice(index, 1);
+    },
+    onClearSaved: () => {
+      return initialState;
     }
   }
 });
 
-export const { save, unsave } = savedReducer.actions;
+export const { save, unsave, onClearSaved } = savedReducer.actions;
 
 export default savedReducer.reducer;

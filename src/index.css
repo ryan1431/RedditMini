@@ -80,7 +80,7 @@ code {
 
   padding: 6px;
   border-radius: 5px;
-  border: 1px solid rgba(113, 113, 113, 0.298);
+  border: 1px solid rgba(113, 113, 113, 0.0);
 
   position: relative;
 
@@ -88,7 +88,8 @@ code {
 }
 
 .icon-button:hover {
-  background: rgba(75, 75, 75, 0.524);
+  background: rgba(75, 75, 75, 0.154);
+  border-color: rgba(113, 113, 113, 0.298);
 }
 
 .noselect {
