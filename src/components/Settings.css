@@ -60,3 +60,7 @@
   max-width:94%;
 }
 
+.other-settings {
+  width: fit-content;
+  margin: 5px auto;
+}

@@ -12,6 +12,7 @@
   align-items: center;
 
   z-index: 1;
+
 }
 
 .ui-modal-header {
@@ -25,7 +26,7 @@
 .ui-modal-header h2 {
   font-weight: 300;
   font-size: 16px;
-  margin-left: 8px;
+margin-left: 8px;
 }
 
 .ui-modal-content {
@@ -35,6 +36,8 @@
   border-radius: 5px;
 
   background: rgb(22, 22, 22);
+
+  overflow-x: hidden !important;
 }
 
 .ui-modal-actions {
@@ -51,10 +54,10 @@
   width: 100%;
 }
 
-.ui-modal-close.icon-button p {
+.ui-modal .ui-modal-close.icon-button p {
   padding: 0 4px;
 }
-.ui-modal-close.icon-button {
+.ui-modal .ui-modal-close.icon-button {
   display: flex;
   align-items: center;
   font-size: 15px;
@@ -68,12 +71,12 @@
   width:fit-content;
 
 }
-.ui-modal-close.icon-button svg{
+.ui-modal .ui-modal-close.icon-button svg{
   position: relative;
   font-size: 15px;
   color: rgba(161, 161, 161, 0.85);
 }
-.ui-modal-close.icon-button p {
+.ui-modal .ui-modal-close.icon-button p {
   position: relative;
   bottom: 1px;
 }

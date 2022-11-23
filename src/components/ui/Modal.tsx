@@ -19,7 +19,6 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
     return !['Header', 'Actions'].includes(child?.type?.displayName) ? child : null
   });
 
-
   const modalRef = useRef<HTMLDivElement>(undefined!);
   const forceClose = useRef<boolean>(false);
   
@@ -29,7 +28,9 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
   }, [onClose]);
 
   const onClick = useCallback((e: any) => {
-    if (modalRef.current.contains(e.target) || !!e.target.closest('.post')) return;
+    if (modalRef.current.contains(e.target) 
+      || !!e.target.closest('.post')
+      || e.target.closest('.other-settings')) return;
     close();
   }, [close]);
 
