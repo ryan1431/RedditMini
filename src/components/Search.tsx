@@ -34,17 +34,14 @@ export const Search = () => {
   }, [dispatch, searchQuery]);
 
   const onClick = useCallback((e: any) => {
-    console.log(e.target);
-    console.log(wrapper.current.children);
-    console.log(wrapper.current.contains(e.target));
-    
-    if(wrapper.current.contains(e.target)) {
-      if (!inSearch) dispatch(toggleInSearch(true));
+    if (e.target.classList.contains('search')) {
+      dispatch(toggleInSearch(true));
       return;
-    };
+    }
+    if (e.target.closest('.search-results')) return;
 
     dispatch(toggleInSearch(false));
-  }, [dispatch, inSearch]);
+  }, [dispatch]);
 
   useEffect(() => { 
     window.addEventListener('click', onClick);
