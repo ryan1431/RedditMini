@@ -3,11 +3,8 @@ p, h1, h2, h3, h4, h5, h6, input {
   margin: 0;
 }
 input, button {
-  border: none;
   outline: none;
   border: 1px solid rgba(0, 0, 0, 0);
-
-  transition: border-color 0.2s;
 }
 
 input:hover {
@@ -15,7 +12,7 @@ input:hover {
 }
 
 input:active {
-  border-color: rgb(0, 0, 0);
+  border-color: rgb(62, 62, 62);
 }
 
 * {

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
+import { setQuery } from '../app/reducers/querySlice';
 import { clearToggleQueue, getSubreddits, toggleSubreddit } from '../app/reducers/subredditsSlice';
 import { Subreddit } from '../types';
 import './SearchResults.css';
@@ -55,6 +56,7 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
     });
 
     setInSearch(false);
+    dispatch(setQuery(['feed', 'custom']))
     dispatch(clearToggleQueue());
   }, [dispatch, setInSearch, toggled]);
 
@@ -70,7 +72,7 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
                   <Sub key={'result-' + sub.name} sub={sub} result />
                 )}
                 <div className='save-wrapper' style={style}>
-                  <input type='button' onClick={() => setSubs()} className='save-results' value='Save'></input>
+                  <input type='button' onClick={setSubs} className='save-results' value='Save'></input>
                 </div>
               </div>
               : (searchStatus === 'loading')
