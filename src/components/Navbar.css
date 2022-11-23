@@ -38,11 +38,12 @@
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  margin-left: 10px;
+  margin: 0 5px;
 
   width: 40px;
   height: 40px;
 }
+
 
 .navbar-button-wrapper {  
   display: flex;
@@ -55,6 +56,7 @@
   width: fit-content;
   display: flex;
   align-items: center;
+  margin-right: -18px;
 }
 .navbar-logo-ext {
   font-family: 'VAGRounded';
@@ -74,14 +76,11 @@
   position: relative;
   right: 6px;
 }
-
-.icon-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.icon-wrapper.theme {
-  font-size: 20px;
+.navbar-svg.icon {
+  display: none;
+  height: 3.9rem;
+  margin: 0;
+  margin-right: -23px;
 }
 
 @media only screen and (max-width: 499px) {
@@ -101,13 +100,67 @@
   }
 }
 
-
-/* Navbar overrides */
-.nav-search {
+/* Select feed & search communities section */
+.navbar-feed-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+}
+
+/* Select feed */
+.navbar-feed-search .navbar-button-wrapper {
+  flex-grow: 1;
+  flex-shrink: 105;
+  flex-basis: auto;
+}
+#navbar .icon-button.feed-select {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* Search communities */
+.nav-search {
   max-height: 100%;
+  flex-grow: 7;
+  flex-shrink: 1;
+  flex-basis: auto;
 }
 .nav-search .search-wrapper {
   height: 2.7rem;
   margin: 0;
+}
+.nav-search #search-bar {
+  width: 100%;
+}
+
+@media only screen and (min-width: 350px) {
+  .navbar-svg.icon {
+    display: block;
+  }
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+.icon-wrapper.theme {
+  font-size: 20px;
+}
+.icon-wrapper.theme p {
+  display:none;
+  font-size: 14px;
+}
+@media only screen and (min-width: 400px) and (max-width: 499px) {
+  .icon-wrapper.theme p {
+    display: block;
+  }
+}
+@media only screen and (min-width: 700px) {
+  .icon-wrapper.theme p {
+    display: block;
+  }
+}
+.icon-arrow {
+  font-size: 12px;
 }
