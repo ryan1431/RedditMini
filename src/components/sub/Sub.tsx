@@ -4,7 +4,7 @@ import { BiAddToQueue } from 'react-icons/bi';
 import { useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { Subreddit } from '../../types';
-import srdefault from '../../images/srdefault.jpeg';
+import srdefault from '../../media/srdefault.jpeg';
 import { toggleResult, toggleSubreddit } from '../../app/reducers/subredditsSlice';
 import clsx from 'clsx';
 export interface SubProps {

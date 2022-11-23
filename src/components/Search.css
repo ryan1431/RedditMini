@@ -2,16 +2,13 @@
   padding: 10px;
   height: 100%;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 20px;
 
   font-size: 14px;
   font-weight: 100;
   color: rgb(199, 198, 198)
 }
-.search:active,
-.search:hover {
-  border: none;
-}
+
 
 .search-wrapper {
   margin: 10px auto;

@@ -41,6 +41,7 @@
 #search-bar input {
   background-color: rgb(49, 49, 49);
   height: 100%;
+  color: white;
 }
 
 /* Selected subreddits */

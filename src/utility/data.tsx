@@ -32,7 +32,7 @@ export const sortFields = [
 
 export const feedFields = [
   ['home', 'Home'],
-  ['custom', 'Custom'],
+  ['custom', 'Followed'],
   ['saved', 'Saved'],
 ];
 

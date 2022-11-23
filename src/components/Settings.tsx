@@ -56,12 +56,12 @@ export const Settings = ({navBarRef}: SettingsProps) => {
         border: open ? '' : 'none'
       }}
     >
-      <Dropdown label='Subreddits' 
+      <Dropdown label='Followed Subreddits' 
         open={srOpen} 
         onToggle={() => dispatch(toggleSrOpen())}
       >
         <div className='subs-results-container'> 
-          <div id='search-bar'  >
+          <div id='search-bar' className='nav-mobile'>
             <Search />
           </div>
 
@@ -72,7 +72,9 @@ export const Settings = ({navBarRef}: SettingsProps) => {
           </div>
         </div>
       </Dropdown>
-      <Dropdown label='Theme'>
+      <Dropdown label='Blocked Subreddits'>
+      </Dropdown>
+      <Dropdown label='Blocked Users'>
       </Dropdown>
       <Dropdown label='Other Settings'>
         <Button onClick={() => setConfirm(true)}>Clear Local Storage</Button>

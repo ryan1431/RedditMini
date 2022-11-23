@@ -102,7 +102,7 @@ export const Feed = () => {
               {feed === 'custom' && !subs.length 
                   ? (
                   <div >
-                    <p>You have not selected any subreddits. <span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</p>
+                    <p>You have not followed any subreddits.<span className='nav-mobile'><span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</span></p>
                   </div>) : feed === 'saved' && !savedPosts.length
   
                   ? <p>You have not saved any posts!</p>
