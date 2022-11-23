@@ -33,7 +33,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div id='navbar' ref={navBarRef}>
+    <div className='navbar' ref={navBarRef}>
       <div id='navbar-items'>
         {/* Navbar settings menu */}
         <div className='navbar-button-wrapper'>

@@ -77,7 +77,9 @@ export const Settings = ({navBarRef}: SettingsProps) => {
       <Dropdown label='Blocked Users'>
       </Dropdown>
       <Dropdown label='Other Settings'>
-        <Button onClick={() => setConfirm(true)}>Clear Local Storage</Button>
+        <div className='other-settings'>
+          <Button style={{padding: '10px'}} onClick={() => setConfirm(true)}>Clear Local Storage</Button>
+        </div>
         <Modal open={confirm} onClose={() => setConfirm(false)} fitHeight>
           <Modal.Header>Confirm</Modal.Header>
           <div style={{maxWidth: '400px', display: 'flex', justifyContent: 'center'}}>
