@@ -18,6 +18,12 @@
   z-index: 1;
 }
 
+.results-wrapper {
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .save-wrapper {
   display: flex;
   justify-content: center;

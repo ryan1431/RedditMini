@@ -32,6 +32,15 @@ a:hover {
   text-decoration: underline;
 }
 
+.hidescrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hidescrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 
 /* */
 body {

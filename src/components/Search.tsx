@@ -52,7 +52,7 @@ export const Search = () => {
 
   return (
     <div style={{position: 'relative'}} className='search-wrapper' ref={wrapper}>
-      <input placeholder="Search Subreddits" className="search" type="text" value={searchInput} onChange={onChange}  />
+      <input placeholder="Search Communities" className="search" type="text" value={searchInput} onChange={onChange}  />
       <SearchResults inSearch={inSearch} setInSearch={setInSearch} searchQuery={searchQuery} searchInput={searchInput}/>
     </div>
   )

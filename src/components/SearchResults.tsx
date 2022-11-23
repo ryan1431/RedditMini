@@ -68,9 +68,11 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
             ? <p>Enter a search of at least 3 characters</p>
             : (searchStatus === 'idle' && results.length)
               ? <div style={{height: 'fit-content', maxWidth: '100%'}}>
-                {results.map((sub: Subreddit) => 
-                  <Sub key={'result-' + sub.name} sub={sub} result />
-                )}
+                <div className='results-wrapper hidescrollbar'>
+                  {results.map((sub: Subreddit) => 
+                    <Sub key={'result-' + sub.name} sub={sub} result />
+                  )}
+                </div>
                 <div className='save-wrapper' style={style}>
                   <input type='button' onClick={setSubs} className='save-results' value='Save'></input>
                 </div>
