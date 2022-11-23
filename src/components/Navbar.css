@@ -130,7 +130,7 @@
   height: 2.7rem;
   margin: 0;
 }
-.nav-search #search-bar {
+.nav-search .search-bar {
   width: 100%;
 }
 
@@ -140,6 +140,7 @@
   }
 }
 
+/* Navbar overrides */
 .icon-wrapper {
   display: flex;
   align-items: center;
@@ -163,4 +164,10 @@
 }
 .icon-arrow {
   font-size: 12px;
+}
+
+.nav-search .search-results {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
 }

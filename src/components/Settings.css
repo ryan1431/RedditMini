@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 
-#settings {
+.settings {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -12,7 +12,7 @@
 
   position: absolute;
   z-index: 1;
-  top: calc(3.7rem - 13px);
+  top: calc(3.5rem - 9px);
   right: 0;
 
   background: rgba(33, 33, 33, 0.994);
@@ -23,29 +23,31 @@
 
   width: 400px;
   max-width: calc(100vw - 23px);
-  height: 90vh;
+  height: 80vh;
 
-  border: 1px solid rgba(96, 96, 96, 0.204);
+  border: 1px solid rgb(90, 90, 90);
   border-radius: 10px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top: none;
 
   transition: height 0.2s;
-
 }
 
 /* Search bar */
-#search-bar {
+.search-bar {
   width: 85%;
   margin: 0 auto;
 }
 
-#search-bar input {
+.search-bar input {
   background-color: rgb(49, 49, 49);
   height: 100%;
   color: white;
 }
 
 /* Selected subreddits */
-#selected-subs {
+.selected-subs {
   display: flex;
   flex-direction: column;
   justify-content: center;

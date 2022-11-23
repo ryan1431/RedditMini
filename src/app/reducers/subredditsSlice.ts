@@ -12,6 +12,7 @@ interface SubredditsState {
   toggleQueue: Subreddit[],
   open: boolean,
   srOpen: boolean,
+  inSearch: boolean,
 }
 
 const initialState: SubredditsState = {
@@ -22,6 +23,7 @@ const initialState: SubredditsState = {
   toggleQueue: [],
   open: false,
   srOpen: false,
+  inSearch: false,
 }
 
 let savedSubs: Subreddit[] | undefined;
@@ -74,6 +76,9 @@ export const subredditsReducer = createSlice({
     toggleSrOpen: (state, action: PayloadAction<boolean | undefined>) => {
       state.srOpen = action.payload ?? !state.srOpen;
     },
+    toggleInSearch: (state, action: PayloadAction<boolean | undefined>) => {
+      state.inSearch = action.payload ?? !state.inSearch;
+    },
     setSearchInput: (state, action: PayloadAction<string>) => {
       state.searchInput = action.payload;
     },
@@ -102,6 +107,6 @@ export const subredditsReducer = createSlice({
   }
 });
 
-export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue, toggleOpen, toggleSrOpen, setSearchInput, onClearSubreddits } = subredditsReducer.actions;
+export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue, toggleOpen, toggleSrOpen, toggleInSearch, setSearchInput, onClearSubreddits } = subredditsReducer.actions;
 
 export default subredditsReducer.reducer;

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { setQuery } from '../app/reducers/querySlice';
-import { clearToggleQueue, getSubreddits, toggleSubreddit } from '../app/reducers/subredditsSlice';
+import { clearToggleQueue, getSubreddits, toggleInSearch, toggleSubreddit } from '../app/reducers/subredditsSlice';
 import { Subreddit } from '../types';
 import './SearchResults.css';
 import { Sub } from './sub/Sub';
@@ -10,19 +10,18 @@ interface SearchResultsProps {
   /**
    * Represents whether or not the search results are currently showing
    */
-  inSearch: boolean;
-  setInSearch: React.Dispatch<React.SetStateAction<boolean>>;
+  inSearch: boolean,
   /**
    * Actual query used to fetch after a one second debounce
    */
-  searchQuery: string;
+  searchQuery: string,
   /**
    * Text in the input field, to be queried
    */
-  searchInput: string;
+  searchInput: string,
 }
 
-export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:SearchResultsProps) => {
+export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResultsProps) => {
   const dispatch = useAppDispatch();
 
   const {searchResults: results, searchStatus} = useAppSelector((state) => state.subreddits);
@@ -55,10 +54,10 @@ export const SearchResults = ({inSearch, setInSearch, searchQuery, searchInput}:
       dispatch(toggleSubreddit(sub));
     });
 
-    setInSearch(false);
+    dispatch(toggleInSearch(false));
     dispatch(setQuery(['feed', 'custom']))
     dispatch(clearToggleQueue());
-  }, [dispatch, setInSearch, toggled]);
+  }, [dispatch, toggled]);
 
   return (
     <>

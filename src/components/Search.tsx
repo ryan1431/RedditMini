@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { useDebounce } from '../app/hooks/useDebounce';
-import { setLoading, setSearchInput } from '../app/reducers/subredditsSlice';
+import { setLoading, setSearchInput, toggleInSearch } from '../app/reducers/subredditsSlice';
 import './Search.css';
 import { SearchResults } from './SearchResults';
 
@@ -9,8 +9,8 @@ export const Search = () => {
   const dispatch = useAppDispatch();
 
   const searchInput = useAppSelector(s => s.subreddits.searchInput);
+  const inSearch = useAppSelector(s => s.subreddits.inSearch);
   
-  const [inSearch, setInSearch] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
@@ -23,7 +23,7 @@ export const Search = () => {
   }, 1000, [searchInput]);
 
   const onChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
-    setInSearch(true);
+    dispatch(toggleInSearch(true));
     dispatch(setSearchInput(e.target.value));
     dispatch(setLoading('loading'));
 
@@ -33,17 +33,18 @@ export const Search = () => {
     }
   }, [dispatch, searchQuery]);
 
-  const onClick = useCallback((e: MouseEvent) => {
-    let element = e.target;
-
-    if (!(element instanceof HTMLElement)) return;
-    if(wrapper.current.contains(element)) {
-      if (!inSearch) setInSearch(true);
+  const onClick = useCallback((e: any) => {
+    console.log(e.target);
+    console.log(wrapper.current.children);
+    console.log(wrapper.current.contains(e.target));
+    
+    if(wrapper.current.contains(e.target)) {
+      if (!inSearch) dispatch(toggleInSearch(true));
       return;
     };
 
-    setInSearch(false);
-  }, [inSearch]);
+    dispatch(toggleInSearch(false));
+  }, [dispatch, inSearch]);
 
   useEffect(() => { 
     window.addEventListener('click', onClick);
@@ -51,9 +52,9 @@ export const Search = () => {
   }, [onClick]);
 
   return (
-    <div style={{position: 'relative'}} className='search-wrapper' ref={wrapper}>
+    <div style={{position: 'relative',}} className='search-wrapper' ref={wrapper}>
       <input placeholder="Search Communities" className="search" type="text" value={searchInput} onChange={onChange}  />
-      <SearchResults inSearch={inSearch} setInSearch={setInSearch} searchQuery={searchQuery} searchInput={searchInput}/>
+      <SearchResults inSearch={inSearch} searchQuery={searchQuery} searchInput={searchInput}/>
     </div>
   )
 }
