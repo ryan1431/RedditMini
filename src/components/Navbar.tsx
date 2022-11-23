@@ -2,7 +2,7 @@ import './Navbar.css';
 
 import { useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
-import { toggleOpen } from '../app/reducers/subredditsSlice';
+import { toggleInSearch, toggleOpen } from '../app/reducers/subredditsSlice';
 
 import { RiMenu3Line } from 'react-icons/ri';
 import { HiOutlineCog, HiOutlineHome } from 'react-icons/hi';
@@ -13,8 +13,6 @@ import { ReactComponent as RedditIcon } from '../media/Reddit_Mark_OnDark.svg';
 
 import { Settings } from './Settings';
 import { Search } from './Search';
-
-
 
 export const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +31,7 @@ export const Navbar = () => {
           <div className='icon-button' onClick={() => dispatch(toggleOpen())}>
             <div className='icon-wrapper'>
               <RiMenu3Line className='nav-mobile'/>
-              <HiOutlineCog className='nav-desktop'/>
+              <HiOutlineCog className='nav-desktop' onClick={() => dispatch(toggleInSearch(false))}/>
             </div>
           </div>
           <div className='icon-button' onClick={() => setDarkMode(p => !p)}>
@@ -63,13 +61,12 @@ export const Navbar = () => {
               <BsChevronDown className='icon-arrow'/>
             </div>
           </div>
-          <div className='nav-desktop nav-search'>
-            <div id='search-bar'  >
+          <div className='nav-desktop nav-search' onClick={() => dispatch(toggleOpen(false))}>
+            <div className='search-bar'  >
               <Search />
             </div>
           </div>
         </div>
-        
 
         {/* Reddit logo */}
         <div className='navbar-logo' >

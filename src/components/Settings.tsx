@@ -48,7 +48,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   }, [onClick]);
 
   return (
-    <div id="settings" 
+    <div className="settings hidescrollbar" 
       ref={wrapper} 
       style={{
         overflow: open ? 'auto' : 'hidden', 
@@ -61,11 +61,11 @@ export const Settings = ({navBarRef}: SettingsProps) => {
         onToggle={() => dispatch(toggleSrOpen())}
       >
         <div className='subs-results-container'> 
-          <div id='search-bar' className='nav-mobile'>
+          <div className='search-bar nav-mobile'>
             <Search />
           </div>
 
-          <div id="selected-subs">
+          <div className="selected-subs">
             {subs.map((sub) =>
               <Sub sub={sub} key={'selected-' + sub.name}/>
             )}
