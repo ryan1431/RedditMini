@@ -12,6 +12,9 @@ import { getRelativeTime } from '../../../utility/getRelativeTime';
 import { Votes } from './Votes';
 import { Menu } from '../../ui/Menu';
 
+import { BiHide } from 'react-icons/bi';
+import { AiOutlineLink } from 'react-icons/ai';
+
 interface PostProps { 
   post: PostType;
   open?: boolean;
@@ -53,7 +56,18 @@ export const Post = ({post, clicked, setOpenPost, open = false}: PostProps) => {
             </p>
             <p className='post-details'>{getRelativeTime(post.created_utc * 1000)}</p>
           </div>
-          <Menu className='details-menu' />
+          <Menu className='details-menu'>
+            <div className='menu-items-wrapper'>
+              <div className='menu-item'>
+                <p>Hide Post</p>
+                <BiHide />
+              </div>
+              <div className='menu-item' onClick={() => window.open(post.link, '_blank')?.focus()}>
+                <p>Open in Reddit</p>
+                <AiOutlineLink />
+              </div>
+            </div>
+          </Menu>
         </address>
 
         {/* Title */}
@@ -72,7 +86,6 @@ export const Post = ({post, clicked, setOpenPost, open = false}: PostProps) => {
         {/* Info / Actions */}
         <footer className='info'>
           <Votes score={post.score} />
-          <p><a href={post.link}>link</a></p>
           <p>{post.num_comments} comments</p>
           <button className='info-save' onClick={onSave}>{saved ? 'Unsave' : 'Save'}</button>
         </footer>
