@@ -13,15 +13,35 @@
   transition: border-color 0.2s;
 }
 
+.details-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .post-details {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.763);
-  margin-left: 10px;
+  white-space: nowrap;
 }
+.post-details.author {
+  padding-left: 0;
+}
+.details-left {
+  display: flex;
+  align-items: center;
+}
+
 
 .feed-posts .post:hover {
   border: 1px solid rgb(131, 131, 131);
   cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .post-details.author {
+    display: none;
+  }
 }
 
 .post video {
@@ -105,7 +125,7 @@
 @media only screen and (max-width: 670px) {
   .post {
     border-radius: 0px;
-    border-right: none;
-    border-left: none;
+    border-right-color: rgba(0,0,0,0);
+    border-left-color: rgba(0,0,0,0);
   }
 }

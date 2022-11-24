@@ -24,7 +24,8 @@ export const Feed = () => {
     if (e.target instanceof HTMLVideoElement
       || (e.target && e.target.classList?.contains('info-save'))
       || !e.target.closest('.post')
-      || e.target.closest('.votes')) 
+      || e.target.closest('.votes')
+      || e.target.closest('.details-menu')) 
         return setSelected('');
     
     setSelected(e.target.closest('.post').classList[1] || '');
