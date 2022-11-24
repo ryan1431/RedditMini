@@ -26,7 +26,7 @@ export const Menu = ({className = '', icon, openRight = false,}: MenuProps) => {
       {open && <div className='ui-menu-dropdown' 
           style={openRight ? {left: 0} : {right: 0}}
         >
-
+          
         </div>}
     </div>
      
