@@ -41,6 +41,9 @@ a:hover {
   height: 0;
 }
 
+p {
+  font-size: 15px;
+}
 
 /* */
 body {
