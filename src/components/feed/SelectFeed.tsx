@@ -40,7 +40,7 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
         const FeedIcon = feedIcons[feed];
         return <div className='icon-wrapper' onClick={() => onSetFeed(feed)}>
           <FeedIcon />
-          <p style={{textTransform: 'capitalize'}}>{feed === 'custom' ? 'Followed' : feed}</p>
+          <p style={{textTransform: 'capitalize'}}>{feed === 'custom' ? 'Following' : feed}</p>
         </div>
       })}
       

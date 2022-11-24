@@ -134,7 +134,9 @@ export const Feed = () => {
       </section>
       
 
-      
+      <div className='back-to-top'>
+        <p><a href="#feed">Back to top</a></p>
+      </div>
     </div>
   )
 }         

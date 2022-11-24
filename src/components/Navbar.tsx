@@ -57,7 +57,7 @@ export const Navbar = () => {
             <div className='icon-button feed-select' onClick={() => setFeedSelectOpen(p => !p)}>
               <div className='icon-wrapper theme'>
                 <FeedIcon />
-                <p style={{textTransform: 'capitalize'}}>{feed === 'custom' ? 'Followed' : feed}</p>
+                <p style={{textTransform: 'capitalize'}}>{feed === 'custom' ? 'Following' : feed}</p>
               </div>
               <BsChevronDown className='icon-arrow'/>
             </div>
