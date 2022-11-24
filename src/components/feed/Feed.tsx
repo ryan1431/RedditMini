@@ -6,6 +6,7 @@ import { useOnScreen } from '../../app/hooks/useOnScreen';
 import { toggleOpen, toggleSrOpen } from '../../app/reducers/subredditsSlice';
 import { PostType } from '../../utility';
 import { feedFields, sortFields } from '../../utility/data';
+import { FeedIcons, feedIcons, SortIcons, sortIcons } from '../../utility/feedData';
 import Modal from '../ui/Modal';
 import './Feed.css';
 import { OpenPost } from './OpenPost';
@@ -74,18 +75,31 @@ export const Feed = () => {
         {openPost && <OpenPost post={openPost}/>}
       </Modal>
       
-      {/* Customization buttonA */}
+      {/* Feed & Sort by */}
       <section className='feed-customize' style={{cursor: 'pointer'}}>
         <div className="query-buttons">
-          {sortFields.map(([field, title]) => (
-            <button onClick={sortBy} key={title} className={clsx('sort', { 'active': sort === field && !disabled, 'disabled': disabled })} value={field}>{title}</button>
-          ))}
+          {sortFields.map(([field, title]) => {
+            const Icon = sortIcons[field as keyof SortIcons];
+            return (
+              <div onClick={() => sortBy(['sort', field])} key={title} className={clsx('sort', { 'active': sort === field && !disabled, 'disabled': disabled })}>
+                <Icon />
+                <p>{title}</p>
+              </div>
+            )
+          })}
         </div>
-        <footer className='feed-buttons'>
-          {feedFields.map(([field, title]) => (
-            <button onClick={sortBy} key={title} className={clsx('feed', { active: feed === field })} value={field}>{title}</button>
-          ))}
-        </footer>
+        <section className='feed-buttons'>
+          {feedFields.map(([field, title]) => {
+            const Icon = feedIcons[field as keyof FeedIcons];
+            return (
+              <div onClick={() => sortBy(['feed', field])} key={title} className={clsx('feed', { active: feed === field })}>
+                <Icon />
+                <p>{title}</p>
+              </div>
+            )
+          }
+          )}
+        </section>
       </section>
 
       {/* Content */}

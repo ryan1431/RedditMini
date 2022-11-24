@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchFeed, setFeedPosts, setQuery } from "../reducers/querySlice";
+import { fetchFeed, setFeedPosts, SetQuery, setQuery } from "../reducers/querySlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { base } from "../../utility/data";
 import { Subreddit } from "../../types";
@@ -90,12 +90,12 @@ export const useFeed = (isVisible: boolean) => {
     }
   }, [isVisible, dispatch]);
 
-  const sortBy = useCallback(({target}:any) => {
-    if (target.value === sort || target.value === feed) return;
+  const sortBy = useCallback(([target, value]:[string, string]) => {
+    if (value === sort || value === feed) return;
 
     setUserFeed([]);
     dispatch(setQuery(['after', '']));
-    dispatch(setQuery([target.classList[0], target.value]));
+    dispatch(setQuery([target as SetQuery, value]))
   }, [sort, feed, dispatch]);
 
   return {

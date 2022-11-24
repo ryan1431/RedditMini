@@ -10,7 +10,7 @@ interface QueryState {
   add: boolean,
 }
 
-type SetQuery = 'after' | 'feed' | 'sort';
+export type SetQuery = 'after' | 'feed' | 'sort';
 
 export const initialState: QueryState = {
   after: '',
