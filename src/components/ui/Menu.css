@@ -3,12 +3,14 @@
   top: 100%;
   overflow:visible;
 
-
-  width: 100px;
-  height: 100px;
+  width: fit-content;
+  height: fit-content;
   z-index: 1;
 
-  background: red;
+  border-radius: 5px;
+
+  background: rgb(31, 31, 31);
+  border: 1px solid rgba(78, 78, 78, 0.712);
 }
 
 .ui-menu {
