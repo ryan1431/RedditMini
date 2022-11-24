@@ -3,11 +3,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { useFeed } from '../../app/hooks/useFeed';
 import { useOnScreen } from '../../app/hooks/useOnScreen';
+import { hidePost, unHidePost } from '../../app/reducers/savedSlice';
 import { toggleOpen, toggleSrOpen } from '../../app/reducers/subredditsSlice';
 import { PostType } from '../../utility';
 import { feedFields, sortFields } from '../../utility/data';
 import { FeedIcons, feedIcons, SortIcons, sortIcons } from '../../utility/feedData';
 import Modal from '../ui/Modal';
+import { Snackbar } from '../ui/Snackbar';
 import './Feed.css';
 import { OpenPost } from './OpenPost';
 
@@ -19,6 +21,7 @@ export const Feed = () => {
   const [selected, setSelected] = useState<string>('');
   const [openPost, setOpenPost] = useState<PostType | null>(null);
   const [fetchingLocal, setFetchingLocal] = useState<boolean>(true);
+  const [snackbar, setSnackbar] = useState<string[]>([]);
 
   const onOpenPost = useCallback((e:any) => {
     if (e.target instanceof HTMLVideoElement
@@ -39,6 +42,11 @@ export const Feed = () => {
   const onOpenSubredditPanel = useCallback(() => {
     dispatch(toggleSrOpen(true));
     dispatch(toggleOpen())
+  }, [dispatch]);
+
+  const onHide = useCallback((name: string) => {
+    setSnackbar(p => [...p, name]);
+    dispatch(hidePost(name));
   }, [dispatch]);
 
   const visRef:any = useRef();
@@ -111,7 +119,8 @@ export const Feed = () => {
             return <Post post={post} 
               key={'' + post.title + post.score + post.subreddit}
               clicked={clicked}
-              setOpenPost={setOpenPost}/>;
+              setOpenPost={setOpenPost}
+              onHide={onHide}/>
           }) 
           : <div className='post' style={{textAlign: 'center'}}>
               {feed === 'custom' && !subs.length 
@@ -133,7 +142,21 @@ export const Feed = () => {
           </div>
         }
       </section>
-      
+
+      <div className='snackbar-wrapper'>
+        {snackbar.map(s => {
+
+          return <Snackbar text='Post Hidden.' 
+            actionText={'Undo'} 
+            onAction={() => {
+              dispatch(unHidePost(s));
+              setSnackbar(p => p.filter(name => name !== s));
+            }}
+            actionCloses
+            key={`snack-${s}`}
+          />
+        })}
+      </div>     
 
       <div className='back-to-top'>
         <p><a href="#feed">Back to top</a></p>

@@ -16,18 +16,22 @@ import { BiHide } from 'react-icons/bi';
 import { AiOutlineLink } from 'react-icons/ai';
 
 interface PostProps { 
-  post: PostType;
-  open?: boolean;
-  clicked?: boolean;
-  setOpenPost?: React.Dispatch<React.SetStateAction<PostType | null>>;
+  post: PostType,
+  open?: boolean,
+  clicked?: boolean,
+  setOpenPost?: React.Dispatch<React.SetStateAction<PostType | null>>,
+  onHide?: (...args: any) => any,
 }
 
-export const Post = ({post, clicked, setOpenPost, open = false}: PostProps) => {
+export const Post = ({post, clicked, setOpenPost, open = false, onHide}: PostProps) => {
   const dispatch = useDispatch();
 
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
   const saved = savedPosts.some(p => p.link === post.link);
 
+
+  const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);
+  
   const onSave = useCallback(() => {
     if (saved) {
       dispatch(unsave(post));
@@ -44,7 +48,7 @@ export const Post = ({post, clicked, setOpenPost, open = false}: PostProps) => {
   
   return (
     <>
-      {post && (
+      {post && !hidden && (
       <article className={`post ${post.link}`}>
         {/* Subreddit & Poster Info */}
         <address className='details-wrapper'>
@@ -58,7 +62,7 @@ export const Post = ({post, clicked, setOpenPost, open = false}: PostProps) => {
           </div>
           <Menu className='details-menu'>
             <div className='menu-items-wrapper'>
-              <div className='menu-item'>
+              <div className='menu-item' onClick={() => onHide && onHide(post.name)}>
                 <p>Hide Post</p>
                 <BiHide />
               </div>
@@ -91,5 +95,6 @@ export const Post = ({post, clicked, setOpenPost, open = false}: PostProps) => {
         </footer>
       </article>
       )}
+
     </> )
 }

@@ -9,7 +9,7 @@ interface MenuProps {
   className?: string,
   icon?: IconType
   openRight?: boolean,
-  children?: React.ReactNode,
+  children?: React.ReactNode
 }
 
 export const Menu = ({className = '', icon, openRight = false, children}: MenuProps) => {
