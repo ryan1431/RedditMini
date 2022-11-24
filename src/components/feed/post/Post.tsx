@@ -10,6 +10,7 @@ import { save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
 import { getRelativeTime } from '../../../utility/getRelativeTime';
 import { Votes } from './Votes';
+import { Menu } from '../../ui/Menu';
 
 interface PostProps { 
   post: PostType;
@@ -43,12 +44,16 @@ export const Post = ({post, clicked, setOpenPost, open = false}: PostProps) => {
       {post && (
       <article className={`post ${post.link}`}>
         {/* Subreddit & Poster Info */}
-        <address style={{ display: 'flex', alignItems: 'flex-end'}}>
-          {!open && <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a></p>}
-          <p className='post-details'>
-            posted by <span className='name-prefix'>u/</span>{post.author}
-          </p>
-          <p className='post-details'>{getRelativeTime(post.created_utc * 1000)}</p>
+        <address className='details-wrapper'>
+          <div className='details-left'>
+            {!open && <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a></p>}
+            <p className='post-details author'>
+              {!open && <span>• </span>}
+              <span className='name-prefix'>u/</span>{post.author}
+            </p>
+            <p className='post-details'>{getRelativeTime(post.created_utc * 1000)}</p>
+          </div>
+          <Menu className='details-menu' />
         </address>
 
         {/* Title */}
