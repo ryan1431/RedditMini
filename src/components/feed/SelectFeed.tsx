@@ -38,7 +38,7 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
     >
       {feedOptions.map((feed) => {
         const FeedIcon = feedIcons[feed];
-        return <div className='icon-wrapper' onClick={() => onSetFeed(feed)}>
+        return <div key={'select-' + feed} className='icon-wrapper' onClick={() => onSetFeed(feed)}>
           <FeedIcon />
           <p style={{textTransform: 'capitalize'}}>{feed === 'custom' ? 'Following' : feed}</p>
         </div>

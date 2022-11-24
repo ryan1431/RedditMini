@@ -8,7 +8,7 @@ import { onClearSubreddits, toggleOpen, toggleSrOpen } from '../app/reducers/sub
 import { Dropdown } from './ui/Dropdown';
 import { Button } from './ui/Button';
 import Modal from './ui/Modal';
-import { onClearSaved } from '../app/reducers/savedSlice';
+import { resetSaved } from '../app/reducers/savedSlice';
 
 interface SettingsProps {
   navBarRef: MutableRefObject<HTMLDivElement>,
@@ -37,7 +37,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
 
   const onClearLocal = useCallback(() => {
     localStorage.clear();
-    dispatch(onClearSaved());
+    dispatch(resetSaved());
     dispatch(onClearSubreddits());
     setConfirm(false);
   }, [dispatch]);

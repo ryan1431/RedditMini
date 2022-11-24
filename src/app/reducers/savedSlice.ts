@@ -3,10 +3,12 @@ import { PostType } from "../../utility";
 
 export interface SavedState {
   savedPosts: PostType[],
+  hidden: string[],
 }
 
-const initialState: SavedState = {
-  savedPosts: []
+export const initialState: SavedState = {
+  savedPosts: [],
+  hidden: [],
 }
 
 let savedState: SavedState | undefined;
@@ -23,8 +25,6 @@ export const savedReducer = createSlice({
   reducers: {
     save: (state, action: PayloadAction<PostType>) => {
       const post = action.payload;
-      if (state.savedPosts.find((p) => p.url === post.url)) throw new Error('already-saved');
-
       state.savedPosts.push(post);
     },
     unsave: (state, action: PayloadAction<PostType>) => {
@@ -34,12 +34,21 @@ export const savedReducer = createSlice({
 
       state.savedPosts.splice(index, 1);
     },
-    onClearSaved: () => {
+    resetSaved: () => {
       return initialState;
-    }
+    },
+    hidePost: (state, action: PayloadAction<string>) => {
+      state.hidden.push(action.payload);
+    },
+    unHidePost: (state, action: PayloadAction<string>) => {
+      state.hidden = state.hidden.filter(h => h !== action.payload)
+    },
+    clearHiddenPosts: (state) => {
+      state.hidden = [];
+    },
   }
 });
 
-export const { save, unsave, onClearSaved } = savedReducer.actions;
+export const { save, unsave, resetSaved, hidePost, unHidePost, clearHiddenPosts } = savedReducer.actions;
 
 export default savedReducer.reducer;

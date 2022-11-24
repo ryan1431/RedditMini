@@ -133,3 +133,20 @@
     margin-right: -50px;
   }
 }
+
+.snackbar-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+
+  z-index: 1;
+
+  bottom: 0;
+  left: 0;
+
+  margin: 6px;
+  
+  width: 250px;
+  height: fit-content;
+}

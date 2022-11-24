@@ -10,7 +10,7 @@
   width: 100%;
   background: rgba(19, 19, 19, 0.942);
   
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, scale 0.3s;
 }
 
 .details-wrapper {
@@ -49,6 +49,9 @@
 
 .post h3, p {
   padding: 6px;
+}
+.post h2 {
+  padding-right: 2px;
 }
 
 /* Info */
