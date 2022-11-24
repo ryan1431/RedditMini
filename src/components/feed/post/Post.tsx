@@ -62,7 +62,7 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide}: PostPro
           </div>
           <Menu className='details-menu'>
             <div className='menu-items-wrapper'>
-              <div className='menu-item' onClick={() => onHide && onHide(post.name)}>
+              <div className='menu-item hide-post' onClick={() => onHide && onHide(post.name)}>
                 <p>Hide Post</p>
                 <BiHide />
               </div>

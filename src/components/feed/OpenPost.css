@@ -27,6 +27,9 @@
   margin: 0 !important;
   border: none;
 }
+.open-post .post .menu-item.hide-post {
+  display: none;
+}
 .open-post .post-details {
   margin: 0;
 }
