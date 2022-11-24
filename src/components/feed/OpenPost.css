@@ -26,6 +26,11 @@
 .open-post .post {
   margin: 0 !important;
   border: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.open-post .info-details-comments:hover {
+  background:none;
 }
 .open-post .post .menu-item.hide-post {
   display: none;

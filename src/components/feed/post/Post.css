@@ -159,3 +159,29 @@
 .menu-item:hover {
   background:rgba(131, 131, 131, 0.2);
 }
+
+.info-details {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
+
+  width: 100%;
+}
+
+.info-details-comments {
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  width:fit-content;
+
+  padding: 0 10px;
+
+  transition: background-color 0.2s;
+}
+.info-details-comments p {
+  font-size: 16px;
+}
+.info-details-comments:hover {
+  background:rgba(131, 131, 131, 0.2);
+}

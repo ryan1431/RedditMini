@@ -14,6 +14,7 @@ import { Menu } from '../../ui/Menu';
 
 import { BiHide } from 'react-icons/bi';
 import { AiOutlineLink } from 'react-icons/ai';
+import { TfiComment } from 'react-icons/tfi';
 
 interface PostProps { 
   post: PostType,
@@ -89,8 +90,13 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide}: PostPro
         
         {/* Info / Actions */}
         <footer className='info'>
-          <Votes score={post.score} />
-          <p>{post.num_comments} comments</p>
+          <div className='info-details'>
+            <Votes score={post.score} />
+            <div className='info-details-comments'>
+              <TfiComment size={14}/>
+              <p>{post.num_comments}</p>
+            </div>
+          </div>
           <button className='info-save' onClick={onSave}>{saved ? 'Unsave' : 'Save'}</button>
         </footer>
       </article>
