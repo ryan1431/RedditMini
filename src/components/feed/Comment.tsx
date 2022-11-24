@@ -56,7 +56,7 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
             {avatar && <img src={avatar} alt='user-avatar' className={clsx('user-avatar', {'snoovatar': avatar.includes('snoovatar')})}></img>}
             <p>
               <span className='name-prefix'>u/</span>
-              {comment.author}
+              <span className='comment-author'>{comment.author}</span>
               {comment.distinguished === 'moderator' && <span className='spec moderator'>MOD</span>}
               {comment.is_submitter && <span className='spec op'>OP</span>}
             </p>
