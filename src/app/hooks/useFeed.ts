@@ -54,13 +54,10 @@ export const useFeed = (isVisible: boolean) => {
     } 
     currentUrl.current = url + sort;
 
-
     const cache = cachedPosts[sort as Sort];
-    console.log(cache);
     if (cache.after) {
       dispatch(setQuery(['after', cache.after]));
       dispatch(setFeedPosts(cache.posts));
-      console.log('loading from cache');
       return;
     }
 

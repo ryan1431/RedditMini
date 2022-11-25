@@ -72,11 +72,6 @@ export const Feed = () => {
     savedPosts,
   } = useFeed(isVisible);
 
-  useEffect(() => {
-    // console.log(feedPosts);
-    // console.log('check')
-  }, [feedPosts]);
-
   const disabled = feed === 'saved';
 
   return (
