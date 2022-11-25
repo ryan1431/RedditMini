@@ -4,7 +4,7 @@ import { PostType } from '../../../utility';
 import { Video } from '.././post/Video';
 import { TextBody } from '.././post/TextBody';
 import { ImageBody } from '.././post/ImageBody';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
@@ -13,7 +13,7 @@ import { Votes } from './Votes';
 import { Menu } from '../../ui/Menu';
 
 import { BiHide } from 'react-icons/bi';
-import { AiOutlineLink } from 'react-icons/ai';
+import { AiOutlineConsoleSql, AiOutlineLink } from 'react-icons/ai';
 import { TfiComment } from 'react-icons/tfi';
 import { base } from '../../../utility/data';
 import { SubMeta } from '../../../types';
@@ -36,7 +36,7 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide}: PostPro
 
   const saved = savedPosts.some(p => p.link === post.link);
 
-  const [ subMeta, setSubMeta ] = useState<SubMeta>();
+  const [ subData, setSubData ] = useState<SubMeta>();
   
   const onSave = useCallback(() => {
     if (saved) {
@@ -52,38 +52,46 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide}: PostPro
     }
   }, [clicked, post, setOpenPost]);
 
-  useEffect(() => {
-    if (!post) return;
-    console.log(post);
-    const subMeta = subsMeta.get(post.subreddit_id);
+  const fetchRef = useRef<number>(0);
 
-    console.log(subMeta);
-    console.log(subsMeta);
+  // useEffect(() => {
+  //   console.log('rendering ' + post.title);
+  //   if (post.title.includes('pandemic')) {
+  //     console.log('----------------------------------------');
+  //   }
 
-    if (subMeta) {
-      setSubMeta(subMeta);
-      return;
-    }
+  // }, [post.title])
 
-    fetch(`${base}r/${post.subreddit}/about.json?raw_json=1`)
-      .then(res => res.json())
-      .then(data => ({
-          active_user_count: data.active_user_count,
-          banner_background_color: data.banner_background_color,
-          banner_img: data.banner_img,
-          community_icon: data.community_icon,
-          header_img: data.header_img,
-          icon_img: data.icon_img,
-          id: data.id,
-          public_description: data.public_description,
-          public_description_html: data.public_description_html,
-          display_name: data.display_name,
-          name: data.name,
-        }))
-      .then((subMeta: SubMeta) => {
-        dispatch(addSubMeta(subMeta));
-      })
-  }, [dispatch, post, subsMeta]);
+  
+  // useEffect(() => {
+  //   if (!post) return;
+  //   if (fetchRef.current === true) return;
+  //   console.log(fetchRef.current);
+
+  //   console.log(`${base}r/${post.subreddit}/about/.json?raw_json=1`);
+  //   // fetch(`${base}r/${post.subreddit}/about/.json?raw_json=1`)
+  //   //   .then(res => res.json())
+  //   //   .then(data => ({
+  //   //       active_user_count: data.data.active_user_count,
+  //   //       banner_background_color: data.data.banner_background_color,
+  //   //       banner_img: data.data.banner_img,
+  //   //       community_icon: data.data.community_icon,
+  //   //       header_img: data.data.header_img,
+  //   //       icon_img: data.data.icon_img,
+  //   //       id: data.data.id,
+  //   //       public_description: data.data.public_description,
+  //   //       public_description_html: data.data.public_description_html,
+  //   //       display_name: data.data.display_name,
+  //   //       name: data.data.name,
+  //   //     }))
+  //   //   .then((subMeta: SubMeta) => {
+  //   //     // dispatch(addSubMeta(subMeta));
+  //   //     setSubData(subMeta);
+  //   //     console.log(subMeta);
+  //   //   })
+
+  //   return () => {fetchRef.current = true}
+  // }, [post, fetchRef]);
 
   return (
     <>

@@ -31,7 +31,7 @@ listener.startListening({
 
 listener.startListening({
   predicate(action) {
-    return ['toggleSubreddit'].includes(action.type.split('/')[1]);
+    return !!['toggleSubreddit', 'addSubMeta'].includes(action.type?.split('/')[1]);
   },
   effect: (_, api) => {
     localStorage.setItem('subreddits/in_storage', JSON.stringify((api.getState() as RootState)[subredditsReducer.name].in_storage, replacer));
