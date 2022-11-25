@@ -1,7 +1,6 @@
 import { configureStore, ThunkAction, Action, createListenerMiddleware } from '@reduxjs/toolkit';
 import { savedReducer} from '../reducers/savedSlice';
 import { subredditsReducer } from '../reducers/subredditsSlice';
-import { queryReducer } from '../reducers/querySlice';
 
 import savedSlice from '../reducers/savedSlice';
 import querySlice from '../reducers/querySlice';
@@ -18,15 +17,6 @@ listener.startListening({
   effect: (_, api) => {
     localStorage.setItem('saved', JSON.stringify((api.getState() as RootState)[savedReducer.name]));
   },
-});
-
-listener.startListening({
-  predicate(action) {
-    return !!action.type?.startsWith(queryReducer.name);
-  },
-  effect: (_, api) => {
-    localStorage.setItem('query', JSON.stringify((api.getState() as RootState)[queryReducer.name]));
-  }
 });
 
 listener.startListening({

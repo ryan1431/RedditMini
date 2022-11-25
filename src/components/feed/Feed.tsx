@@ -55,6 +55,7 @@ export const Feed = () => {
   const fetching = useAppSelector((s) => s.query.fetching);
   const subs = useAppSelector((s) => s.subreddits.in_storage.subs);
   const { feed, sort } = useAppSelector((s) => s.query);
+  const feedPosts = useAppSelector(s => s.query.feedPosts);
 
   useEffect(() => {
     if (fetching) {
@@ -69,14 +70,12 @@ export const Feed = () => {
   const {
     sortBy,
     savedPosts,
-    userFeed,
   } = useFeed(isVisible);
 
-
   useEffect(() => {
-    console.log(userFeed);
+    console.log(feedPosts);
     // console.log('check')
-  }, [userFeed]);
+  }, [feedPosts]);
 
   const disabled = feed === 'saved';
 
@@ -119,8 +118,8 @@ export const Feed = () => {
 
       {/* Content */}
       <section className='feed-posts' onClick={onOpenPost}>
-        {(userFeed.length)
-          ? userFeed.map((post: PostType) => {
+        {(feedPosts.length)
+          ? feedPosts.map((post: PostType) => {
             const clicked = selected === post.link;
             return <Post post={post} 
               key={'' + post.title + post.score + post.subreddit}
@@ -130,20 +129,19 @@ export const Feed = () => {
           }) 
           : <div className='post' style={{textAlign: 'center'}}>
               {feed === 'custom' && !subs.length 
-                  ? (
-                  <div >
+                  ? ( <div >
                     <p>You have not followed any subreddits.<span className='nav-mobile'><span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</span></p>
-                  </div>) : feed === 'saved' && !savedPosts.length
-  
-                  ? <p>You have not saved any posts!</p>
+                  </div>) 
+                : feed === 'saved' && !savedPosts.length
+                  ? <p>You have not saved any posts.</p>
                 : <p>Loading...</p>}
           </div>
         }
 
-          {/* Infinite scroll visible trigger for home & custom feeds */}
+        {/* Infinite scroll visible trigger for home & custom feeds */}
         {<div ref={feed !== 'saved' ? visRef : null} style={{
             opacity: '0', 
-            display: `${!fetchingLocal && userFeed.length && feed !== 'saved' ? 'block' : 'none'}`
+            display: `${!fetchingLocal && feedPosts.length && feed !== 'saved' ? 'block' : 'none'}`
             }}>invisibletext
           </div>
         }

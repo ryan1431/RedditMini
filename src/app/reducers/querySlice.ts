@@ -7,6 +7,7 @@ interface QueryState {
   sort: string,
   feedPosts: PostType[],
   fetching: boolean,
+  isLastRequest: boolean,
   add: boolean,
 }
 
@@ -18,14 +19,8 @@ export const initialState: QueryState = {
   sort: 'best',
   feedPosts: [],
   fetching: false,
+  isLastRequest: false,
   add: false,
-}
-
-let savedState: QueryState | undefined;
-try {
-  savedState = {...JSON.parse(localStorage.getItem('query') as string), after: ''} as QueryState;
-} catch(e) {
-  // No saved state
 }
 
 export const fetchFeed = createAsyncThunk(
@@ -48,7 +43,7 @@ export const fetchFeed = createAsyncThunk(
 
 export const queryReducer = createSlice({
   name: 'query',
-  initialState: {...initialState, ...savedState} || initialState,
+  initialState,
   reducers: {
     setQuery: (state, action: PayloadAction<[SetQuery, string]>) => {
       state[action.payload[0]] = action.payload[1];
@@ -59,6 +54,9 @@ export const queryReducer = createSlice({
     setAdd: (state, action: PayloadAction<boolean>) => {
       state.add = action.payload;
     },
+    setLastRequest: (state, action: PayloadAction<boolean>) => {
+      state.isLastRequest = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -66,8 +64,12 @@ export const queryReducer = createSlice({
         state.fetching = true;
       })
       .addCase(fetchFeed.fulfilled, (state, action: PayloadAction<{posts: PostType[],after: string}>) => {
+        if (!state.isLastRequest) {
+          state.fetching = false;
+          return;
+        }
+
         const res = action.payload;
-        
         state.after = res.after;
 
         state.feedPosts = state.add
@@ -81,6 +83,5 @@ export const queryReducer = createSlice({
   }
 });
 
-export { savedState }
-export const { setQuery, setFeedPosts, setAdd } = queryReducer.actions;
+export const { setQuery, setFeedPosts, setAdd, setLastRequest } = queryReducer.actions;
 export default queryReducer.reducer;
