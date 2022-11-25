@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { Cache, cachedPosts, CachedPosts, Sort } from "../../types/querySliceTypes";
 import { getFeedPosts, PostType } from "../../utility";
 import { RootState } from "../store/store";
 interface QueryState {
@@ -6,6 +7,7 @@ interface QueryState {
   feed: string,
   sort: string,
   feedPosts: PostType[],
+  cachedPosts: CachedPosts,
   fetching: boolean,
   isLastRequest: boolean,
   add: boolean,
@@ -18,6 +20,7 @@ export const initialState: QueryState = {
   feed: 'home',
   sort: 'best',
   feedPosts: [],
+  cachedPosts,
   fetching: false,
   isLastRequest: false,
   add: false,
@@ -25,7 +28,7 @@ export const initialState: QueryState = {
 
 export const fetchFeed = createAsyncThunk(
   'query/fetchFeed',
-  async (url: string, _api) => {
+  async ({url, feed, sort}: {url: string, feed: string, sort: string}, _api) => {
     
     const after = (_api.getState() as RootState).query.after;
     const params = new URLSearchParams();
@@ -37,7 +40,11 @@ export const fetchFeed = createAsyncThunk(
     }
 
     const response = await getFeedPosts(`${url}?${params.toString()}`);
-    return response;
+    return {
+      data: response,
+      feed,
+      sort,
+    };
   }
 )
 
@@ -57,24 +64,43 @@ export const queryReducer = createSlice({
     setLastRequest: (state, action: PayloadAction<boolean>) => {
       state.isLastRequest = action.payload;
     },
+    clearCachedPosts: (state) => {
+      state.cachedPosts = cachedPosts;
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchFeed.pending, (state) => {
         state.fetching = true;
       })
-      .addCase(fetchFeed.fulfilled, (state, action: PayloadAction<{posts: PostType[],after: string}>) => {
-        if (!state.isLastRequest) {
+      .addCase(fetchFeed.fulfilled, (state, action: PayloadAction<{data: {posts: PostType[],after: string}, feed: string, sort: string}>) => {
+        const { feed, sort, data } = action.payload;
+
+        if (feed !== state.feed) {
           state.fetching = false;
           return;
-        }
+        } else {
+          const cached = state.cachedPosts[sort as Sort];
+          if (cached.after) return;
 
-        const res = action.payload;
-        state.after = res.after;
+          const cache: Cache = {
+            after: data.after,
+            posts: data.posts,
+          }
+          state.cachedPosts[sort as Sort] = cache;
+          state.fetching = false;
+
+          if (sort !== state.sort) {
+            state.fetching = false;
+            return;
+          }
+        }
+        
+        state.after = data.after;
 
         state.feedPosts = state.add
-          ? [...state.feedPosts, ...res.posts]
-          : res.posts;
+          ? [...state.feedPosts, ...data.posts]
+          : data.posts;
 
         state.add = false;
 
@@ -83,5 +109,5 @@ export const queryReducer = createSlice({
   }
 });
 
-export const { setQuery, setFeedPosts, setAdd, setLastRequest } = queryReducer.actions;
+export const { setQuery, setFeedPosts, setAdd, setLastRequest, clearCachedPosts } = queryReducer.actions;
 export default queryReducer.reducer;
