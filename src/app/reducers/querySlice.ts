@@ -81,19 +81,18 @@ export const queryReducer = createSlice({
           return;
         } else {
           const cached = state.cachedPosts[sort as Sort];
-          if (cached.after) return;
-
-          const cache: Cache = {
-            after: data.after,
-            posts: data.posts,
-          }
-          state.cachedPosts[sort as Sort] = cache;
-          state.fetching = false;
-
-          if (sort !== state.sort) {
+          if (!cached.after) {
+            const cache: Cache = {
+              after: data.after,
+              posts: data.posts,
+            }
+            state.cachedPosts[sort as Sort] = cache;
             state.fetching = false;
-            return;
           }
+        }
+        
+        if (sort !== state.sort) {
+          return;
         }
         
         state.after = data.after;
@@ -105,7 +104,10 @@ export const queryReducer = createSlice({
         state.add = false;
 
         state.fetching = false;
-      });
+      })
+    .addCase(fetchFeed.rejected, (state) => {
+      state.fetching = false;
+    });
   }
 });
 
