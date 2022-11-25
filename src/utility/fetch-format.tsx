@@ -38,7 +38,6 @@ import { keys } from './data';
 export const formatPost = (res: any, single = true): PostType => {
   // Extract related data
   let postData = single ? res[0].data.children[0].data : res.data;
-  console.log(res);
   // Filter out any unneeded key-value pairs
   const postEntries:any = Object.fromEntries(
       Object.entries(postData).filter(([key]) => {

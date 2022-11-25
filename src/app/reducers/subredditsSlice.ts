@@ -18,13 +18,13 @@ interface SubredditsState {
 
 interface InStorage {
   subs: Subreddit[],
-  subMeta: Map<string, SubMeta>,
+  subMeta: Map<string, SubMeta> | undefined,
 }
 
 const initialState: SubredditsState = {
   in_storage: {
     subs: [],
-    subMeta: new Map(),
+    subMeta: undefined,
   },
   searchInput: '',
   searchStatus: 'idle',
@@ -66,7 +66,9 @@ export const subredditsReducer = createSlice({
       }
     },
     addSubMeta: (state, action: PayloadAction<SubMeta>) => {
-      state.in_storage.subMeta.set(action.payload.name, action.payload);
+      let map = state.in_storage.subMeta || new Map();
+      map.set(action.payload.name, action.payload);
+      state.in_storage.subMeta = map;
     },
     setLoading: (state, action: PayloadAction<string>) => {
       state.searchStatus = action.payload;
