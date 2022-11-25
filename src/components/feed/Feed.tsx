@@ -73,7 +73,7 @@ export const Feed = () => {
   } = useFeed(isVisible);
 
   useEffect(() => {
-    console.log(feedPosts);
+    // console.log(feedPosts);
     // console.log('check')
   }, [feedPosts]);
 

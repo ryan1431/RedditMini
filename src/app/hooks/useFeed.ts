@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchFeed, setFeedPosts, setLastRequest, SetQuery, setQuery } from "../reducers/querySlice";
+import { clearCachedPosts, fetchFeed, setFeedPosts, setLastRequest, SetQuery, setQuery } from "../reducers/querySlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { base } from "../../utility/data";
 import { Subreddit } from "../../types";
 import { useDebounce } from "./useDebounce";
+import { Sort } from "../../types/querySliceTypes";
 
 export type SortField = 'best' | 'hot' | 'new' | 'top' | 'rising';
 export type FeedField = 'home' | 'custom' | 'saved';
@@ -15,6 +16,7 @@ export const useFeed = (isVisible: boolean) => {
   const { feed, sort } = useAppSelector((state) => state.query);
   const subs = useAppSelector((state) => state.subreddits.in_storage.subs);
   // const feedPosts = useAppSelector((state) => state.query.feedPosts);
+  const cachedPosts = useAppSelector(s => s.query.cachedPosts);
 
   const currentUrl = useRef<string>('');
   const subsRef = useRef<Subreddit[]>(subs);
@@ -24,11 +26,14 @@ export const useFeed = (isVisible: boolean) => {
     setSubsDebounced([...subs]);
   }, 500, [subs])
 
+  useEffect(() => {
+    dispatch(clearCachedPosts());
+  }, [dispatch, feed]);
+
   // Main feed fetch
   useEffect(() => {
     dispatch(setLastRequest(true));
     
-    console.log('fetch effect')
     if (subsDebounced.length !== subsRef.current.length && feed !== 'custom') {
       subsRef.current = subsDebounced;
       return;
@@ -37,9 +42,7 @@ export const useFeed = (isVisible: boolean) => {
     if (feed === 'custom') {
       subsRef.current = subsDebounced;
       dispatch(setQuery(['after', '']));
-      console.log('feed is custom');
       if (!subsDebounced.length) {
-        console.log('clearing feedposts');
         dispatch(setFeedPosts([]));
         return;
       }
@@ -51,12 +54,22 @@ export const useFeed = (isVisible: boolean) => {
     } 
     currentUrl.current = url + sort;
 
-    dispatch(fetchFeed(currentUrl.current));
+
+    const cache = cachedPosts[sort as Sort];
+    console.log(cache);
+    if (cache.after) {
+      dispatch(setQuery(['after', cache.after]));
+      dispatch(setFeedPosts(cache.posts));
+      console.log('loading from cache');
+      return;
+    }
+
+    dispatch(fetchFeed({url: currentUrl.current, feed, sort}));
 
     return () => {
       dispatch(setLastRequest(false))
     }
-  }, [dispatch, feed, sort, subsDebounced]);
+  }, [cachedPosts, dispatch, feed, sort, subsDebounced]);
 
   // Set feed to saved posts
   useEffect(() => {
@@ -68,9 +81,9 @@ export const useFeed = (isVisible: boolean) => {
   // Infinite scroll
   useEffect(() => {
     if (isVisible) {
-      dispatch(fetchFeed(currentUrl.current));
+      dispatch(fetchFeed({url: currentUrl.current, feed, sort}));
     }
-  }, [isVisible, dispatch]);
+  }, [isVisible, dispatch, feed, sort]);
 
   const sortBy = useCallback(([target, value]:[string, string]) => {
     if (value === sort || value === feed) return;
