@@ -97,9 +97,10 @@ export const subredditsReducer = createSlice({
           return {
             name: sub.data.display_name,
             desc: sub.data.description,
-            iconUrl: sub.data.community_icon
+            icon_url: sub.data.community_icon,
+            is_valid: sub.data.subreddit_type !== 'private',
           }
-        });
+        }).filter((s: Subreddit) => s.is_valid);
       })
       .addCase(getSubreddits.rejected, (state) => {
         state.searchStatus = 'error';

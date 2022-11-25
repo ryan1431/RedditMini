@@ -1,5 +1,6 @@
 export interface Subreddit {
   name: string,
   desc: string,
-  iconUrl: string
+  icon_url: string
+  is_valid: boolean,
 }
