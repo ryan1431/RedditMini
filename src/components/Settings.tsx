@@ -18,7 +18,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const dispatch = useAppDispatch();
   
   const open = useAppSelector(s => s.subreddits.open);
-  const subs = useAppSelector(s => s.subreddits.subs);
+  const subs = useAppSelector(s => s.subreddits.in_storage.subs);
   const srOpen = useAppSelector(s => s.subreddits.srOpen);
 
   const wrapper = useRef<HTMLDivElement>(undefined!);

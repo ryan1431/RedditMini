@@ -17,7 +17,7 @@ export type size = '' | '0';
 export const Sub = ({sub, result}: SubProps) => {
   const dispatch = useAppDispatch();
   
-  const { subs } = useAppSelector((state) => state.subreddits);
+  const subs = useAppSelector(s => s.subreddits.in_storage.subs);
 
   const [size, setSize] = useState<size>('');
   const toggleQueue = useAppSelector((s) => s.subreddits.toggleQueue)

@@ -53,7 +53,7 @@ export const Feed = () => {
   const isVisible = useOnScreen(visRef);
 
   const fetching = useAppSelector((s) => s.query.fetching);
-  const subs = useAppSelector((s) => s.subreddits.subs);
+  const subs = useAppSelector((s) => s.subreddits.in_storage.subs);
   const { feed, sort } = useAppSelector((s) => s.query);
 
   useEffect(() => {
