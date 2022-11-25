@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchFeed, setFeedPosts, SetQuery, setQuery } from "../reducers/querySlice";
+import { fetchFeed, setFeedPosts, setLastRequest, SetQuery, setQuery } from "../reducers/querySlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { base } from "../../utility/data";
 import { Subreddit } from "../../types";
 import { useDebounce } from "./useDebounce";
-import { PostType } from "../../utility";
 
 export type SortField = 'best' | 'hot' | 'new' | 'top' | 'rising';
 export type FeedField = 'home' | 'custom' | 'saved';
@@ -15,73 +14,56 @@ export const useFeed = (isVisible: boolean) => {
   const savedPosts = useAppSelector((state) => state.saved.savedPosts);
   const { feed, sort } = useAppSelector((state) => state.query);
   const subs = useAppSelector((state) => state.subreddits.in_storage.subs);
-  const feedPosts = useAppSelector((state) => state.query.feedPosts);
+  // const feedPosts = useAppSelector((state) => state.query.feedPosts);
 
   const currentUrl = useRef<string>('');
   const subsRef = useRef<Subreddit[]>(subs);
 
-  const [userFeed, setUserFeed] = useState<PostType[]>(feedPosts);
-
-  // Use debounce to lower amount of unneccessary fetch requests
   const [subsDebounced, setSubsDebounced] = useState<Subreddit[]>([...subs]);
-  const [feedDebounced, setFeedDebounced] = useState<string>(feed);
-  const [sortDebounced, setSortDebounced] = useState<string>(sort);
-
   useDebounce(() => {
     setSubsDebounced([...subs]);
   }, 500, [subs])
-  useDebounce(() => {
-    if (feed === feedDebounced && sort === sortDebounced) return;
-    setFeedDebounced(feed);
-    setSortDebounced(sort);
-    dispatch(setFeedPosts([]));
-  }, 200, [feed, sort]);
 
+  // Main feed fetch
   useEffect(() => {
-    if (feedDebounced === feed && sortDebounced === sort) {
-      setUserFeed(feedPosts);
-    }
-  }, [feed, feedDebounced, feedPosts, sort, sortDebounced]);
-
-  useEffect(() => {
-    setUserFeed(feedPosts);
-  }, [feedPosts]);
-
-  useEffect(() => {
-    if (feedDebounced === 'custom') {
-      dispatch(setQuery(['after', '']));
-    }
-  }, [subs, dispatch, feedDebounced]);
-
-  useEffect(() => {
-    if (subsDebounced.length !== subsRef.current.length && feedDebounced !== 'custom') {
+    dispatch(setLastRequest(true));
+    
+    console.log('fetch effect')
+    if (subsDebounced.length !== subsRef.current.length && feed !== 'custom') {
       subsRef.current = subsDebounced;
       return;
     };
-    if (feedDebounced === 'saved') return;
-    if (feedDebounced === 'custom') {
+    if (feed === 'saved') return;
+    if (feed === 'custom') {
       subsRef.current = subsDebounced;
+      dispatch(setQuery(['after', '']));
+      console.log('feed is custom');
       if (!subsDebounced.length) {
+        console.log('clearing feedposts');
         dispatch(setFeedPosts([]));
         return;
       }
     }
 
     let url = base;
-    if (feedDebounced === 'custom') {
+    if (feed === 'custom') {
       url += `r/${subsDebounced.map((s) => s.name).join('+')}/`;
     } 
-    currentUrl.current = url + sortDebounced;
+    currentUrl.current = url + sort;
 
     dispatch(fetchFeed(currentUrl.current));
-  }, [dispatch, feedDebounced, sortDebounced, subsDebounced]);
+
+    return () => {
+      dispatch(setLastRequest(false))
+    }
+  }, [dispatch, feed, sort, subsDebounced]);
 
   // Set feed to saved posts
   useEffect(() => {
-    if (feedDebounced === 'saved') {
+    if (feed === 'saved') {
       dispatch(setFeedPosts(savedPosts));
     }
-  }, [savedPosts, feedDebounced, dispatch]);
+  }, [savedPosts, dispatch, feed]);
 
   // Infinite scroll
   useEffect(() => {
@@ -93,7 +75,7 @@ export const useFeed = (isVisible: boolean) => {
   const sortBy = useCallback(([target, value]:[string, string]) => {
     if (value === sort || value === feed) return;
 
-    setUserFeed([]);
+    dispatch(setFeedPosts([]));
     dispatch(setQuery(['after', '']));
     dispatch(setQuery([target as SetQuery, value]))
   }, [sort, feed, dispatch]);
@@ -101,6 +83,5 @@ export const useFeed = (isVisible: boolean) => {
   return {
     sortBy,
     savedPosts,
-    userFeed,
   }
 }

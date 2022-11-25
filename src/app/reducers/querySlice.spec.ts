@@ -2,12 +2,12 @@ import querySliceReducer, {
   setQuery,
 } from './querySlice';
 
-import querySlice, { initialState, savedState } from './querySlice';
+import querySlice, { initialState } from './querySlice';
 
 describe("querySlice", () => {
   it('should properly handle initial state', () => {
     const actual = querySlice(undefined, { type: 'unknown'});
-    expect(actual).toEqual({...initialState, ...savedState} || initialState);
+    expect(actual).toEqual(initialState);
   })
 
   it('should update proper query fields given various inputs', () => {
