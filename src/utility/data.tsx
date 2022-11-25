@@ -1,12 +1,12 @@
 import { PostType } from "../types/postType";
 
 export const keys = [
-  'subreddit', 'selftext', 'saved', 'clicked', 'title',
+  'subreddit', 'subreddit_id', 'selftext', 'saved', 'clicked', 'title',
   'upvote_ratio', 'total_awards_received', 'score', 'edited',
   'is_self', 'created_utc', 'selftext_html', 'over_18',
   'spoiler', 'visited', 'author', 'num_comments', 'is_video', 'url',
   'preview', 'media', 'removal_reason', 'removed_by', 'removed_by_category',
-  'permalink', 'subreddit_name_prefixed', 'name',
+  'permalink', 'subreddit_name_prefixed', 'name', 'all_awardings',
 ];
 
 export const base = 'https://www.reddit.com/';

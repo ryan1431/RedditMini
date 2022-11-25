@@ -28,6 +28,8 @@ interface PostType {
   content_url: string,
   permalink: string,
   subreddit_name_prefixed: string, 
+  subreddit_id: string,
+  all_awardings: any[],
   /**
    * Link to original post on Reddit
    */

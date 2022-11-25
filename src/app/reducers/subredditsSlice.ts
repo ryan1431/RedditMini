@@ -2,10 +2,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { formatUrl } from "../../utility";
 import { base } from "../../utility/data";
 
-import type { Subreddit } from "../../types";
+import type { SubMeta, Subreddit } from "../../types";
+import { reviver } from "../../utility/serializeHelper";
 
 interface SubredditsState {
-  subs: Subreddit[],
+  in_storage: InStorage
   searchInput: string,
   searchStatus: string,
   searchResults: Subreddit[],
@@ -15,8 +16,16 @@ interface SubredditsState {
   inSearch: boolean,
 }
 
+interface InStorage {
+  subs: Subreddit[],
+  subMeta: Map<string, SubMeta>,
+}
+
 const initialState: SubredditsState = {
-  subs: [],
+  in_storage: {
+    subs: [],
+    subMeta: new Map(),
+  },
   searchInput: '',
   searchStatus: 'idle',
   searchResults: [],
@@ -26,9 +35,9 @@ const initialState: SubredditsState = {
   inSearch: false,
 }
 
-let savedSubs: Subreddit[] | undefined;
+let savedState: InStorage | undefined;
 try {
-  savedSubs = JSON.parse(localStorage.getItem('subreddits/subs') as string) as Subreddit[];
+  savedState = JSON.parse(localStorage.getItem('subreddits/in_storage') as string, reviver) as InStorage;
 } catch(e) {
   // No saved state
 }
@@ -45,16 +54,19 @@ export const getSubreddits = createAsyncThunk(
 
 export const subredditsReducer = createSlice({
   name: 'subreddits',
-  initialState: savedSubs ? { ...initialState, subs: savedSubs || []} : initialState,
+  initialState: savedState ? { ...initialState, in_storage: savedState } : initialState,
   reducers: {
     toggleSubreddit: (state, action: PayloadAction<Subreddit>) => {
-      let index = state.subs.findIndex((s) => s.name === action.payload.name);
+      let index = state.in_storage.subs.findIndex((s) => s.name === action.payload.name);
       if (index === -1) {
-        state.subs.push(action.payload);
-        state.subs = state.subs.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+        state.in_storage.subs.push(action.payload);
+        state.in_storage.subs = state.in_storage.subs.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
       } else {
-        state.subs.splice(index, 1)
+        state.in_storage.subs.splice(index, 1)
       }
+    },
+    addSubMeta: (state, action: PayloadAction<SubMeta>) => {
+      state.in_storage.subMeta.set(action.payload.name, action.payload);
     },
     setLoading: (state, action: PayloadAction<string>) => {
       state.searchStatus = action.payload;
@@ -108,6 +120,6 @@ export const subredditsReducer = createSlice({
   }
 });
 
-export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue, toggleOpen, toggleSrOpen, toggleInSearch, setSearchInput, onClearSubreddits } = subredditsReducer.actions;
+export const { toggleSubreddit, addSubMeta, setLoading, toggleResult, clearToggleQueue, toggleOpen, toggleSrOpen, toggleInSearch, setSearchInput, onClearSubreddits } = subredditsReducer.actions;
 
 export default subredditsReducer.reducer;

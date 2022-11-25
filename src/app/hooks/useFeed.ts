@@ -14,7 +14,7 @@ export const useFeed = (isVisible: boolean) => {
 
   const savedPosts = useAppSelector((state) => state.saved.savedPosts);
   const { feed, sort } = useAppSelector((state) => state.query);
-  const subs = useAppSelector((state) => state.subreddits.subs);
+  const subs = useAppSelector((state) => state.subreddits.in_storage.subs);
   const feedPosts = useAppSelector((state) => state.query.feedPosts);
 
   const currentUrl = useRef<string>('');

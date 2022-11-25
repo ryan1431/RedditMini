@@ -7,6 +7,7 @@ import savedSlice from '../reducers/savedSlice';
 import querySlice from '../reducers/querySlice';
 import subredditsSlice from '../reducers/subredditsSlice';
 import commentsSlice from '../reducers/commentsSlice';
+import { replacer } from '../../utility/serializeHelper';
 
 const listener = createListenerMiddleware();
 
@@ -15,7 +16,7 @@ listener.startListening({
     return !!action.type?.startsWith(savedReducer.name);
   },
   effect: (_, api) => {
-    localStorage.setItem('saved', JSON.stringify((api.getState() as any)[savedReducer.name]));
+    localStorage.setItem('saved', JSON.stringify((api.getState() as RootState)[savedReducer.name]));
   },
 });
 
@@ -24,16 +25,16 @@ listener.startListening({
     return !!action.type?.startsWith(queryReducer.name);
   },
   effect: (_, api) => {
-    localStorage.setItem('query', JSON.stringify((api.getState() as any)[queryReducer.name]));
+    localStorage.setItem('query', JSON.stringify((api.getState() as RootState)[queryReducer.name]));
   }
 });
 
 listener.startListening({
   predicate(action) {
-    return action.type === `${subredditsReducer.name}/toggleSubreddit`;
+    return ['toggleSubreddit'].includes(action.type.split('/')[1]);
   },
   effect: (_, api) => {
-    localStorage.setItem('subreddits/subs', JSON.stringify((api.getState() as any)[subredditsReducer.name].subs));
+    localStorage.setItem('subreddits/in_storage', JSON.stringify((api.getState() as RootState)[subredditsReducer.name].in_storage, replacer));
   }
 });
 
