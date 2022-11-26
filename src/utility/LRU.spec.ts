@@ -34,15 +34,21 @@ describe("LRU", () => {
     expect(sample.size).toEqual(size);
   })
 
-  it('should bubble up a value when it is read', () => {
+  it('should bubble up & reattach a value when it is read', () => {
     sample.get('a');
     const size = sample.size;
 
     expect(sample.head?.key).toEqual('a');
     expect(sample.tail?.key).toEqual('b');
-    expect(sample._findNode('a')?.next?.key).toEqual('c');
     expect(sample.size).toEqual(size);
+
+    // Verify 'a' is still linked to the list and not just set as the head
+    sample.get('b');
+    sample.get('c');
+    expect(sample.tail?.key).toEqual('a');
   });
+
+
 
   it('should properly clear all values and set size to zero when using clear()', () => {
     sample.clear();
