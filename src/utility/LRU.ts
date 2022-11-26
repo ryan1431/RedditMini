@@ -1,28 +1,26 @@
-import { SubMeta } from "../types";
-
-interface NodeLRU {
-  key: string,
-  prev: NodeLRU | null,
-  next: NodeLRU | null,
+interface NodeLRU<K> {
+  key: K,
+  prev: NodeLRU<K> | null,
+  next: NodeLRU<K> | null,
 }
 
-class NodeLRU {
-  constructor(key: string, prev: NodeLRU | null = null, next:NodeLRU | null = null) {
+class NodeLRU<K> {
+  constructor(key: K, prev: NodeLRU<K> | null = null, next:NodeLRU<K> | null = null) {
     this.key = key;
     this.prev = prev || null;
     this.next = next || null;
   }
 }
 
-interface LRU {
-  head: NodeLRU | null,
-  tail: NodeLRU | null,
+interface LRU<K, V> {
+  head: NodeLRU<K> | null,
+  tail: NodeLRU<K> | null,
   size: number,
   maxSize: number,
-  cacheMap: Map<string, SubMeta>,
+  cacheMap: Map<K, V>,
 }
 
-class LRU {
+class LRU<K, V> {
   constructor(maxSize: number = 10) {
     this.maxSize = maxSize;
     this.head = null;
@@ -32,7 +30,7 @@ class LRU {
   }
 
   // UI 
-  get(key: string) {
+  get(key: K) {
     let existing = this._findNode(key);
 
     if (existing) {
@@ -43,7 +41,7 @@ class LRU {
     return null;    
   }
 
-  set(key: string, value: any) {
+  set(key: K, value: V) {
     let node = new NodeLRU(key, null, this.head);
     this._add(node);
     this.cacheMap.set(key, value);
@@ -52,12 +50,13 @@ class LRU {
   clear() {
     this.head = null;
     this.tail = null;
+    this.size = 0;
     this.cacheMap.clear();
   }
 
   // Internal
-  _findNode(key: string) {
-    const traverse = (node: NodeLRU): NodeLRU | null => {
+  _findNode(key: K) {
+    const traverse = (node: NodeLRU<K>): NodeLRU<K> | null => {
       return node.key === key
         ? node
         : node.next 
@@ -70,23 +69,25 @@ class LRU {
       : null
   }
 
-  _bubbleUp(node: NodeLRU) {
+  _bubbleUp(node: NodeLRU<K>) {
     this._detach(node);
     this._add(node);
   }
 
-  _add(node: NodeLRU) {
+  _add(node: NodeLRU<K>) {
     // Drop LRU
     if (this.size === this.maxSize) {
-      const tailNode = this.tail;
+      const tailNode = this.tail as NodeLRU<K>;
       tailNode!.prev!.next = null;
-      this.tail = tailNode!.prev;
-      this.cacheMap.delete(tailNode!.key);
+      this.tail = tailNode.prev;
+      this.cacheMap.delete(tailNode.key);
       this.size--;
     } 
 
     if (this.head) {
+      node.next = this.head;
       this.head.prev = node;
+      
       this.head = node;
       this.size++;
     } else {
@@ -96,7 +97,7 @@ class LRU {
     }
   }
 
-  _detach(node: NodeLRU) {
+  _detach(node: NodeLRU<K>) {
     if (!node.prev && !node.next) {
       this.head = null;
       this.tail = null;
@@ -123,6 +124,17 @@ class LRU {
     node.next = null;
     node.prev = null;
     this.size--;
+  }
+
+  logTraverse(node = this.head) {
+    if (node === this.head) {
+      console.log('*head*');
+    }
+    console.log(`${node?.key || ''} ${node?.next ? '\n|' : ''}`);
+    if (node === this.tail) {
+      console.log('*tail');
+    }
+    if (node?.next) this.logTraverse(node.next);
   }
 }
 
