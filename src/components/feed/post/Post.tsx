@@ -15,6 +15,8 @@ import { Menu } from '../../ui/Menu';
 import { BiHide } from 'react-icons/bi';
 import { AiOutlineLink } from 'react-icons/ai';
 import { TfiComment } from 'react-icons/tfi';
+import { MdIosShare } from 'react-icons/md';
+
 import { base } from '../../../utility/data';
 import { SubMeta } from '../../../types';
 import { SelectedPostData } from '../Feed';
@@ -28,10 +30,11 @@ interface PostProps {
   clicked?: boolean,
   setSelectedPostData?: React.Dispatch<React.SetStateAction<SelectedPostData | null>>,
   onHide?: (...args: any) => any,
+  onCopyLink?: (...args: any) => any,
   SubDataLRU: LRU<string, SubMeta>,
 }
 
-export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, SubDataLRU}: PostProps) => {
+export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, onCopyLink, SubDataLRU}: PostProps) => {
   const dispatch = useDispatch();
 
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
@@ -40,7 +43,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
   const saved = savedPosts.some(p => p.link === post.link);
 
   const [ subData, setSubData ] = useState<SubMeta>();
-  
+
   const onSave = useCallback(() => {
     if (saved) {
       dispatch(unsave(post));
@@ -117,6 +120,10 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
               <div className='menu-item' onClick={() => window.open(post.link, '_blank')?.focus()}>
                 <p>Open in Reddit</p>
                 <AiOutlineLink />
+              </div>
+              <div className='menu-item' onClick={() => onCopyLink && onCopyLink(post.link)}>
+                <p>Copy Link</p>
+                <MdIosShare />
               </div>
             </div>
           </Menu>

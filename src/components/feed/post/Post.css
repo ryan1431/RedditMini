@@ -1,7 +1,6 @@
 .post {
   white-space: 'pre-wrap';
   overflow-wrap: 'break-word';
-  overflow: hidden;
 
   border: 1px solid rgb(65, 65, 65);
   border-radius: 10px;

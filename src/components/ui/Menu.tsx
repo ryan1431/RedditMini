@@ -17,7 +17,7 @@ export const Menu = ({className = '', icon, openRight = false, children}: MenuPr
 
   const [open, setOpen] = useState<boolean>(false);
 
-  useClickout(() => setOpen(false), [], ['.ui-menu']);
+  useClickout(() => setOpen(false), [], ['.ui-menu'], ['.menu-item']);
   
   return (
     <div className={`ui-menu ${className}`} style={{position: 'relative'}}>
