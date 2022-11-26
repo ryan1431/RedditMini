@@ -32,6 +32,17 @@ describe("LRU", () => {
 
     expect(sample.get('e')).toBeNull();
     expect(sample.size).toEqual(size);
+  });
+
+  it('should drop LRU from list & cacheMap if adding a value when it is full', () => {
+    sample.set('d', 4);
+    sample.set('e', 5);
+    sample.set('f', 6);
+
+    expect(sample.head?.key).toEqual('f');
+    expect(sample.tail?.key).toEqual('b');
+    expect(sample.get('a')).toBeNull();
+    expect(sample._cacheMap.get('a')).toBeUndefined();
   })
 
   it('should bubble up & reattach a value when it is read', () => {
@@ -45,10 +56,9 @@ describe("LRU", () => {
     // Verify 'a' is still linked to the list and not just set as the head
     sample.get('b');
     sample.get('c');
+    
     expect(sample.tail?.key).toEqual('a');
   });
-
-
 
   it('should properly clear all values and set size to zero when using clear()', () => {
     sample.clear();
