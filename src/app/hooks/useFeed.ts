@@ -22,13 +22,24 @@ export const useFeed = (isVisible: boolean) => {
   const subsRef = useRef<Subreddit[]>(subs);
 
   const [subsDebounced, setSubsDebounced] = useState<Subreddit[]>([...subs]);
+  const canLoadCached = useRef<boolean>(true);
+
   useDebounce(() => {
     setSubsDebounced([...subs]);
+
   }, 500, [subs])
 
   useEffect(() => {
     dispatch(clearCachedPosts());
-  }, [dispatch, feed]);
+  }, [dispatch, feed, subs]);
+  const cacheTimeoutRef = useRef<NodeJS.Timeout>();
+  useEffect(() => {
+    clearTimeout(cacheTimeoutRef.current);
+    canLoadCached.current = false;
+    cacheTimeoutRef.current = setTimeout(() => {
+      canLoadCached.current = true;
+    }, 1000);
+  }, [feed])
 
   // Main feed fetch
   useEffect(() => {
@@ -54,11 +65,13 @@ export const useFeed = (isVisible: boolean) => {
     } 
     currentUrl.current = url + sort;
 
-    const cache = cachedPosts[sort as Sort];
-    if (cache.after) {
-      dispatch(setQuery(['after', cache.after]));
-      dispatch(setFeedPosts(cache.posts));
-      return;
+    if (canLoadCached.current) {
+      const cache = cachedPosts[sort as Sort];
+      if (cache.after) {
+        dispatch(setQuery(['after', cache.after]));
+        dispatch(setFeedPosts(cache.posts));
+        return;
+      }  
     }
 
     dispatch(fetchFeed({url: currentUrl.current, feed, sort}));
