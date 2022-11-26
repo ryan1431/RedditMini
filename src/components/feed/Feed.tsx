@@ -32,15 +32,9 @@ export const Feed = () => {
   const [fetchingLocal, setFetchingLocal] = useState<boolean>(true);
   const [snackbar, setSnackbar] = useState<string[]>([]);
 
-  // const SubDataLRU = new LRU<string, SubMeta>(30);
-
   const SubDataLRU = useMemo<LRU<string, SubMeta>>(() => {
     return new LRU<string, SubMeta>(30);
   }, []);
-
-  useEffect(() => {
-    SubDataLRU.logTraverse();
-  }, [SubDataLRU, SubDataLRU.head]);
 
   const onOpenPost = useCallback((e:any) => {
     if (e.target instanceof HTMLVideoElement
