@@ -1,17 +1,20 @@
 import './OpenPost.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { PostType } from '../../utility';
 import { Post } from './post/Post';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { fetchComments } from '../../app/reducers/commentsSlice';
 import type { CommentData, CommentType, MoreComments } from '../../types/commentType';
 import { Comment } from './Comment';
 import { More } from './More';
+import { SubMeta } from '../../types';
+import { SelectedPostData } from './Feed';
+import LRU from '../../utility/LRU';
 interface OpenPostProps {
-  post: PostType,
+  data: SelectedPostData,
+  SubDataLRU: LRU<string, SubMeta>,
 }
 
-export const OpenPost = ({post}:  OpenPostProps) => {
+export const OpenPost = ({data: {post, subMeta}, SubDataLRU}:  OpenPostProps) => {
   const dispatch = useAppDispatch();
 
   const commentsState = useAppSelector(s => s.comments.comments);
@@ -43,7 +46,7 @@ export const OpenPost = ({post}:  OpenPostProps) => {
   return (
     <div style={{position: 'relative'}}>
       {post && <div className='open-post'>
-        <Post post={post} open/>
+        <Post post={post} SubDataLRU={SubDataLRU} open/>
         
         {post.num_comments > 0 ? <div className='comment-wrapper'>
           {comments.length 

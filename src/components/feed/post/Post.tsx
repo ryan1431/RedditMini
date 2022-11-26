@@ -17,17 +17,21 @@ import { AiOutlineLink } from 'react-icons/ai';
 import { TfiComment } from 'react-icons/tfi';
 import { base } from '../../../utility/data';
 import { SubMeta } from '../../../types';
+import { SelectedPostData } from '../Feed';
+import LRU from '../../../utility/LRU';
+
+import defaultIcon from '../../../media/srdefault.jpeg';
 
 interface PostProps { 
   post: PostType,
   open?: boolean,
   clicked?: boolean,
-  setOpenPost?: React.Dispatch<React.SetStateAction<PostType | null>>,
+  setSelectedPostData?: React.Dispatch<React.SetStateAction<SelectedPostData | null>>,
   onHide?: (...args: any) => any,
-  subHash: Map<string, SubMeta>,
+  SubDataLRU: LRU<string, SubMeta>,
 }
 
-export const Post = ({post, clicked, setOpenPost, open = false, onHide, subHash}: PostProps) => {
+export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, SubDataLRU}: PostProps) => {
   const dispatch = useDispatch();
 
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
@@ -46,16 +50,16 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide, subHash}
   }, [dispatch, post, saved]);
 
   useEffect(() => {
-    if (clicked && setOpenPost) {
-      setOpenPost(post);
+    if (clicked && setSelectedPostData) {
+      setSelectedPostData({post, subMeta: subData});
     }
-  }, [clicked, post, setOpenPost]);
+  }, [clicked, post, setSelectedPostData, subData]);
 
   useEffect(() => {
     let active = true;
     if (subData) return;
     
-    const existing = subHash.get(post.subreddit_id);
+    const existing = SubDataLRU.get(post.subreddit_id);
     if (existing) {
       setSubData(existing);
       return;
@@ -78,9 +82,8 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide, subHash}
         }))
       .then((subMeta: SubMeta) => {
         if (active) {
-          // dispatch(addSubMeta(subMeta));
+          SubDataLRU.set(subMeta.name, subMeta);
           setSubData(subMeta);
-          console.log(subMeta);
         }
       })
 
@@ -88,7 +91,7 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide, subHash}
         active = false;
       }
 
-  }, [dispatch, post.subreddit, post.subreddit_id, subData]);
+  }, [SubDataLRU, dispatch, post.subreddit, post.subreddit_id, subData]);
 
   return (
     <>
@@ -97,6 +100,7 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide, subHash}
         {/* Subreddit & Poster Info */}
         <address className='details-wrapper'>
           <div className='details-left'>
+            {subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
             {!open && <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a></p>}
             <p className='post-details author'>
               {!open && <span>• </span>}

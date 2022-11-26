@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { useFeed } from '../../app/hooks/useFeed';
 import { useOnScreen } from '../../app/hooks/useOnScreen';
@@ -9,6 +9,7 @@ import { SubMeta } from '../../types';
 import { PostType } from '../../utility';
 import { feedFields, sortFields } from '../../utility/data';
 import { FeedIcons, feedIcons, SortIcons, sortIcons } from '../../utility/feedData';
+import LRU from '../../utility/LRU';
 import Modal from '../ui/Modal';
 import { Snackbar } from '../ui/Snackbar';
 import './Feed.css';
@@ -17,18 +18,29 @@ import { OpenPost } from './OpenPost';
 import { Post } from './post/Post';
 
 
-type SubHash = Map<string, SubMeta>;
+export interface SelectedPostData {
+  post: PostType,
+  subMeta: SubMeta | undefined,
+}
 
 
 export const Feed = () => {
   const dispatch = useAppDispatch();
 
   const [selected, setSelected] = useState<string>('');
-  const [openPost, setOpenPost] = useState<PostType | null>(null);
+  const [selectedPostData, setSelectedPostData] = useState<SelectedPostData | null>(null);
   const [fetchingLocal, setFetchingLocal] = useState<boolean>(true);
   const [snackbar, setSnackbar] = useState<string[]>([]);
 
-  const subHash: SubHash = new Map();
+  // const SubDataLRU = new LRU<string, SubMeta>(30);
+
+  const SubDataLRU = useMemo<LRU<string, SubMeta>>(() => {
+    return new LRU<string, SubMeta>(30);
+  }, []);
+
+  useEffect(() => {
+    SubDataLRU.logTraverse();
+  }, [SubDataLRU, SubDataLRU.head]);
 
   const onOpenPost = useCallback((e:any) => {
     if (e.target instanceof HTMLVideoElement
@@ -42,7 +54,7 @@ export const Feed = () => {
   }, []);
 
   const onClosePost = useCallback(() => {
-    setOpenPost(null);
+    setSelectedPostData(null);
     setSelected('');
   }, []);
 
@@ -84,11 +96,11 @@ export const Feed = () => {
   return (
     <div id="feed" >
       {/* Open post modal */}
-      <Modal open={!!openPost} onClose={onClosePost}>
-        {openPost && <Modal.Header>
-          <span className='sub-prefix' style={{marginRight: '2px'}}>r/</span>{openPost?.subreddit}
+      <Modal open={!!selectedPostData} onClose={onClosePost}>
+        {selectedPostData && <Modal.Header>
+          <span className='sub-prefix' style={{marginRight: '2px'}}>r/</span>{selectedPostData?.post.subreddit}
         </Modal.Header>}
-        {openPost && <OpenPost post={openPost}/>}
+        {selectedPostData && <OpenPost data={selectedPostData} SubDataLRU={SubDataLRU}/>}
       </Modal>
       
       {/* Feed & Sort by */}
@@ -123,12 +135,13 @@ export const Feed = () => {
         {(feedPosts.length)
           ? feedPosts.map((post: PostType) => {
             const clicked = selected === post.link;
+            
             return <Post post={post} 
               key={'' + post.title + post.score + post.subreddit}
               clicked={clicked}
-              setOpenPost={setOpenPost}
+              setSelectedPostData={setSelectedPostData}
               onHide={onHide}
-              subHash={subHash}/>
+              SubDataLRU={SubDataLRU}/>
           }) 
           : <div className='post' style={{textAlign: 'center'}}>
               {feed === 'custom' && !subs.length 
