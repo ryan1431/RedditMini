@@ -62,6 +62,12 @@ export const Feed = () => {
     dispatch(hidePost(name));
   }, [dispatch]);
 
+  const onCopyLink = useCallback((link: string) => {
+    navigator.clipboard.writeText(link);
+
+    setSnackbar(p => [...p, `clipboard-${link}`]);
+  }, []);
+
   const visRef:any = useRef();
   const isVisible = useOnScreen(visRef);
 
@@ -135,6 +141,7 @@ export const Feed = () => {
               clicked={clicked}
               setSelectedPostData={setSelectedPostData}
               onHide={onHide}
+              onCopyLink={onCopyLink}
               SubDataLRU={SubDataLRU}/>
           }) 
           : <div className='post' style={{textAlign: 'center'}}>
@@ -159,6 +166,11 @@ export const Feed = () => {
 
       <div className='snackbar-wrapper'>
         {snackbar.map(s => {
+          if (s.includes('clipboard-')) {
+            return <Snackbar text='Copied to Clipboard.' 
+              key={`snack-${s}`}  
+            />
+          }
 
           return <Snackbar text='Post Hidden.' 
             actionText={'Undo'} 
