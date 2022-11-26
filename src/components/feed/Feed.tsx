@@ -5,6 +5,7 @@ import { useFeed } from '../../app/hooks/useFeed';
 import { useOnScreen } from '../../app/hooks/useOnScreen';
 import { hidePost, unHidePost } from '../../app/reducers/savedSlice';
 import { toggleOpen, toggleSrOpen } from '../../app/reducers/subredditsSlice';
+import { SubMeta } from '../../types';
 import { PostType } from '../../utility';
 import { feedFields, sortFields } from '../../utility/data';
 import { FeedIcons, feedIcons, SortIcons, sortIcons } from '../../utility/feedData';
@@ -15,6 +16,10 @@ import { OpenPost } from './OpenPost';
 
 import { Post } from './post/Post';
 
+
+type SubHash = Map<string, SubMeta>;
+
+
 export const Feed = () => {
   const dispatch = useAppDispatch();
 
@@ -22,6 +27,8 @@ export const Feed = () => {
   const [openPost, setOpenPost] = useState<PostType | null>(null);
   const [fetchingLocal, setFetchingLocal] = useState<boolean>(true);
   const [snackbar, setSnackbar] = useState<string[]>([]);
+
+  const subHash: SubHash = new Map();
 
   const onOpenPost = useCallback((e:any) => {
     if (e.target instanceof HTMLVideoElement
@@ -120,7 +127,8 @@ export const Feed = () => {
               key={'' + post.title + post.score + post.subreddit}
               clicked={clicked}
               setOpenPost={setOpenPost}
-              onHide={onHide}/>
+              onHide={onHide}
+              subHash={subHash}/>
           }) 
           : <div className='post' style={{textAlign: 'center'}}>
               {feed === 'custom' && !subs.length 

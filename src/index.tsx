@@ -8,6 +8,7 @@ import './index.css';
 import { enableMapSet } from 'immer';
 
 enableMapSet();
+
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
