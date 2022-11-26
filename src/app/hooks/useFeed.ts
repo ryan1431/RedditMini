@@ -17,6 +17,7 @@ export const useFeed = (isVisible: boolean) => {
   const subs = useAppSelector((state) => state.subreddits.in_storage.subs);
   // const feedPosts = useAppSelector((state) => state.query.feedPosts);
   const cachedPosts = useAppSelector(s => s.query.cachedPosts);
+  
 
   const currentUrl = useRef<string>('');
   const subsRef = useRef<Subreddit[]>(subs);
@@ -41,6 +42,31 @@ export const useFeed = (isVisible: boolean) => {
     }, 1000);
   }, [feed])
 
+    // if (canLoadCached.current) {
+    //   const cache = cachedPosts[sort as Sort];
+    //   if (cache.after) {
+    //     dispatch(setQuery(['after', cache.after]));
+    //     dispatch(setFeedPosts(cache.posts));
+    //     return;
+    //   }  
+    // }
+
+  const feedRef = useRef<string>(feed);
+  useEffect(() => {
+    if (feed !== feedRef.current) {
+      feedRef.current = feed;
+      return;
+    }
+    if (canLoadCached.current) {
+      const cache = cachedPosts[sort as Sort];
+      if (cache.after) {
+        dispatch(setQuery(['after', cache.after]));
+        dispatch(setFeedPosts(cache.posts));
+        return;
+      }  
+    }
+  }, [cachedPosts, dispatch, feed, sort]);
+  
   // Main feed fetch
   useEffect(() => {
     dispatch(setLastRequest(true));
@@ -65,21 +91,11 @@ export const useFeed = (isVisible: boolean) => {
     } 
     currentUrl.current = url + sort;
 
-    if (canLoadCached.current) {
-      const cache = cachedPosts[sort as Sort];
-      if (cache.after) {
-        dispatch(setQuery(['after', cache.after]));
-        dispatch(setFeedPosts(cache.posts));
-        return;
-      }  
-    }
-
     dispatch(fetchFeed({url: currentUrl.current, feed, sort}));
-
     return () => {
       dispatch(setLastRequest(false))
     }
-  }, [cachedPosts, dispatch, feed, sort, subsDebounced]);
+  }, [dispatch, feed, sort, subsDebounced]);
 
   // Set feed to saved posts
   useEffect(() => {
