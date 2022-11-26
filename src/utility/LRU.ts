@@ -15,9 +15,9 @@ class NodeLRU<K> {
 interface LRU<K, V> {
   head: NodeLRU<K> | null,
   tail: NodeLRU<K> | null,
-  size: number,
   maxSize: number,
-  cacheMap: Map<K, V>,
+  size: number,
+  _cacheMap: Map<K, V>,
 }
 
 class LRU<K, V> {
@@ -26,32 +26,30 @@ class LRU<K, V> {
     this.head = null;
     this.tail = null;
     this.size = 0;
-    this.cacheMap = new Map();
+    this._cacheMap = new Map();
   }
 
   // UI 
   get(key: K) {
-    let existing = this._findNode(key);
-
-    if (existing) {
-      this.head !== existing && this._bubbleUp(existing);
-      return this.cacheMap.get(existing.key);
-    } 
-
-    return null;    
+    const exists = this._cacheMap.get(key) || null;
+    try {
+      return exists;
+    } finally {
+      if (exists) this._bubbleUp(this._findNode(key) as NodeLRU<K>);
+    }
   }
 
   set(key: K, value: V) {
     let node = new NodeLRU(key, null, this.head);
     this._add(node);
-    this.cacheMap.set(key, value);
+    this._cacheMap.set(key, value);
   }
 
   clear() {
     this.head = null;
     this.tail = null;
     this.size = 0;
-    this.cacheMap.clear();
+    this._cacheMap.clear();
   }
 
   logTraverse(node = this.head) {
@@ -81,6 +79,7 @@ class LRU<K, V> {
   }
 
   private _bubbleUp(node: NodeLRU<K>) {
+    if (this.head === node) return;
     this._detach(node);
     this._add(node);
   }
@@ -91,7 +90,7 @@ class LRU<K, V> {
       const tailNode = this.tail as NodeLRU<K>;
       tailNode!.prev!.next = null;
       this.tail = tailNode.prev;
-      this.cacheMap.delete(tailNode.key);
+      this._cacheMap.delete(tailNode.key);
       this.size--;
     } 
 
