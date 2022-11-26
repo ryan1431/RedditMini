@@ -54,8 +54,19 @@ class LRU<K, V> {
     this.cacheMap.clear();
   }
 
+  logTraverse(node = this.head) {
+    if (node === this.head) {
+      console.log('*head*');
+    }
+    console.log(`${node?.key || ''} ${node?.next ? '\n|' : ''}`);
+    if (node === this.tail) {
+      console.log('*tail');
+    }
+    if (node?.next) this.logTraverse(node.next);
+  }
+
   // Internal
-  _findNode(key: K) {
+  private _findNode(key: K) {
     const traverse = (node: NodeLRU<K>): NodeLRU<K> | null => {
       return node.key === key
         ? node
@@ -69,12 +80,12 @@ class LRU<K, V> {
       : null
   }
 
-  _bubbleUp(node: NodeLRU<K>) {
+  private _bubbleUp(node: NodeLRU<K>) {
     this._detach(node);
     this._add(node);
   }
 
-  _add(node: NodeLRU<K>) {
+  private _add(node: NodeLRU<K>) {
     // Drop LRU
     if (this.size === this.maxSize) {
       const tailNode = this.tail as NodeLRU<K>;
@@ -97,7 +108,7 @@ class LRU<K, V> {
     }
   }
 
-  _detach(node: NodeLRU<K>) {
+  private _detach(node: NodeLRU<K>) {
     if (!node.prev && !node.next) {
       this.head = null;
       this.tail = null;
@@ -126,16 +137,6 @@ class LRU<K, V> {
     this.size--;
   }
 
-  logTraverse(node = this.head) {
-    if (node === this.head) {
-      console.log('*head*');
-    }
-    console.log(`${node?.key || ''} ${node?.next ? '\n|' : ''}`);
-    if (node === this.tail) {
-      console.log('*tail');
-    }
-    if (node?.next) this.logTraverse(node.next);
-  }
 }
 
 export default LRU;
