@@ -15,24 +15,24 @@ export const useFeed = (isVisible: boolean) => {
   const savedPosts = useAppSelector((state) => state.saved.savedPosts);
   const { feed, sort } = useAppSelector((state) => state.query);
   const subs = useAppSelector((state) => state.subreddits.in_storage.subs);
-  // const feedPosts = useAppSelector((state) => state.query.feedPosts);
   const cachedPosts = useAppSelector(s => s.query.cachedPosts);
-  
 
   const currentUrl = useRef<string>('');
   const subsRef = useRef<Subreddit[]>(subs);
+  const canLoadCached = useRef<boolean>(true);
 
   const [subsDebounced, setSubsDebounced] = useState<Subreddit[]>([...subs]);
-  const canLoadCached = useRef<boolean>(true);
 
   useDebounce(() => {
     setSubsDebounced([...subs]);
-
   }, 500, [subs])
 
+  // Clear cache when changing feed or followed subs
   useEffect(() => {
     dispatch(clearCachedPosts());
   }, [dispatch, feed, subs]);
+
+  // Prevent loading from cache for 1s after changing feed 
   const cacheTimeoutRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
     clearTimeout(cacheTimeoutRef.current);
@@ -42,15 +42,7 @@ export const useFeed = (isVisible: boolean) => {
     }, 1000);
   }, [feed])
 
-    // if (canLoadCached.current) {
-    //   const cache = cachedPosts[sort as Sort];
-    //   if (cache.after) {
-    //     dispatch(setQuery(['after', cache.after]));
-    //     dispatch(setFeedPosts(cache.posts));
-    //     return;
-    //   }  
-    // }
-
+  // Load from cache if valid
   const feedRef = useRef<string>(feed);
   useEffect(() => {
     if (feed !== feedRef.current) {
@@ -67,7 +59,7 @@ export const useFeed = (isVisible: boolean) => {
     }
   }, [cachedPosts, dispatch, feed, sort]);
   
-  // Main feed fetch
+  // Fetch feed
   useEffect(() => {
     dispatch(setLastRequest(true));
     
@@ -97,7 +89,7 @@ export const useFeed = (isVisible: boolean) => {
     }
   }, [dispatch, feed, sort, subsDebounced]);
 
-  // Set feed to saved posts
+  // Load saved posts
   useEffect(() => {
     if (feed === 'saved') {
       dispatch(setFeedPosts(savedPosts));
@@ -111,6 +103,7 @@ export const useFeed = (isVisible: boolean) => {
     }
   }, [isVisible, dispatch, feed, sort]);
 
+  // Clear feed and after query when changing feed / sort
   const sortBy = useCallback(([target, value]:[string, string]) => {
     if (value === sort || value === feed) return;
 
