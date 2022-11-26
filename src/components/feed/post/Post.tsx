@@ -4,7 +4,7 @@ import { PostType } from '../../../utility';
 import { Video } from '.././post/Video';
 import { TextBody } from '.././post/TextBody';
 import { ImageBody } from '.././post/ImageBody';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
@@ -13,11 +13,10 @@ import { Votes } from './Votes';
 import { Menu } from '../../ui/Menu';
 
 import { BiHide } from 'react-icons/bi';
-import { AiOutlineConsoleSql, AiOutlineLink } from 'react-icons/ai';
+import { AiOutlineLink } from 'react-icons/ai';
 import { TfiComment } from 'react-icons/tfi';
 import { base } from '../../../utility/data';
 import { SubMeta } from '../../../types';
-import { addSubMeta } from '../../../app/reducers/subredditsSlice';
 
 interface PostProps { 
   post: PostType,
@@ -25,14 +24,14 @@ interface PostProps {
   clicked?: boolean,
   setOpenPost?: React.Dispatch<React.SetStateAction<PostType | null>>,
   onHide?: (...args: any) => any,
+  subHash: Map<string, SubMeta>,
 }
 
-export const Post = ({post, clicked, setOpenPost, open = false, onHide}: PostProps) => {
+export const Post = ({post, clicked, setOpenPost, open = false, onHide, subHash}: PostProps) => {
   const dispatch = useDispatch();
 
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
   const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);
-  const subsMeta = useAppSelector(s => s.subreddits.in_storage.subMeta);
 
   const saved = savedPosts.some(p => p.link === post.link);
 
@@ -52,46 +51,44 @@ export const Post = ({post, clicked, setOpenPost, open = false, onHide}: PostPro
     }
   }, [clicked, post, setOpenPost]);
 
-  const fetchRef = useRef<number>(0);
+  useEffect(() => {
+    let active = true;
+    if (subData) return;
+    
+    const existing = subHash.get(post.subreddit_id);
+    if (existing) {
+      setSubData(existing);
+      return;
+    }
 
-  // useEffect(() => {
-  //   console.log('rendering ' + post.title);
-  //   if (post.title.includes('pandemic')) {
-  //     console.log('----------------------------------------');
-  //   }
+    fetch(`${base}r/${post.subreddit}/about/.json?raw_json=1`)
+      .then(res => res.json())
+      .then(data => ({
+          active_user_count: data.data.active_user_count,
+          banner_background_color: data.data.banner_background_color,
+          banner_img: data.data.banner_img,
+          community_icon: data.data.community_icon,
+          header_img: data.data.header_img,
+          icon_img: data.data.icon_img,
+          id: data.data.id,
+          public_description: data.data.public_description,
+          public_description_html: data.data.public_description_html,
+          display_name: data.data.display_name,
+          name: data.data.name,
+        }))
+      .then((subMeta: SubMeta) => {
+        if (active) {
+          // dispatch(addSubMeta(subMeta));
+          setSubData(subMeta);
+          console.log(subMeta);
+        }
+      })
 
-  // }, [post.title])
+      return () => {
+        active = false;
+      }
 
-  
-  // useEffect(() => {
-  //   if (!post) return;
-  //   if (fetchRef.current === true) return;
-  //   console.log(fetchRef.current);
-
-  //   console.log(`${base}r/${post.subreddit}/about/.json?raw_json=1`);
-  //   // fetch(`${base}r/${post.subreddit}/about/.json?raw_json=1`)
-  //   //   .then(res => res.json())
-  //   //   .then(data => ({
-  //   //       active_user_count: data.data.active_user_count,
-  //   //       banner_background_color: data.data.banner_background_color,
-  //   //       banner_img: data.data.banner_img,
-  //   //       community_icon: data.data.community_icon,
-  //   //       header_img: data.data.header_img,
-  //   //       icon_img: data.data.icon_img,
-  //   //       id: data.data.id,
-  //   //       public_description: data.data.public_description,
-  //   //       public_description_html: data.data.public_description_html,
-  //   //       display_name: data.data.display_name,
-  //   //       name: data.data.name,
-  //   //     }))
-  //   //   .then((subMeta: SubMeta) => {
-  //   //     // dispatch(addSubMeta(subMeta));
-  //   //     setSubData(subMeta);
-  //   //     console.log(subMeta);
-  //   //   })
-
-  //   return () => {fetchRef.current = true}
-  // }, [post, fetchRef]);
+  }, [dispatch, post.subreddit, post.subreddit_id, subData]);
 
   return (
     <>
