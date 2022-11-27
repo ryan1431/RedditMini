@@ -1,0 +1,48 @@
+.sub-details-panel {
+  position: absolute;
+  overflow:visible;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  line-break: loose;
+  
+  top: 100%;
+  left: 25%;
+  z-index: 1;
+
+  width: fit-content;
+  height: fit-content;
+
+  min-width: 300px;
+  min-height: 100px;
+
+  border-radius: 5px;
+
+  background: rgb(31, 31, 31);
+  border: 1px solid rgba(78, 78, 78, 0.712);
+
+  transition: opacity 0.2s;
+}
+
+.sub-details-banner {
+  overflow: hidden;
+}
+.sub-details-banner img {
+  width: 300px;
+  height: auto;
+}
+
+.sub-details-sub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: rgb(31, 31, 31);
+  width: 100%;
+
+  
+  top: -15px;
+}

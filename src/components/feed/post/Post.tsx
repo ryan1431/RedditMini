@@ -4,7 +4,7 @@ import { PostType } from '../../../utility';
 import { Video } from '.././post/Video';
 import { TextBody } from '.././post/TextBody';
 import { ImageBody } from '.././post/ImageBody';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
@@ -23,6 +23,7 @@ import { SelectedPostData } from '../Feed';
 import LRU from '../../../utility/LRU';
 
 import defaultIcon from '../../../media/srdefault.jpeg';
+import { SubPanel } from './SubPanel';
 
 interface PostProps { 
   post: PostType,
@@ -42,7 +43,8 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
 
   const saved = savedPosts.some(p => p.link === post.link);
 
-  const [ subData, setSubData ] = useState<SubMeta>();
+  const [subData, setSubData] = useState<SubMeta>();
+  const [showSubData, setShowSubData] = useState<boolean>(false);
 
   const onSave = useCallback(() => {
     if (saved) {
@@ -51,6 +53,19 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
       dispatch(save(post));
     }
   }, [dispatch, post, saved]);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+
+  const onHoverSub = useCallback(() => {
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setShowSubData(true);
+    }, 1000);
+  }, []);
+  const onMouseOut = useCallback(() => {
+    clearTimeout(timeoutRef.current);
+    setShowSubData(false);
+  }, []);
 
   useEffect(() => {
     if (clicked && setSelectedPostData) {
@@ -103,8 +118,11 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
         {/* Subreddit & Poster Info */}
         <address className='details-wrapper'>
           <div className='details-left'>
-            {subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
-            {!open && <p><a className='sub-link' href={`https://www.reddit.com/${post.subreddit_name_prefixed}`} rel='noreferrer' target={'_blank'}>r/{post.subreddit}</a></p>}
+            <div className='post-sub-details' onMouseEnter={onHoverSub} onMouseLeave={onMouseOut}>
+              {subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
+              {!open && <p className='sub-name'>r/{post.subreddit}</p>}
+              <SubPanel open={showSubData} data={subData} name={post.subreddit}/>
+            </div>
             <p className='post-details author'>
               {!open && <span>• </span>}
               <span className='name-prefix'>u/</span>{post.author}
