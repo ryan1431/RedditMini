@@ -49,6 +49,16 @@
   }
 }
 
+.post-sub-details {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.post-sub-details:hover .sub-name {
+  text-decoration: underline;
+}
+
 .post video {
   cursor:default;
 }
