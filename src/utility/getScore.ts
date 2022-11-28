@@ -14,5 +14,7 @@ export const getScore = (n: number) => {
   if (length < 7) {
     return `${Math.round(n/1000)}k`
   }
-  return `${Math.round(n/1000000)}m`
+  let reduced = toLFixed(n / 1000000, 1);
+  if (reduced.split('.')[1] === '0') reduced = reduced.split('.')[0]
+  return `${reduced}m`
 }

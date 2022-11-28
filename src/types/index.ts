@@ -1,6 +1,5 @@
 export interface Subreddit {
   name: string,
-  desc: string,
   icon_url: string
   is_valid: boolean,
 }
@@ -17,6 +16,7 @@ export interface SubMeta {
   public_description_html: string,
   display_name: string,
   name: string,
+  subscribers: number,
 }
 
 export const sampleSubMeta:SubMeta = {
@@ -31,4 +31,5 @@ export const sampleSubMeta:SubMeta = {
   public_description_html: 'string',
   display_name: 'string',
   name: 'string',
+  subscribers: 3,
 }

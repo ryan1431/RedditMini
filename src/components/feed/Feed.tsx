@@ -41,7 +41,8 @@ export const Feed = () => {
       || (e.target && e.target.classList?.contains('info-save'))
       || !e.target.closest('.post')
       || e.target.closest('.votes')
-      || e.target.closest('.details-menu')) 
+      || e.target.closest('.details-menu')
+      || e.target.closest('.sub-details-panel')) 
         return setSelected('');
     
     setSelected(e.target.closest('.post').classList[1] || '');

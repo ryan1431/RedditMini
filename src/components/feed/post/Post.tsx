@@ -60,7 +60,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       setShowSubData(true);
-    }, 1000);
+    }, 600);
   }, []);
   const onMouseOut = useCallback(() => {
     clearTimeout(timeoutRef.current);
@@ -85,18 +85,19 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
 
     fetch(`${base}r/${post.subreddit}/about/.json?raw_json=1`)
       .then(res => res.json())
-      .then(data => ({
-          active_user_count: data.data.active_user_count,
-          banner_background_color: data.data.banner_background_color,
-          banner_img: data.data.banner_img,
-          community_icon: data.data.community_icon,
-          header_img: data.data.header_img,
-          icon_img: data.data.icon_img,
-          id: data.data.id,
-          public_description: data.data.public_description,
-          public_description_html: data.data.public_description_html,
-          display_name: data.data.display_name,
-          name: data.data.name,
+      .then(json => ({
+          active_user_count: json.data.active_user_count,
+          banner_background_color: json.data.banner_background_color,
+          banner_img: json.data.banner_img,
+          community_icon: json.data.community_icon,
+          header_img: json.data.header_img,
+          icon_img: json.data.icon_img,
+          id: json.data.id,
+          public_description: json.data.public_description,
+          public_description_html: json.data.public_description_html,
+          display_name: json.data.display_name,
+          name: json.data.name,
+          subscribers: json.data.subscribers,
         }))
       .then((subMeta: SubMeta) => {
         if (active) {
@@ -121,7 +122,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
             <div className='post-sub-details' onMouseEnter={onHoverSub} onMouseLeave={onMouseOut}>
               {subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
               {!open && <p className='sub-name'>r/{post.subreddit}</p>}
-              <SubPanel open={showSubData} data={subData} name={post.subreddit}/>
+              <SubPanel open={showSubData} data={subData} name={post.subreddit} setOpen={setShowSubData}/>
             </div>
             <p className='post-details author'>
               {!open && <span>• </span>}
