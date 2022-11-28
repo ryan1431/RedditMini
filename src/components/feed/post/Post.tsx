@@ -27,15 +27,17 @@ import { SubPanel } from './SubPanel';
 
 interface PostProps { 
   post: PostType,
+  menuOpen: boolean,
+  setClickedMenu: React.Dispatch<React.SetStateAction<string>>,
+  SubDataLRU: LRU<string, SubMeta>,
   open?: boolean,
   clicked?: boolean,
   setSelectedPostData?: React.Dispatch<React.SetStateAction<SelectedPostData | null>>,
   onHide?: (...args: any) => any,
   onCopyLink?: (...args: any) => any,
-  SubDataLRU: LRU<string, SubMeta>,
 }
 
-export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, onCopyLink, SubDataLRU}: PostProps) => {
+export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen, setClickedMenu, onHide, onCopyLink, SubDataLRU}: PostProps) => {
   const dispatch = useDispatch();
 
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
@@ -117,6 +119,8 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
 
   }, [SubDataLRU, dispatch, post.subreddit, post.subreddit_id, subData]);
 
+  
+
   return (
     <>
       {post && !hidden && !blocked && (
@@ -136,7 +140,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
             </p>
             <p className='post-details'>{getRelativeTime(post.created_utc * 1000)}</p>
           </div>
-          <Menu className='details-menu'>
+          <Menu open={menuOpen} className='details-menu' onIconClick={() => setClickedMenu(p => p === post.link ? '' : post.link)} >
             <div className='menu-items-wrapper'>
               <div className='menu-item hide-post' onClick={() => onHide && onHide(post.name)}>
                 <p>Hide Post</p>

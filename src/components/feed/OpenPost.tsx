@@ -1,5 +1,5 @@
 import './OpenPost.css';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Post } from './post/Post';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { fetchComments } from '../../app/reducers/commentsSlice';
@@ -12,9 +12,11 @@ import LRU from '../../utility/LRU';
 interface OpenPostProps {
   data: SelectedPostData,
   SubDataLRU: LRU<string, SubMeta>,
+  setClickedMenu: React.Dispatch<React.SetStateAction<string>>,
+  menuOpen: boolean,
 }
 
-export const OpenPost = ({data: {post, subMeta}, SubDataLRU}:  OpenPostProps) => {
+export const OpenPost = ({data: {post, subMeta}, SubDataLRU, setClickedMenu, menuOpen}:  OpenPostProps) => {
   const dispatch = useAppDispatch();
 
   const commentsState = useAppSelector(s => s.comments.comments);
@@ -46,7 +48,7 @@ export const OpenPost = ({data: {post, subMeta}, SubDataLRU}:  OpenPostProps) =>
   return (
     <div style={{position: 'relative'}}>
       {post && <div className='open-post'>
-        <Post post={post} SubDataLRU={SubDataLRU} open/>
+        <Post post={post} SubDataLRU={SubDataLRU} open menuOpen={menuOpen} setClickedMenu={setClickedMenu} />
         
         {post.num_comments > 0 ? <div className='comment-wrapper'>
           {comments.length 

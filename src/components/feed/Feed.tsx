@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
+import { useClickout } from '../../app/hooks/useClickout';
 import { useFeed } from '../../app/hooks/useFeed';
 import { useOnScreen } from '../../app/hooks/useOnScreen';
 import { hidePost, unHidePost } from '../../app/reducers/savedSlice';
@@ -94,6 +95,24 @@ export const Feed = () => {
 
   const disabled = feed === 'saved';
 
+
+  const [clickedMenu, setClickedMenu] = useState<string>('');
+  const onClick = useCallback((e: any) => {
+    // Force out
+    if (['.menu-item'].some(s => !!e.target.closest(s))) {
+      setClickedMenu('');
+      return;
+    }
+
+    // Clicks in menu
+    if (['.ui-menu'].some(s => !!e.target.closest(s))) return;
+
+    // Clicks outside menu
+    setClickedMenu('');
+  }, []);
+  
+  useClickout(onClick);
+
   return (
     <div id="feed" >
       {/* Open post modal */}
@@ -101,7 +120,13 @@ export const Feed = () => {
         {selectedPostData && <Modal.Header>
           <span className='sub-prefix' style={{marginRight: '2px'}}>r/</span>{selectedPostData?.post.subreddit}
         </Modal.Header>}
-        {selectedPostData && <OpenPost data={selectedPostData} SubDataLRU={SubDataLRU}/>}
+        {selectedPostData && 
+          <OpenPost 
+            setClickedMenu={setClickedMenu} 
+            menuOpen={clickedMenu === selectedPostData.post.link} 
+            data={selectedPostData} 
+            SubDataLRU={SubDataLRU}
+          />}
       </Modal>
       
       {/* Feed & Sort by */}
@@ -138,6 +163,8 @@ export const Feed = () => {
             const clicked = selected === post.link;
             
             return <Post post={post} 
+              setClickedMenu={setClickedMenu}
+              menuOpen={clickedMenu === post.link}
               key={'' + post.title + post.score + post.subreddit}
               clicked={clicked}
               setSelectedPostData={setSelectedPostData}
