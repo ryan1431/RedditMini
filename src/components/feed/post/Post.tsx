@@ -25,6 +25,7 @@ import LRU from '../../../utility/LRU';
 import defaultIcon from '../../../media/srdefault.jpeg';
 import { SubPanel } from './SubPanel';
 import { toggleBlocked } from '../../../app/reducers/subredditsSlice';
+import { Slide } from './Slide';
 
 interface PostProps { 
   post: PostType,
@@ -50,6 +51,11 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const [subData, setSubData] = useState<SubMeta>();
   const [showSubData, setShowSubData] = useState<boolean>(false);
 
+  useEffect(() => {
+    console.log(post.type);
+    console.log(post.slides);
+  }, [post.slides, post.type]);
+  
   const onSave = useCallback(() => {
     if (saved) {
       dispatch(unsave(post));
@@ -179,6 +185,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
           {
             post.type === 'video' ? <Video url={post.content_url}/>
             : post.type === 'image' ? <ImageBody url={post.content_url}/>
+            : post.type === 'slide' ? <Slide slides={post.slides!} />
             : <TextBody selftext={post.selftext} selftext_html={post.selftext_html} />
           }
         </main>

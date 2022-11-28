@@ -7,8 +7,9 @@ export const setType = (post: any) => {
   post.type = 
     (post.media 
       || post.preview?.images[0].variants.mp4
-      || post.preview?.images[0].variants.gif) ? 'video' :
-    post.preview ? 'image' 
+      || post.preview?.images[0].variants.gif) ? 'video' 
+    : post.preview ? 'image' 
+    : post.media_metadata ? 'slide'
     : 'text';
 }  
 

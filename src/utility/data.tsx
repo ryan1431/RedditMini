@@ -5,7 +5,7 @@ export const keys = [
   'upvote_ratio', 'total_awards_received', 'score', 'edited',
   'is_self', 'created_utc', 'selftext_html', 'over_18',
   'spoiler', 'visited', 'author', 'num_comments', 'is_video', 'url',
-  'preview', 'media', 'removal_reason', 'removed_by', 'removed_by_category',
+  'preview', 'media', 'media_metadata', 'removal_reason', 'removed_by', 'removed_by_category',
   'permalink', 'subreddit_name_prefixed', 'name', 'all_awardings',
 ];
 
