@@ -27,6 +27,8 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
   const {searchResults: results, searchStatus} = useAppSelector((state) => state.subreddits);
   const toggled = useAppSelector((s) => s.subreddits.toggleQueue);
 
+  const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
+
   const style = useMemo(() => {
     return toggled.length 
       ? {
@@ -69,7 +71,7 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
               ? <div style={{height: 'fit-content', maxWidth: '100%'}}>
                 <div className='results-wrapper hidescrollbar'>
                   {results.map((sub: Subreddit) => 
-                    <Sub key={'result-' + sub.name} sub={sub} result />
+                    (!blocked.find(sr => sr.name === sub.name)) && <Sub key={'result-' + sub.name} sub={sub} result />
                   )}
                 </div>
                 <div className='save-wrapper' style={style}>

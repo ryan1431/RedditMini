@@ -40,6 +40,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
 
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
   const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);
+  const blocked = !!useAppSelector(s => s.subreddits.in_storage.blocked).find(sr => sr.name === post.subreddit);
 
   const saved = savedPosts.some(p => p.link === post.link);
 
@@ -118,7 +119,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
 
   return (
     <>
-      {post && !hidden && (
+      {post && !hidden && !blocked && (
       <article className={`post ${post.link}`}>
         {/* Subreddit & Poster Info */}
         <address className='details-wrapper'>

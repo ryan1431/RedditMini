@@ -4,7 +4,7 @@ import defaultIcon from '../../../media/srdefault.jpeg';
 import { getScore } from '../../../utility/getScore';
 import React, { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks/hooks';
-import { toggleSubreddit } from '../../../app/reducers/subredditsSlice';
+import { toggleBlocked, toggleSubreddit } from '../../../app/reducers/subredditsSlice';
 
 interface SubPanelProps {
   open: boolean,
@@ -29,6 +29,15 @@ export const SubPanel = ({open, data, name, setOpen}: SubPanelProps) => {
 
     dispatch(toggleSubreddit(sub))
   }, [data, dispatch, name]);
+
+  const onBlock = useCallback(() => {
+    setOpen(false);
+    dispatch(toggleBlocked({
+      name,
+      icon_url: '',
+      is_valid: true,
+    }));
+  }, [dispatch, name, setOpen]);
   
   return data ? (
     <div className='sub-details-panel' style={{display: open ? '' : 'none'}}>
@@ -47,7 +56,7 @@ export const SubPanel = ({open, data, name, setOpen}: SubPanelProps) => {
       <p className='sub-desc'>{data.public_description}</p>
       <div className='sub-details-actions'>
         <div className='sub-details-button' onClick={onToggleFollow}><p>{followed ? 'Unfollow' : 'Follow'}</p></div>
-        <div className='sub-details-button' onClick={() => setOpen(false)}><p>Block Community</p></div>
+        <div className='sub-details-button' onClick={onBlock}><p>Block Community</p></div>
       </div>
     </div>
   ) : <></>
