@@ -1,27 +1,23 @@
-import { useState } from 'react';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { IconType } from 'react-icons/lib';
-import { useClickout } from '../../app/hooks/useClickout';
 
 import './Menu.css';
 
 interface MenuProps {
+  open: boolean,
   className?: string,
   icon?: IconType
+  onIconClick?: (...args: any) => any,
   openRight?: boolean,
   children?: React.ReactNode
 }
 
-export const Menu = ({className = '', icon, openRight = false, children}: MenuProps) => {
+export const Menu = ({open, className = '', icon, onIconClick, openRight = false, children}: MenuProps) => {
   const MenuIcon = icon || BiDotsHorizontalRounded;
-
-  const [open, setOpen] = useState<boolean>(false);
-
-  useClickout(() => setOpen(false), [], ['.ui-menu'], ['.menu-item']);
   
   return (
     <div className={`ui-menu ${className}`} style={{position: 'relative'}}>
-      <div className='ui-menu-trigger' onClick={() => setOpen(p => !p)}>
+      <div className='ui-menu-trigger' onClick={onIconClick}>
         <MenuIcon />
       </div>
       {open && <div className='ui-menu-dropdown' 
