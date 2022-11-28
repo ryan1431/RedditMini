@@ -70,7 +70,10 @@ export const subredditsReducer = createSlice({
 
       if (index === -1) {
         state.in_storage.blocked.push(action.payload);
-        state.in_storage.subs = state.in_storage.subs.filter(s => s.name !== action.payload.name);
+        let followedIndex = state.in_storage.subs.findIndex(s => s.name === action.payload.name);
+        if (followedIndex !== -1) {
+          state.in_storage.subs.splice(followedIndex, 1);
+        }
       } else {
         state.in_storage.blocked.splice(index, 1);
       }
