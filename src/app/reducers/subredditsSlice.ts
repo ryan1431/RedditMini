@@ -18,11 +18,13 @@ interface SubredditsState {
 
 interface InStorage {
   subs: Subreddit[],
+  blocked: Subreddit[],
 }
 
 const initialState: SubredditsState = {
   in_storage: {
     subs: [],
+    blocked: [],
   },
   searchInput: '',
   searchStatus: 'idle',
@@ -61,6 +63,16 @@ export const subredditsReducer = createSlice({
         state.in_storage.subs = state.in_storage.subs.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
       } else {
         state.in_storage.subs.splice(index, 1)
+      }
+    },
+    toggleBlocked: (state, action: PayloadAction<Subreddit>) => {
+      let index = state.in_storage.blocked.findIndex(s => s.name === action.payload.name);
+
+      if (index === -1) {
+        state.in_storage.blocked.push(action.payload);
+        state.in_storage.subs = state.in_storage.subs.filter(s => s.name !== action.payload.name);
+      } else {
+        state.in_storage.blocked.splice(index, 1);
       }
     },
     setLoading: (state, action: PayloadAction<string>) => {
@@ -114,6 +126,6 @@ export const subredditsReducer = createSlice({
   }
 });
 
-export const { toggleSubreddit, setLoading, toggleResult, clearToggleQueue, toggleOpen, toggleSrOpen, toggleInSearch, setSearchInput, onClearSubreddits } = subredditsReducer.actions;
+export const { toggleSubreddit, toggleBlocked, setLoading, toggleResult, clearToggleQueue, toggleOpen, toggleSrOpen, toggleInSearch, setSearchInput, onClearSubreddits } = subredditsReducer.actions;
 
 export default subredditsReducer.reducer;

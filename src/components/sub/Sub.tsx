@@ -5,16 +5,17 @@ import { useCallback, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { Subreddit } from '../../types';
 import srdefault from '../../media/srdefault.jpeg';
-import { toggleResult, toggleSubreddit } from '../../app/reducers/subredditsSlice';
+import { toggleBlocked, toggleResult, toggleSubreddit } from '../../app/reducers/subredditsSlice';
 import clsx from 'clsx';
 export interface SubProps {
   sub: Subreddit;
   result?: boolean;
+  blocked?: boolean;
 }
 
 export type size = '' | '0';
 
-export const Sub = ({sub, result}: SubProps) => {
+export const Sub = ({sub, result, blocked = false}: SubProps) => {
   const dispatch = useAppDispatch();
   
   const subs = useAppSelector(s => s.subreddits.in_storage.subs);
@@ -24,8 +25,8 @@ export const Sub = ({sub, result}: SubProps) => {
 
   const add = useMemo(() => {
     let willAdd = !subs.some((s) => s.name === sub.name);
-    return result && toggleQueue.some((s) => s.name === sub.name) ? !willAdd : willAdd;
-  }, [result, sub.name, subs, toggleQueue]);
+    return (result && toggleQueue.some((s) => s.name === sub.name)) || blocked ? !willAdd : willAdd;
+  }, [blocked, result, sub.name, subs, toggleQueue]);
 
   const onClick = useCallback(() => {
     if (result) {
@@ -33,10 +34,14 @@ export const Sub = ({sub, result}: SubProps) => {
     } else {
       setSize('0');
       setTimeout(() => {
-        dispatch(toggleSubreddit(sub));
+        if (blocked) {
+          dispatch(toggleBlocked(sub))
+        } else {
+          dispatch(toggleSubreddit(sub));
+        }
       }, 200);
     }
-  }, [dispatch, result, sub])
+  }, [blocked, dispatch, result, sub])
 
   return (
     <div onClick={onClick} style={{height: size, width: size, margin: size}} className={clsx('sub', {'result': result}, {'add': add}, 'noselect')}>

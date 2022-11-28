@@ -20,6 +20,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const open = useAppSelector(s => s.subreddits.open);
   const subs = useAppSelector(s => s.subreddits.in_storage.subs);
   const srOpen = useAppSelector(s => s.subreddits.srOpen);
+  const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
@@ -72,7 +73,14 @@ export const Settings = ({navBarRef}: SettingsProps) => {
           </div>
         </div>
       </Dropdown>
-      <Dropdown label='Blocked Subreddits'>
+      <Dropdown label='Blocked Communities'>
+        <div className='subs-results-container'>
+          <div className='selected-subs'>
+              {blocked.map((sub) => 
+                <Sub sub={sub} key={'blocked-' + sub.name} blocked />
+              )}
+          </div>
+        </div>
       </Dropdown>
       <Dropdown label='Blocked Users'>
       </Dropdown>
