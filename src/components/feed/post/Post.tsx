@@ -24,6 +24,7 @@ import LRU from '../../../utility/LRU';
 
 import defaultIcon from '../../../media/srdefault.jpeg';
 import { SubPanel } from './SubPanel';
+import { toggleBlocked } from '../../../app/reducers/subredditsSlice';
 
 interface PostProps { 
   post: PostType,
@@ -120,6 +121,13 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   }, [SubDataLRU, dispatch, post.subreddit, post.subreddit_id, subData]);
 
   
+  const onBlock = useCallback(() => {
+    dispatch(toggleBlocked({
+      name: post.subreddit,
+      icon_url: '',
+      is_valid: true,
+    }));
+  }, [dispatch, post.subreddit]);
 
   return (
     <>
@@ -152,6 +160,10 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
               </div>
               <div className='menu-item' onClick={() => onCopyLink && onCopyLink(post.link)}>
                 <p>Copy Link</p>
+                <MdIosShare />
+              </div>
+              <div className='menu-item' onClick={onBlock}>
+                <p>Block Community</p>
                 <MdIosShare />
               </div>
             </div>
