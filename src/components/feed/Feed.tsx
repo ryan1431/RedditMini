@@ -42,7 +42,7 @@ export const Feed = () => {
       || !e.target.closest('.post')
       || e.target.closest('.votes')
       || e.target.closest('.details-menu')
-      || e.target.closest('.sub-details-panel')) 
+      || e.target.closest('.post-sub-details')) 
         return setSelected('');
     
     setSelected(e.target.closest('.post').classList[1] || '');
