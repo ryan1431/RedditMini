@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDynamicTransition } from '../../app/hooks/useDynamicTransition';
 import { CommentData, MoreComments } from '../../types/commentType';
 import { base } from '../../utility/data';
@@ -8,6 +8,9 @@ import './Comment.css';
 import { More } from './More';
 import { Votes } from './post/Votes';
 import { TfiComment } from 'react-icons/tfi';
+
+import defaultAvatar from '../../media/avatar_default.png';
+
 interface CommentProps {
   comment: CommentData,
   postId: string,
@@ -18,6 +21,8 @@ interface CommentProps {
 export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
   const wrapperRef = useRef<HTMLDivElement>(undefined!);
   const commentRef = useRef<HTMLDivElement>(undefined!);
+
+  const avatarRef = useRef<HTMLImageElement>(undefined!);
 
   const [avatar, setAvatar] = useState<string>();
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -37,9 +42,16 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
     comment.author !== '[deleted]' && fetch(`${base}user/${comment.author}/about.json?raw_json=1`)
       .then(res => res.json())
       .then(data => {
-        setAvatar(data.data.snoovatar_img || data.data.icon_img);
+        setAvatar(data.data.snoovatar_img || data.data.icon_img || defaultAvatar);
       });
   }, [comment.author])
+
+  const useDefaultAvatar = useCallback(() => {
+    setAvatar('___');
+    if (avatarRef.current.src !== defaultAvatar) {
+      avatarRef.current.src = defaultAvatar;
+    }
+  }, []);
   
   return (
     // Tree
@@ -53,7 +65,19 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
         <div className={clsx('comment-bar', {'op': comment.is_submitter})}>
           {/* Left */}
           <div>
-            {avatar && <img src={avatar} alt='user-avatar' className={clsx('user-avatar', {'snoovatar': avatar.includes('snoovatar')})}></img>}
+            {avatar && 
+              <img src={avatar} 
+                ref={avatarRef} 
+                onError={useDefaultAvatar}  
+                alt='user-avatar' 
+                className={
+                  clsx(
+                    'user-avatar', 
+                    {
+                      'snoovatar': avatar.includes('snoovatar')
+                    },
+                  )}
+                ></img>}
             <p>
               <span className='name-prefix'>u/</span>
               <span className='comment-author'>{comment.author}</span>

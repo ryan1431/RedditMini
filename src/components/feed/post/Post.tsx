@@ -56,6 +56,10 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
 
   const timeoutRef = useRef<NodeJS.Timeout>();
 
+  const onClickSub = useCallback(() => {
+    clearTimeout(timeoutRef.current);
+    setShowSubData(p => !p);
+  }, []);  
   const onHoverSub = useCallback(() => {
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
@@ -119,9 +123,10 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, onHide, 
         {/* Subreddit & Poster Info */}
         <address className='details-wrapper'>
           <div className='details-left'>
-            <div className='post-sub-details' onMouseEnter={onHoverSub} onMouseLeave={onMouseOut}>
+            <div className='post-sub-details'  onMouseEnter={onHoverSub} onMouseLeave={onMouseOut}>
               {subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
-              {!open && <p className='sub-name'>r/{post.subreddit}</p>}
+ 
+              {!open && <p onClick={onClickSub} className='sub-name'>r/{post.subreddit}</p>}
               <SubPanel open={showSubData} data={subData} name={post.subreddit} setOpen={setShowSubData}/>
             </div>
             <p className='post-details author'>
