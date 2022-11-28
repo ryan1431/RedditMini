@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { formatUrl } from "../../utility";
 import { base } from "../../utility/data";
 
-import type { SubMeta, Subreddit } from "../../types";
+import type { Subreddit } from "../../types";
 import { reviver } from "../../utility/serializeHelper";
 
 interface SubredditsState {
@@ -103,7 +103,6 @@ export const subredditsReducer = createSlice({
         state.searchResults = action.payload.data.children.map((sub: any): Subreddit => {
           return {
             name: sub.data.display_name,
-            desc: sub.data.description,
             icon_url: sub.data.community_icon,
             is_valid: sub.data.subreddit_type !== 'private',
           }
