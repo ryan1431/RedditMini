@@ -55,21 +55,25 @@ export const formatPost = (res: any, single = true): PostType => {
   setType(postEntries);
   
   // Set content url for easy access & decode
-  if (postEntries.type !== 'text') {
-    if (postEntries.type === 'image') {
-      // postEntries.content_url = htmlDecode(postEntries.preview.images[0].source.url)
-      postEntries.content_url = postEntries.preview.images[0].source.url;
-    } else { // is video
-      let url:string = 
-        postEntries.media?.reddit_video?.fallback_url
-        || postEntries.preview?.images[0]?.variants?.mp4?.source?.url
-        || postEntries.preview?.images[0]?.variants?.gif?.source?.url
-        || null;
+  if (postEntries.type === 'image') {
+    postEntries.content_url = postEntries.preview.images[0].source.url;
+  } else if (postEntries.type === 'video' ) {
+    let url:string = 
+      postEntries.media?.reddit_video?.fallback_url
+      || postEntries.preview?.images[0]?.variants?.mp4?.source?.url
+      || postEntries.preview?.images[0]?.variants?.gif?.source?.url
+      || null;
 
-      if (!url) postEntries.is_valid = false;
-      // postEntries.content_url = htmlDecode(url)
-      postEntries.content_url = url;
+    if (!url) postEntries.is_valid = false;
+    postEntries.content_url = url;
+  } else if (postEntries.type === 'slide') {
+    const slides = [];
+
+    for (const key in postEntries.media_metadata) {
+      slides.push(postEntries.media_metadata[key].s.u);
     }
+
+    postEntries.slides = slides;
   }
 
   // Set persistent link

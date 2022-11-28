@@ -108,7 +108,8 @@
 }
 
 .post-body.video,
-.post-body.image {
+.post-body.image,
+.post-body.slide {
   display: flex;
   justify-content: center;
 }

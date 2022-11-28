@@ -18,7 +18,7 @@ interface PostType {
   num_comments: number,
   created_utc: number,
   url: string
-  type: string | undefined,
+  type: 'video' | 'image' | 'text' | 'slide',
   preview: any,
   media: any,
   removal_reason: any,
@@ -34,6 +34,7 @@ interface PostType {
    * Link to original post on Reddit
    */
   link: string,
+  slides?: string[],
 }
 
 export type {

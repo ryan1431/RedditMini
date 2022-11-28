@@ -41,10 +41,8 @@ export const Feed = () => {
     if (e.target instanceof HTMLVideoElement
       || (e.target && e.target.classList?.contains('info-save'))
       || !e.target.closest('.post')
-      || e.target.closest('.votes')
-      || e.target.closest('.details-menu')
-      || e.target.closest('.post-sub-details')) 
-        return setSelected('');
+      || ['.votes', '.details-menu', '.post-sub-details', '.slide-wrapper'].some(s => e.target.closest(s))) 
+      return setSelected('');
     
     setSelected(e.target.closest('.post').classList[1] || '');
   }, []);

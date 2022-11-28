@@ -1,0 +1,11 @@
+.slide-wrapper {
+  cursor: default;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-wrapper img {
+  max-width: 90%;
+  height: auto;
+}
