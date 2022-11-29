@@ -16,7 +16,6 @@
   right: 0;
 
   background: rgba(33, 33, 33, 0.994);
-  color: white;
 
   overflow: hidden;
   overflow-y: auto;
@@ -43,7 +42,6 @@
 .search-bar input {
   background-color: rgb(49, 49, 49);
   height: 100%;
-  color: white;
 }
 
 /* Selected subreddits */

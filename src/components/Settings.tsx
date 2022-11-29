@@ -8,7 +8,7 @@ import { onClearSubreddits, toggleOpen, toggleSrOpen } from '../app/reducers/sub
 import { Dropdown } from './ui/Dropdown';
 import { Button } from './ui/Button';
 import Modal from './ui/Modal';
-import { resetSaved } from '../app/reducers/savedSlice';
+import { currentThemeInfo, resetSaved } from '../app/reducers/savedSlice';
 
 interface SettingsProps {
   navBarRef: MutableRefObject<HTMLDivElement>,
@@ -21,6 +21,9 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const subs = useAppSelector(s => s.subreddits.in_storage.subs);
   const srOpen = useAppSelector(s => s.subreddits.srOpen);
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
+
+  const theme = useAppSelector(currentThemeInfo);
+  const {r, g, b} = theme.front;
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
@@ -54,7 +57,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
       style={{
         overflow: open ? 'auto' : 'hidden', 
         height: open ? '' : '0', 
-        // border: open ? '' : 'none'
+        background: `rgb(${r}, ${g}, ${b})`
       }}
     >
       <Dropdown label='Followed Subreddits' 

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { setQuery } from '../app/reducers/querySlice';
+import { currentThemeInfo } from '../app/reducers/savedSlice';
 import { clearToggleQueue, getSubreddits, toggleInSearch, toggleSubreddit } from '../app/reducers/subredditsSlice';
 import { Subreddit } from '../types';
 import './SearchResults.css';
@@ -26,8 +27,9 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
 
   const {searchResults: results, searchStatus} = useAppSelector((state) => state.subreddits);
   const toggled = useAppSelector((s) => s.subreddits.toggleQueue);
-
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
+  const theme = useAppSelector(currentThemeInfo);
+  const {r, g, b} = theme.front;
 
   const style = useMemo(() => {
     return toggled.length 
@@ -64,7 +66,7 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
   return (
     <>
       {inSearch && (
-        <div className="search-results">
+        <div style={{background: `rgb(${r}, ${g}, ${b})`}} className="search-results">
           { (searchInput.length < 3)
             ? <p>Enter a search of at least 3 characters</p>
             : (searchStatus === 'idle' && results.length)

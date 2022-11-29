@@ -1,10 +1,8 @@
 .comment {
-  /* border: 1px solid rgba(128, 128, 128, 0.22); */
   border-radius: 7px;
 
   margin: 6px 10px;
 
-  color: rgb(228, 227, 227);
   overflow: hidden;
 }
 .comment-see-more {
@@ -19,6 +17,7 @@
   min-height: 5px;
   width: 100%;
 }
+
 
 /* Top bar / header of comment */
 .comment-bar {
@@ -132,13 +131,9 @@ blockquote {
 
 .icon {
   margin-left: 15px;
-  color: grey;
   font-size: 14px;
   cursor: pointer;
 
   transition: color 0.2s;
 }
 
-.icon:hover {
-  color: white;
-}
