@@ -63,6 +63,7 @@
   width: 40px;
 
   border-radius: 50%;
+  border:1px solid rgba(52, 51, 51, 0.9);
 
   transition: background-color 0.2s;
 }
@@ -87,6 +88,7 @@
   position:absolute;
 
   bottom: 0;
+  
 
   width: 100%;
   height: 40px;
@@ -103,6 +105,8 @@
   bottom: 10px;
 
   border-radius: 20px;
+  border:1px solid rgba(68, 68, 68, 0.8);
+
 
   min-width: 10px;
   width: fit-content;

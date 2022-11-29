@@ -18,9 +18,9 @@ export const Slide = ({slides}: SlideProps) => {
   return (
     <div className='slide-wrapper'>
         <div className='slider' style={{left: `-${index}00%`}}>
-          {slides.map((s, i) => 
-            <div className='slide-image-wrapper'>
-              <img key={'inslide ' + s.u} src={s.u} alt='slideshow'></img>  
+          {slides.map((s) => 
+            <div key={'inslide ' + s.u} className='slide-image-wrapper'>
+              <img src={s.u} alt='slideshow'></img>  
             </div>
           )}
         </div>
@@ -40,7 +40,7 @@ export const Slide = ({slides}: SlideProps) => {
         <div className='slide-count-wrapper'>
           <div className='slide-count'>
             {slides.map((x, i) => 
-              <div className='slide-circle-area' onClick={() => setIndex(i)} >
+              <div key={`slide-circles-${slides[0].u}-${i}`} className='slide-circle-area' onClick={() => setIndex(i)} >
                 <div className={clsx('slide-count-circle', {'active': i === index})}></div>
               </div>
             )}

@@ -15,7 +15,7 @@ export const Skeleton = ({className, avatar = false, bars = 4, mergeBars = false
     const sBars = [];
 
     for (let i = 0; i < bars; i++) {
-      sBars.push(<div className='skeleton-bar'></div>)
+      sBars.push(<div key={`skelebar-${Date.now()}-${i}`} className='skeleton-bar'></div>)
     }
 
     return sBars;
