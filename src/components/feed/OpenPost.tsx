@@ -9,6 +9,7 @@ import { More } from './More';
 import { SubMeta } from '../../types';
 import { SelectedPostData } from './Feed';
 import LRU from '../../utility/LRU';
+import { Skeleton } from '../ui/Skeleton';
 interface OpenPostProps {
   data: SelectedPostData,
   SubDataLRU: LRU<string, SubMeta>,
@@ -57,7 +58,12 @@ export const OpenPost = ({data: {post, subMeta}, SubDataLRU, setClickedMenu, men
                 ? <Comment key={'Comment' + comment.data.id} comment={comment.data as CommentData} postId={post.name} sub={post.subreddit} resizeDep={resizeDep}/>
                 : <More key={'More' + comment.data.id} data={comment.data as MoreComments} postId={post.name} sub={post.subreddit}/>
             })
-            : <p className='skeleton'>Loading comments...</p>}
+            : <>
+              <Skeleton className='comment' avatar bars={2}/> 
+              <Skeleton className='comment' avatar bars={2}/> 
+              <Skeleton className='comment' avatar bars={2}/> 
+            </>
+          }
         </div> : <p className='skeleton'>No comments</p>}
         
       </div>}

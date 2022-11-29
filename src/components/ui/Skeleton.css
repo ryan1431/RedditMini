@@ -1,0 +1,57 @@
+
+.skeleton-avatar {
+  display: flex;
+  align-items: center;
+}
+
+.skeleton-circle {
+  animation: 1s linear 0s infinite alternate skeleton;
+  
+  background: grey;
+  min-height: 20px;
+  min-width: 20px;
+  border-radius: 50%;
+
+  margin: 8px 0px 6px 12px;
+}
+
+.skeleton-bar {
+  animation: 1s linear 0s infinite alternate skeleton;
+
+  width: 100%;
+  max-width: 96%;
+  height: 11px;
+
+  margin: 10px auto;
+  border-radius: 3px;
+}
+
+.post-body.skeleton {
+  max-width: 100%; 
+  overflow: hidden;
+}
+
+.merge .skeleton-bar {
+  height: 21px;
+  margin: 0;
+  max-width: 100%;
+  border-radius: 0;
+}
+
+.merge {
+  overflow:hidden;
+  border-radius: 3px;
+  z-index: 100000;
+  margin: 10px;
+  margin-top: 4px
+}
+
+
+@keyframes skeleton {
+  0% {
+    background: rgba(117, 117, 117, 0.2)
+  }
+  100% {
+    background: rgba(107, 107, 107, 0.5);
+  }
+}
