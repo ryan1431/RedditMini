@@ -34,8 +34,10 @@ export const Slide = ({slides}: SlideProps) => {
           <AiOutlineRight />
         </div>
 
-        <div className='slide-count'>
-
+        <div className='slide-count-wrapper'>
+          <div className='slide-count'>
+            {slides.map((x, i) => <div onClick={() => setIndex(i)} className={clsx('slide-count-circle', {'active': i === index})}></div>)}
+          </div>
         </div>
       </div>
     </div>

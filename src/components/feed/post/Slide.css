@@ -40,7 +40,7 @@
 }
 .slide-move {
   position: absolute;
-  background: rgba(199, 220, 200, 0.3);
+  background: rgba(107, 174, 196, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,7 +57,7 @@
   transition: background-color 0.2s;
 }
 .slide-move:hover {
-  background-color: rgba(107, 174, 196, 0.4)
+  background-color: rgba(107, 174, 196, 0.5)
 }
 .slide-move.left {
   left: 20px;
@@ -68,6 +68,54 @@
 
 .slide-move.max {
   display: none;
+}
+
+.slide-count-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:absolute;
+
+  bottom: 0;
+
+  width: 100%;
+  height: 40px;
+}
+.slide-count {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(107, 174, 196, 0.4);
+
+  padding: 0 5px;
+
+  bottom: 10px;
+
+  border-radius: 20px;
+
+  min-width: 10px;
+  width: fit-content;
+  height: 20px;
+}
+
+.slide-count-circle {
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 3px;
+  margin: 5px;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s;
+}
+.slide-count-circle.active {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+.slide-count-circle:hover { 
+  background-color: rgba(255, 255, 255, 0.9)
 }
 
 
