@@ -51,11 +51,6 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const [subData, setSubData] = useState<SubMeta>();
   const [showSubData, setShowSubData] = useState<boolean>(false);
 
-  useEffect(() => {
-    console.log(post.type);
-    console.log(post.slides);
-  }, [post.slides, post.type]);
-  
   const onSave = useCallback(() => {
     if (saved) {
       dispatch(unsave(post));

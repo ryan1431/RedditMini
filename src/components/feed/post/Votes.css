@@ -30,7 +30,7 @@
   position: absolute;
   overflow:hidden;
   background: rgba(43, 42, 42, 0.95);
-  z-index: 3000;
+  z-index: 2;
   opacity: 0;
   white-space: nowrap;
 
