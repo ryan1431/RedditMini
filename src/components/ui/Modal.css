@@ -28,6 +28,11 @@
   font-size: 16px;
   margin-left: 8px;
 }
+.ui-modal-header-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
 
 .ui-modal-content {
   width: fit-content;
@@ -47,11 +52,6 @@
 }
 .ui-modal-actions > * {
   margin: 2px 4px !important;
-}
-
-.ui-modal .post {
-  margin: 0;
-  width: 100%;
 }
 
 .ui-modal .ui-modal-close.icon-button p {
@@ -79,4 +79,10 @@
 .ui-modal .ui-modal-close.icon-button p {
   position: relative;
   bottom: 1px;
+}
+
+/* Overrides */
+.ui-modal .post {
+  margin: 0;
+  width: 100%;
 }

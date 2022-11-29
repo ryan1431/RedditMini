@@ -16,6 +16,7 @@ import { BiHide } from 'react-icons/bi';
 import { AiOutlineLink } from 'react-icons/ai';
 import { TfiComment } from 'react-icons/tfi';
 import { MdIosShare } from 'react-icons/md';
+import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 
 import { base } from '../../../utility/data';
 import { SubMeta } from '../../../types';
@@ -138,8 +139,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
         <address className='details-wrapper'>
           <div className='details-left'>
             <div className='post-sub-details'  onMouseEnter={onHoverSub} onMouseLeave={onMouseOut}>
-              {subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
- 
+              {!open && subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
               {!open && <p onClick={onClickSub} className='sub-name'>r/{post.subreddit}</p>}
               <SubPanel open={showSubData} data={subData} name={post.subreddit} setOpen={setShowSubData}/>
             </div>
@@ -194,7 +194,10 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
               <p>{post.num_comments}</p>
             </div>
           </div>
-          <button className='info-save' onClick={onSave}>{saved ? 'Unsave' : 'Save'}</button>
+          <div className='info-save' onClick={onSave}>
+            <p>{saved ? 'Unsave' : 'Save'}</p>
+            {saved ? <BsBookmarkFill /> : <BsBookmark />}
+          </div>
         </footer>
       </article>
       )}

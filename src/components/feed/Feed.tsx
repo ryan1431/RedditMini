@@ -19,6 +19,9 @@ import { OpenPost } from './OpenPost';
 
 import { Post } from './post/Post';
 
+import defaultIcon from '../../media/srdefault.jpeg';
+
+
 export interface SelectedPostData {
   post: PostType,
   subMeta: SubMeta | undefined,
@@ -41,7 +44,7 @@ export const Feed = () => {
     if (e.target instanceof HTMLVideoElement
       || (e.target && e.target.classList?.contains('info-save'))
       || !e.target.closest('.post')
-      || ['.votes', '.details-menu', '.post-sub-details', '.slide-wrapper'].some(s => e.target.closest(s))) 
+      || ['.info-save', '.votes', '.details-menu', '.post-sub-details', '.slide-wrapper'].some(s => e.target.closest(s))) 
       return setSelected('');
     
     setSelected(e.target.closest('.post').classList[1] || '');
@@ -116,7 +119,8 @@ export const Feed = () => {
       {/* Open post modal */}
       <Modal open={!!selectedPostData} onClose={onClosePost}>
         {selectedPostData && <Modal.Header>
-          <span className='sub-prefix' style={{marginRight: '2px'}}>r/</span>{selectedPostData?.post.subreddit}
+          <img className='post-sub-img' src={selectedPostData?.subMeta?.community_icon || selectedPostData?.subMeta?.icon_img || defaultIcon} alt='subreddit icon'></img>
+          <span className='sub-prefix' style={{margin: '0 2px 0 6px'}}>r/</span>{selectedPostData?.post.subreddit}
         </Modal.Header>}
         {selectedPostData && 
           <OpenPost 

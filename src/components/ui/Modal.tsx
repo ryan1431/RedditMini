@@ -56,7 +56,9 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
       >
         <header className='ui-modal-header'>
           <div onClick={close} className='ui-modal-close icon-button'><p>Close</p><IoMdClose /></div>
-          <h2>{header}</h2>
+          <div className='ui-modal-header-content'>
+            {header}
+          </div>
         </header>
         <main style={{maxHeight: 'fit-content'}}>
           {content}
