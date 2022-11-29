@@ -6,18 +6,18 @@ import { RootState } from "../store/store";
 export interface SavedState {
   savedPosts: PostType[],
   hidden: string[],
-  theme: ThemeInfo[],
+  themes: ThemeInfo[],
   selectedTheme: Theme,
 }
 
 export const initialState: SavedState = {
   savedPosts: [],
   hidden: [],
-  theme: [{
+  themes: [{
     theme: 'dark',
     font_color: {r: 255, g: 255, b: 255},
     front: {r: 35, g: 35, b: 35},
-    front_alt: {r: 19, g: 19, b: 19},
+    front_alt: {r: 50, g: 50, b: 50},
     back: {r: 0, g: 0, b: 0},
     back_alt: {r: 0, g: 0, b: 0},
   }, {
@@ -72,7 +72,7 @@ export const savedReducer = createSlice({
   }
 });
 
-export const currentThemeInfo = (state: RootState): ThemeInfo => state.saved.theme.find(t => t.theme === state.saved.selectedTheme)!;
+export const currentThemeInfo = (state: RootState): ThemeInfo => state.saved.themes.find(t => t.theme === state.saved.selectedTheme)!;
 
 export const { save, unsave, changeTheme, resetSaved, hidePost, unHidePost, clearHiddenPosts } = savedReducer.actions;
 

@@ -6,7 +6,7 @@ import { TextBody } from '.././post/TextBody';
 import { ImageBody } from '.././post/ImageBody';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { save, unsave } from '../../../app/reducers/savedSlice';
+import { currentThemeInfo, save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
 import { getRelativeTime } from '../../../utility/getRelativeTime';
 import { Votes } from './Votes';
@@ -47,6 +47,9 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);
   const blocked = !!useAppSelector(s => s.subreddits.in_storage.blocked).find(sr => sr.name === post.subreddit);
 
+  const theme = useAppSelector(currentThemeInfo);
+  const { r, g, b } = theme.font_color;
+  
   const saved = savedPosts.some(p => p.link === post.link);
 
   const [subData, setSubData] = useState<SubMeta>();
@@ -186,7 +189,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
         </main>
         
         {/* Info / Actions */}
-        <footer className='info'>
+        <footer className='info' style={{color: `rgba(${r}, ${g}, ${b}, 0.7)`}}>
           <div className='info-details'>
             <Votes score={post.score} />
             <div className='info-details-comments'>

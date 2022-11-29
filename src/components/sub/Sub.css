@@ -5,8 +5,7 @@
   align-items: center;
   cursor: pointer;
   
-  background: rgb(40, 40, 40);
-  color: black;
+  background: rgb(50, 50, 50);
 
   margin: 2px 0;
   border-radius: 10px;
@@ -21,7 +20,6 @@
 /* Shrinks on click */
 .sub-wrapper {
   background: rgb(33, 33, 33);
-  color: black;
 
   display: flex;
   justify-content: space-between;
@@ -99,7 +97,6 @@
 }
 
 .sub-name {
-  color: white;
   overflow: hidden;
   font-weight: 300;
 }

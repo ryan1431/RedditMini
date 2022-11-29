@@ -29,7 +29,6 @@
 
 .post-details {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.763);
   white-space: nowrap;
 }
 .post-details.author {
@@ -138,8 +137,6 @@
   border: none;
   
   padding: 0 8px;
-  
-  color: rgba(255, 255, 255, 0.7);
 
   transition: background-color 0.2s;
 }

@@ -5,6 +5,7 @@ p, h1, h2, h3, h4, h5, h6, input {
 input, button {
   outline: none;
   border: 1px solid rgba(0, 0, 0, 0);
+  color: inherit;
 }
 
 input:hover {
@@ -24,8 +25,8 @@ img {
 }
 
 a {
-  color: rgb(253, 250, 250);
-  font-weight: 500;
+  color: grey;
+  font-weight: 300;
   text-decoration: none;
 }
 a:hover {
@@ -81,7 +82,6 @@ code {
 /* For buttons with a react-icon icon as their content */
 .icon-button {
   font-size: 22px;
-  color:rgb(200, 200, 200);
   cursor:pointer;
 
   height:fit-content;

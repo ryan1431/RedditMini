@@ -7,8 +7,6 @@
   max-width: 670px;
   min-height: 100%;
 
-
-  color: white;
 }
 @media only screen and (max-width: 670px) {
   #feed{ 
@@ -74,7 +72,6 @@
 
 .sort:hover, .feed:hover {
   background-color: rgba(69, 68, 68, 0.564);
-  color: rgb(214, 209, 209)
 }
 
 .sort.active, .feed.active {

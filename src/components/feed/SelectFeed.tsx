@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useAppDispatch } from '../../app/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { setQuery } from '../../app/reducers/querySlice';
+import { currentThemeInfo } from '../../app/reducers/savedSlice';
 import { feedIcons, feedOptions } from '../../utility/feedData';
 import './SelectFeed.css';
 
@@ -13,6 +14,9 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
   const dispatch = useAppDispatch();
   
   const wrapperRef = useRef<HTMLDivElement>(undefined!);
+
+  const theme = useAppSelector(currentThemeInfo);
+  const {r, g, b} = theme.front;
 
   const onClick = useCallback((e: any) => {
     if (wrapperRef.current.contains(e.target)
@@ -35,6 +39,7 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
   return (
     <div className={`nav-select-feed ${open ? 'nsf-open' : ''}`}
       ref={wrapperRef}
+      style={{background: `rgb(${r}, ${g}, ${b})`}}
     >
       {feedOptions.map((feed) => {
         const FeedIcon = feedIcons[feed];
