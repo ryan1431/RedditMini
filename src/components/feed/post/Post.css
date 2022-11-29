@@ -19,8 +19,10 @@
 }
 
 .post-sub-img {
-  width: auto;
-  height: 20px;
+  min-width: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  max-height: 20px;
   margin-left: 5px;
   border-radius: 50%;
 }

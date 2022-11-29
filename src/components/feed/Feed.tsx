@@ -12,12 +12,12 @@ import { feedFields, sortFields } from '../../utility/data';
 import { FeedIcons, feedIcons, SortIcons, sortIcons } from '../../utility/feedData';
 import LRU from '../../utility/LRU';
 import Modal from '../ui/Modal';
+import { Skeleton } from '../ui/Skeleton';
 import { Snackbar } from '../ui/Snackbar';
 import './Feed.css';
 import { OpenPost } from './OpenPost';
 
 import { Post } from './post/Post';
-
 
 export interface SelectedPostData {
   post: PostType,
@@ -170,16 +170,20 @@ export const Feed = () => {
               onCopyLink={onCopyLink}
               SubDataLRU={SubDataLRU}/>
           }) 
-          : <div className='post' style={{textAlign: 'center'}}>
-              {feed === 'custom' && !subs.length 
-                  ? ( <div >
-                    <p>You have not followed any subreddits.<span className='nav-mobile'><span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</span></p>
-                  </div>) 
-                : feed === 'saved' && !savedPosts.length
-                  ? <p>You have not saved any posts.</p>
-                : <p>Loading...</p>}
-          </div>
-        }
+          : feed === 'custom' && !subs.length 
+          ? <div className='post' style={{textAlign: 'center'}}>
+              <p>You have not followed any subreddits.<span className='nav-mobile'><span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</span></p>
+            </div>
+          : feed === 'saved' && !savedPosts.length
+            ? <div className='post' style={{textAlign: 'center'}}>
+                <p>You have not saved any posts.</p>
+              </div>
+          : <>
+            <Skeleton className='post' avatar mergeBars bars={12}/>
+            <Skeleton className='post' avatar mergeBars bars={12}/>
+            <Skeleton className='post' avatar mergeBars bars={12}/>
+          </>
+          }
 
         {/* Infinite scroll visible trigger for home & custom feeds */}
         {<div ref={feed !== 'saved' ? visRef : null} style={{
