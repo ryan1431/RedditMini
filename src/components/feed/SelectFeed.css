@@ -2,7 +2,7 @@
   display: none;
   position: absolute;
   background: rgba(33, 33, 33, 0.994);
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
 
   top: calc(3.5rem - 9px);
