@@ -34,7 +34,13 @@ interface PostType {
    * Link to original post on Reddit
    */
   link: string,
-  slides?: string[],
+  slides?: SlideSingle[],
+}
+
+export interface SlideSingle {
+  y: number,
+  x: number,
+  u: string,
 }
 
 export type {

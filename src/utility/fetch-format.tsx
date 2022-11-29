@@ -70,7 +70,7 @@ export const formatPost = (res: any, single = true): PostType => {
     const slides = [];
 
     for (const key in postEntries.media_metadata) {
-      slides.push(postEntries.media_metadata[key].s.u);
+      slides.push(postEntries.media_metadata[key].s);
     }
 
     postEntries.slides = slides;
