@@ -102,12 +102,18 @@
 }
 
 .post-body.text {
-  box-shadow: inset 0px -30px 20px -12px rgba(53, 53, 53, 0.485);
   max-height: 140px;
   overflow: hidden;
   font-weight: 300; 
   font-size: 0.95em;
-
+}
+.post-body.text.overflow {
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+.open-post .post-body.text {
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 .post-body.video,

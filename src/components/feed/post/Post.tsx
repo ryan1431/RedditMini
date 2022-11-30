@@ -28,6 +28,7 @@ import { SubPanel } from './SubPanel';
 import { toggleBlocked } from '../../../app/reducers/subredditsSlice';
 import { Slide } from './Slide';
 import { getRGBA } from '../../../utility/getRGBA';
+import clsx from 'clsx';
 
 interface PostProps { 
   post: PostType,
@@ -44,6 +45,8 @@ interface PostProps {
 export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen, setClickedMenu, onHide, onCopyLink, SubDataLRU}: PostProps) => {
   const dispatch = useDispatch();
 
+  const postRef = useRef<HTMLDivElement>(undefined!);
+  
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
   const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);
   const blocked = !!useAppSelector(s => s.subreddits.in_storage.blocked).find(sr => sr.name === post.subreddit);
@@ -57,6 +60,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
 
   const [subData, setSubData] = useState<SubMeta>();
   const [showSubData, setShowSubData] = useState<boolean>(false);
+  const [height, setHeight] = useState<number>(0);
 
   const onSave = useCallback(() => {
     if (saved) {
@@ -140,7 +144,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   return (
     <>
       {post && !hidden && !blocked && (
-      <article className={`post ${post.link}`} style={{background: open ? 'none' : background, borderColor}}>
+      <article className={clsx('post', post.link)} style={{background: open ? 'none' : background, borderColor}}>
         {/* Subreddit & Poster Info */}
         <address className='details-wrapper'>
           <div className='details-left'>
@@ -182,12 +186,12 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
           <h2>{post.title}</h2>
         </header>
         {/* Body */}
-        <main className={`post-body ${post.type}`}>
+        <main className={clsx(`post-body ${post.type}`, {'overflow': height >= 140})}>
           {
             post.type === 'video' ? <Video url={post.content_url}/>
             : post.type === 'image' ? <ImageBody url={post.content_url}/>
             : post.type === 'slide' ? <Slide slides={post.slides!} />
-            : <TextBody selftext={post.selftext} selftext_html={post.selftext_html} />
+            : <TextBody setHeight={setHeight} selftext={post.selftext} selftext_html={post.selftext_html} />
           }
         </main>
         

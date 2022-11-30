@@ -82,6 +82,7 @@ export const Feed = () => {
   const theme = useAppSelector(selectTheme);
   const textColor = getRGBA(theme.text);
   const background = getRGBA(theme.front, 0.6);
+  const backgroundAlt = getRGBA(theme.back_alt);
   const borderColor = getRGBA(theme.border, 0.8);
   const borderRightColor = getRGBA(theme.border, 0.5);
 
@@ -235,7 +236,7 @@ export const Feed = () => {
         })}
       </div>     
 
-      <div className='back-to-top' style={{borderColor, background}}>
+      <div className='back-to-top' style={{borderColor, background: backgroundAlt}}>
         <p><a style={{color: textColor}} href="#feed">Back to top</a></p>
       </div>
     </div>

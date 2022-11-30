@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useAppSelector } from '../../app/hooks/hooks';
+import { selectTheme } from '../../app/reducers/savedSlice';
+import { getRGBA } from '../../utility/getRGBA';
 import './Snackbar.css';
 
 interface SnackbarProps {
@@ -21,6 +24,10 @@ export const Snackbar = ({text, actionText, onClose, onAction, actionCloses = fa
   const [hidden, setHidden] = useState<boolean>(true);
   const closeTimeout = useRef<NodeJS.Timeout>();
 
+  const theme = useAppSelector(selectTheme);
+  const background = getRGBA(theme.back_alt);
+  const borderColor = getRGBA(theme.border);
+  
   const t = hidden ? '0' : '';
 
   const onClick = useCallback(() => {
@@ -65,6 +72,8 @@ export const Snackbar = ({text, actionText, onClose, onAction, actionCloses = fa
         height: t, 
         marginTop: t,
         opacity: t,
+        background,
+        borderColor
       }}
     >
       <p>{text}</p>

@@ -33,5 +33,5 @@
   transition: background-color 0.2s;
 }
 .ui-menu-trigger:hover {
-  background:rgb(65, 65, 65);
+  background:rgba(75, 75, 75, 0.2);
 }
