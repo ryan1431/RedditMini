@@ -62,3 +62,26 @@
   width: fit-content;
   margin: 5px auto;
 }
+
+/* Themes */
+.theme-select-wrapper {
+  width: 100%;
+  padding: 4px 10px;
+}
+
+.theme-select {
+  text-transform: capitalize;
+  border: 1px solid transparent;
+  font-weight: 200;
+  margin: 4px 2px;
+  padding: 2px;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: border-color 0.2s;
+}
+.theme-select * {
+  margin: 5px;
+  cursor: pointer;
+}

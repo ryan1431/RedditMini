@@ -21,7 +21,7 @@ export const SubPanel = ({open, data, name, setOpen}: SubPanelProps) => {
   const imageSrc = data?.banner_img || data?.header_img || '';
 
   const followed = useAppSelector(s => s.subreddits.in_storage.subs).some((s) => s.name === name);
-  const theme = useAppSelector(selectTheme);
+const theme = useAppSelector(selectTheme);
   const borderColor = getRGBA(theme.border);
   const background = getRGBA(theme.front_alt);
   
