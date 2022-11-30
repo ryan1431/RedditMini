@@ -28,7 +28,7 @@
 .votes-novote {
   position: absolute;
   overflow:hidden;
-  background: rgba(43, 42, 42, 0.95);
+  background: rgba(120, 120, 120);
   z-index: 2;
   opacity: 0;
   white-space: nowrap;

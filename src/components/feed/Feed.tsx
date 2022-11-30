@@ -81,8 +81,7 @@ export const Feed = () => {
   const feedPosts = useAppSelector(s => s.query.feedPosts);
   const theme = useAppSelector(selectTheme);
   const textColor = getRGBA(theme.text);
-  const sortBackground = getRGBA(theme.front, 0.7);
-  const postBackground = getRGBA(theme.front, 0.6);
+  const background = getRGBA(theme.front, 0.6);
   const borderColor = getRGBA(theme.border, 0.8);
   const borderRightColor = getRGBA(theme.border, 0.5);
 
@@ -140,7 +139,12 @@ export const Feed = () => {
       
       {/* Feed & Sort by */}
       <section className='feed-customize' style={{cursor: 'pointer'}}>
-        <div className="query-buttons" style={{background: sortBackground, borderColor}}>
+        <div className="query-buttons" 
+          style={{
+            background, borderColor,
+            width: 'calc(100% - 1px)',
+          }}
+        >
           {sortFields.map(([field, title]) => {
             const Icon = sortIcons[field as keyof SortIcons];
             return (
@@ -154,7 +158,7 @@ export const Feed = () => {
             )
           })}
         </div>
-        <section className='feed-buttons' style={{background: sortBackground, borderColor}}>
+        <section className='feed-buttons' style={{background, borderColor}}>
           {feedFields.map(([field, title]) => {
             const Icon = feedIcons[field as keyof FeedIcons];
             return (
@@ -188,11 +192,11 @@ export const Feed = () => {
               SubDataLRU={SubDataLRU}/>
           }) 
           : feed === 'custom' && !subs.length 
-          ? <div className='post' style={{textAlign: 'center', background: postBackground}}>
+          ? <div className='post' style={{textAlign: 'center', background}}>
               <p>You have not followed any subreddits.<span className='nav-mobile'><span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</span></p>
             </div>
           : feed === 'saved' && !savedPosts.length
-            ? <div className='post' style={{textAlign: 'center', background: postBackground}}>
+            ? <div className='post' style={{textAlign: 'center', background}}>
                 <p>You have not saved any posts.</p>
               </div>
           : <>
@@ -231,7 +235,7 @@ export const Feed = () => {
         })}
       </div>     
 
-      <div className='back-to-top' style={{borderColor}}>
+      <div className='back-to-top' style={{borderColor, background}}>
         <p><a style={{color: textColor}} href="#feed">Back to top</a></p>
       </div>
     </div>

@@ -41,7 +41,7 @@
   transition: background-color 0.2s;
 }
 .nav-select-feed .icon-wrapper:hover {
-  background: rgba(45, 45, 45, 0.994);
+  background: rgba(75, 75, 75, 0.15);
 }
 .nav-select-feed .icon-wrapper:last-child {
   border-bottom: none !important;
