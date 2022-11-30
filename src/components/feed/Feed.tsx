@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { useClickout } from '../../app/hooks/useClickout';
 import { useFeed } from '../../app/hooks/useFeed';
 import { useOnScreen } from '../../app/hooks/useOnScreen';
-import { hidePost, unHidePost } from '../../app/reducers/savedSlice';
+import { hidePost, selectTheme, unHidePost } from '../../app/reducers/savedSlice';
 import { toggleOpen, toggleSrOpen } from '../../app/reducers/subredditsSlice';
 import { SubMeta } from '../../types';
 import { PostType } from '../../utility';
@@ -20,6 +20,7 @@ import { OpenPost } from './OpenPost';
 import { Post } from './post/Post';
 
 import defaultIcon from '../../media/srdefault.jpeg';
+import { getRGBA } from '../../utility/getRGBA';
 
 
 export interface SelectedPostData {
@@ -78,6 +79,9 @@ export const Feed = () => {
   const subs = useAppSelector((s) => s.subreddits.in_storage.subs);
   const { feed, sort } = useAppSelector((s) => s.query);
   const feedPosts = useAppSelector(s => s.query.feedPosts);
+  const theme = useAppSelector(selectTheme);
+  const sortBackground = getRGBA(theme.front, 0.1);
+  const postBackground = getRGBA(theme.front, 0.6);
 
   useEffect(() => {
     if (fetching) {
@@ -133,7 +137,7 @@ export const Feed = () => {
       
       {/* Feed & Sort by */}
       <section className='feed-customize' style={{cursor: 'pointer'}}>
-        <div className="query-buttons">
+        <div className="query-buttons" style={{background: sortBackground}}>
           {sortFields.map(([field, title]) => {
             const Icon = sortIcons[field as keyof SortIcons];
             return (
@@ -144,7 +148,7 @@ export const Feed = () => {
             )
           })}
         </div>
-        <section className='feed-buttons'>
+        <section className='feed-buttons' style={{background: sortBackground}}>
           {feedFields.map(([field, title]) => {
             const Icon = feedIcons[field as keyof FeedIcons];
             return (
@@ -175,11 +179,11 @@ export const Feed = () => {
               SubDataLRU={SubDataLRU}/>
           }) 
           : feed === 'custom' && !subs.length 
-          ? <div className='post' style={{textAlign: 'center'}}>
+          ? <div className='post' style={{textAlign: 'center', background: postBackground}}>
               <p>You have not followed any subreddits.<span className='nav-mobile'><span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</span></p>
             </div>
           : feed === 'saved' && !savedPosts.length
-            ? <div className='post' style={{textAlign: 'center'}}>
+            ? <div className='post' style={{textAlign: 'center', background: postBackground}}>
                 <p>You have not saved any posts.</p>
               </div>
           : <>

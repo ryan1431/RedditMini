@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import './Modal.css';
 import { IoMdClose } from 'react-icons/io';
+import { useAppSelector } from '../../app/hooks/hooks';
+import { selectTheme } from '../../app/reducers/savedSlice';
+import { getRGBA } from '../../utility/getRGBA';
 
 interface ModalProps {
   open: boolean,
@@ -21,6 +24,10 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
 
   const modalRef = useRef<HTMLDivElement>(undefined!);
   const forceClose = useRef<boolean>(false);
+  
+  const theme = useAppSelector(selectTheme);
+  const backgroundBase = getRGBA(theme.back);
+  const background = getRGBA(theme.front, 0.6);
   
   const close = useCallback(() => {
     if (onClose) onClose();
@@ -43,35 +50,38 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
   
   return (
     <div className='ui-modal' style={{ display: forceClose.current ? 'none' : open ? 'flex' : 'none'}}>
-      <div className='ui-modal-content' 
-        ref={modalRef} 
-        style={{
-          maxWidth: '100%', 
-          overflow: 'auto',
-          height: fitHeight ? 'fit-content' : 'calc(100vh - 3.5rem)',
-          borderTop: fitHeight ? '' : 'none',
-          borderBottom: fitHeight ? '' : 'none',
-          borderRadius: fitHeight ? '' : '0px',
-        }}
-      >
-        <header className='ui-modal-header'>
-          <div onClick={close} className='ui-modal-close icon-button'><p>Close</p><IoMdClose /></div>
-          <div className='ui-modal-header-content'>
-            {header}
-          </div>
-        </header>
-        <main style={{maxHeight: 'fit-content'}}>
-          {content}
-        </main>
-        {actions && <footer className='ui-modal-actions'>
-          {actions}  
-        </footer>}
+      <div style={{background: backgroundBase}}>
+        <div className='ui-modal-content' 
+          ref={modalRef} 
+          style={{
+            maxWidth: '100%', 
+            overflow: 'auto',
+            height: fitHeight ? 'fit-content' : 'calc(100vh - 3.5rem)',
+            borderTop: fitHeight ? '' : 'none',
+            borderBottom: fitHeight ? '' : 'none',
+            borderRadius: fitHeight ? '' : '0px',
+            background: background,
+          }}
+        >
+          <header className='ui-modal-header'>
+            <div onClick={close} className='ui-modal-close icon-button'><p>Close</p><IoMdClose /></div>
+            <div className='ui-modal-header-content'>
+              {header}
+            </div>
+          </header>
+          <main style={{maxHeight: 'fit-content'}}>
+            {content}
+          </main>
+          {actions && <footer className='ui-modal-actions'>
+            {actions}  
+          </footer>}
+        </div>
       </div>
     </div>
   )
 }
 
-const Header = ({children}: any) => children;
+const Header = ({children, style}:any) => children;
 Header.displayName = 'Header';
 Modal.Header = Header;
 
