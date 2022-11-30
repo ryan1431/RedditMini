@@ -6,7 +6,7 @@ import { TextBody } from '.././post/TextBody';
 import { ImageBody } from '.././post/ImageBody';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { currentThemeInfo, save, unsave } from '../../../app/reducers/savedSlice';
+import { selectTheme, save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
 import { getRelativeTime } from '../../../utility/getRelativeTime';
 import { Votes } from './Votes';
@@ -27,6 +27,7 @@ import defaultIcon from '../../../media/srdefault.jpeg';
 import { SubPanel } from './SubPanel';
 import { toggleBlocked } from '../../../app/reducers/subredditsSlice';
 import { Slide } from './Slide';
+import { getRGBA } from '../../../utility/getRGBA';
 
 interface PostProps { 
   post: PostType,
@@ -47,8 +48,8 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);
   const blocked = !!useAppSelector(s => s.subreddits.in_storage.blocked).find(sr => sr.name === post.subreddit);
 
-  const theme = useAppSelector(currentThemeInfo);
-  const { r, g, b } = theme.font_color;
+  const theme = useAppSelector(selectTheme);
+  const color = getRGBA(theme.font_color, 0.7);
   
   const saved = savedPosts.some(p => p.link === post.link);
 
@@ -189,7 +190,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
         </main>
         
         {/* Info / Actions */}
-        <footer className='info' style={{color: `rgba(${r}, ${g}, ${b}, 0.7)`}}>
+        <footer className='info' style={{color}}>
           <div className='info-details'>
             <Votes score={post.score} />
             <div className='info-details-comments'>

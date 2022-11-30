@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
 import { setQuery } from '../../app/reducers/querySlice';
-import { currentThemeInfo } from '../../app/reducers/savedSlice';
+import { selectTheme } from '../../app/reducers/savedSlice';
 import { feedIcons, feedOptions } from '../../utility/feedData';
+import { getRGBA } from '../../utility/getRGBA';
 import './SelectFeed.css';
 
 interface SelectFeedProps {
@@ -15,8 +16,8 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
   
   const wrapperRef = useRef<HTMLDivElement>(undefined!);
 
-  const theme = useAppSelector(currentThemeInfo);
-  const {r, g, b} = theme.front;
+  const theme = useAppSelector(selectTheme);
+  const background = getRGBA(theme.front);
 
   const onClick = useCallback((e: any) => {
     if (wrapperRef.current.contains(e.target)
@@ -39,7 +40,7 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
   return (
     <div className={`nav-select-feed ${open ? 'nsf-open' : ''}`}
       ref={wrapperRef}
-      style={{background: `rgb(${r}, ${g}, ${b})`}}
+      style={{background}}
     >
       {feedOptions.map((feed) => {
         const FeedIcon = feedIcons[feed];

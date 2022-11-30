@@ -72,7 +72,7 @@ export const savedReducer = createSlice({
   }
 });
 
-export const currentThemeInfo = (state: RootState): ThemeInfo => state.saved.themes.find(t => t.theme === state.saved.selectedTheme)!;
+export const selectTheme = (state: RootState): ThemeInfo => state.saved.themes.find(t => t.theme === state.saved.selectedTheme)!;
 
 export const { save, unsave, changeTheme, resetSaved, hidePost, unHidePost, clearHiddenPosts } = savedReducer.actions;
 

@@ -7,7 +7,8 @@ import { Subreddit } from '../../types';
 import srdefault from '../../media/srdefault.jpeg';
 import { toggleBlocked, toggleResult, toggleSubreddit } from '../../app/reducers/subredditsSlice';
 import clsx from 'clsx';
-import { currentThemeInfo } from '../../app/reducers/savedSlice';
+import { selectTheme } from '../../app/reducers/savedSlice';
+import { getRGBA } from '../../utility/getRGBA';
 export interface SubProps {
   sub: Subreddit;
   result?: boolean;
@@ -24,8 +25,8 @@ export const Sub = ({sub, result, blocked = false}: SubProps) => {
   const [size, setSize] = useState<size>('');
   const toggleQueue = useAppSelector((s) => s.subreddits.toggleQueue);
 
-  const theme = useAppSelector(currentThemeInfo);
-  const { r, g, b } = theme.front_alt;
+  const theme = useAppSelector(selectTheme);
+  const background = getRGBA(theme.front_alt, 0.8);
 
   const add = useMemo(() => {
     let willAdd = !subs.some((s) => s.name === sub.name);
@@ -54,8 +55,11 @@ export const Sub = ({sub, result, blocked = false}: SubProps) => {
         width: size, 
         margin: size, 
         background: 
-          add ? `rgba(${r}, ${g}, ${b}, 0.8)` 
-          :  result ? '' : `rgba(${r}, ${g}, ${b}, 0.8)`}} 
+          add 
+          ? background 
+          : result 
+            ? '' 
+            : background}} 
       className={clsx('sub', {'result': result}, {'add': add}, 'noselect')}>
       <div style={{display: 'flex', maxWidth: '80%'}}>
         {/* Sub icon or default */}

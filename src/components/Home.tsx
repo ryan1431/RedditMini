@@ -3,15 +3,16 @@ import './Home.css';
 import { Feed } from "./feed/Feed";
 import { Navbar } from "./Navbar";
 import { useAppSelector } from '../app/hooks/hooks';
-import { currentThemeInfo } from '../app/reducers/savedSlice';
+import { selectTheme } from '../app/reducers/savedSlice';
+import { getRGBA } from '../utility/getRGBA';
 
 export const Home = () => {
 
-  const theme = useAppSelector(currentThemeInfo);
-  const {r, g, b} = theme.font_color;
+  const theme = useAppSelector(selectTheme);
+  const color = getRGBA(theme.font_color);
 
   return (
-    <div id='page' style={{color: `rgb(${r}, ${g}, ${b})`}}>
+    <div id='page' style={{color}}>
       <Navbar />
       <div id='feed-wrapper'>
         <Feed />
