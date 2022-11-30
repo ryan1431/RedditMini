@@ -49,7 +49,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const blocked = !!useAppSelector(s => s.subreddits.in_storage.blocked).find(sr => sr.name === post.subreddit);
 
   const theme = useAppSelector(selectTheme);
-  const color = getRGBA(theme.font_color, 0.6);
+  const color = getRGBA(theme.text, 0.6);
   const background = getRGBA(theme.front, 0.6);
   
   const saved = savedPosts.some(p => p.link === post.link);

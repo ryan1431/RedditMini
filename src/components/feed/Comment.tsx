@@ -31,7 +31,7 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
   const theme = useAppSelector(selectTheme);
-  const color = getRGBA(theme.font_color, 0.7);
+  const color = getRGBA(theme.text, 0.7);
   
   const { onToggle, maxHeightRef, display } = useDynamicTransition(wrapperRef, 250, resizeDep);
   const { onToggle: onToggleComment, maxHeightRef: maxCommentHeight, showReplies} = useDynamicTransition(commentRef, 250, resizeDep);

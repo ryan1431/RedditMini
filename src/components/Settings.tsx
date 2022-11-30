@@ -59,6 +59,8 @@ export const Settings = ({navBarRef}: SettingsProps) => {
         overflow: open ? 'auto' : 'hidden', 
         height: open ? '' : '0', 
         background,
+        borderColor: open ? '' : 'rgba(0,0,0,0)',
+        top: open ? '' : 'calc(3.5rem - 11px)'
       }}
     >
       <Dropdown label='Followed Subreddits' 

@@ -15,26 +15,28 @@ export const initialState: SavedState = {
   hidden: [],
   themes: [{
     theme: 'dark',
-    font_color: {r: 255, g: 255, b: 255},
+    text: {r: 255, g: 255, b: 255},
+    border: {r: 255, g: 255, b: 255},
     front: {r: 35, g: 35, b: 35},
     front_alt: {r: 50, g: 50, b: 50},
     back: {r: 0, g: 0, b: 0},
     back_alt: {r: 0, g: 0, b: 0},
   }, {
     theme: 'light',
-    font_color: {r: 0, g: 0, b: 0},
-    front: {r: 255, g: 255, b: 255},
-    front_alt: {r: 19, g: 19, b: 19},
-    back: {r: 150, g: 150, b: 150},
+    text: {r: 0, g: 0, b: 0},
+    border: {r: 0, g: 0, b: 0},
+    front: {r: 210, g: 210, b: 220},
+    front_alt: {r: 170, g: 170, b: 170},
+    back: {r: 255, g: 255, b: 255},
     back_alt: {r: 0, g: 0, b: 0},
   }],
-  selectedTheme: 'dark',
+  selectedTheme: 'light',
 }
 
 let savedState: SavedState | undefined;
 
 try {
-  savedState = JSON.parse(localStorage.getItem('saved') as string) as SavedState;
+  // savedState = JSON.parse(localStorage.getItem('saved') as string) as SavedState;
 } catch(e) {
   // No saved state
 }
