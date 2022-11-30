@@ -1,3 +1,7 @@
+#feed .ui-modal {
+  background: transparent;
+}
+
 .ui-modal {
   position: fixed;
   left: 0;
@@ -12,6 +16,7 @@
   align-items: center;
 
   z-index: 10;
+
 
 }
 
@@ -37,9 +42,9 @@
   width: fit-content;
   min-width: 300px;
   border: 1px solid rgb(91, 91, 91);
-  border-radius: 5px;
 
   overflow-x: hidden !important;
+
 }
 
 .ui-modal-actions {

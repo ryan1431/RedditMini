@@ -82,6 +82,9 @@
   margin-right: -23px;
   cursor: default;
 }
+.navbar-svg.icon.light path {
+  fill: white;
+}
 .navbar-logo-ext {
   cursor: default;
 }

@@ -18,7 +18,7 @@ export const Button = ({children, onClick, allowHighlight = false, style}: Butto
 
   const theme = useAppSelector(selectTheme);
   const borderColor = getRGBA(theme.border);
-  const background = getRGBA(theme.front_alt, 0.8);
+  const background = getRGBA(theme.front_alt, 0.1);
 
   return (
     <div style={{...style, borderColor, background}} className={clsx('ui-button', {'noselect': !allowHighlight})} onClick={onClick}>

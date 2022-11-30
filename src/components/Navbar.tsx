@@ -9,6 +9,7 @@ import { HiOutlineCog } from 'react-icons/hi';
 import { BsMoonStars, BsMoonStarsFill, BsChevronDown } from 'react-icons/bs'
 
 import { ReactComponent as RedditDark } from '../media/Reddit_Logotype_OnDark.svg';
+import { ReactComponent as RedditLight } from '../media/Reddit_Logotype_OnWhite.svg';
 import { ReactComponent as RedditIcon } from '../media/Reddit_Mark_OnDark.svg';
 
 import { Settings } from './Settings';
@@ -74,13 +75,15 @@ export const Navbar = () => {
             <div className='search-bar'  >
               <Search />
             </div>
-          </div>
+        </div>
         </div>
 
         {/* Reddit logo */}
         <div className='navbar-logo' >
-          <RedditIcon className='navbar-svg icon'/>
-          <RedditDark className='navbar-svg text'/>
+          
+          <RedditIcon className='navbar-svg icon light' />
+          {darkMode ? <RedditDark className='navbar-svg text'/>
+            : <RedditLight className='navbar-svg text'/>}
           <h2 className='navbar-logo-ext noselect'>mini</h2>
         </div>
       </div>
