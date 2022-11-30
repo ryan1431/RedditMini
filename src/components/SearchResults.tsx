@@ -31,6 +31,7 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front);
+  const backgroundAlt = getRGBA(theme.back_alt);
   const borderColor = getRGBA(theme.border);
 
   const style = useMemo(() => {
@@ -78,8 +79,8 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
                     (!blocked.find(sr => sr.name === sub.name)) && <Sub key={'result-' + sub.name} sub={sub} result />
                   )}
                 </div>
-                <div className='save-wrapper' style={style}>
-                  <input type='button' onClick={setSubs} className='save-results' value='Save'></input>
+                <div className='save-wrapper' style={{...style}}>
+                  <input type='button' style={{background: backgroundAlt}} onClick={setSubs} className='save-results' value='Save'></input>
                 </div>
               </div>
               : (searchStatus === 'loading')

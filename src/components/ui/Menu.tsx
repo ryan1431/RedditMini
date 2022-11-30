@@ -20,6 +20,7 @@ export const Menu = ({open, className = '', icon, onIconClick, openRight = false
 
   const theme = useAppSelector(selectTheme);
   const borderColor = getRGBA(theme.border);
+  const background = getRGBA(theme.front)
   
   return (
     <div className={`ui-menu ${className}`} style={{position: 'relative'}}>
@@ -28,7 +29,7 @@ export const Menu = ({open, className = '', icon, onIconClick, openRight = false
       </div>
       {open && <div className='ui-menu-dropdown' 
           style={
-            openRight ? {left: 0, borderColor} : {right: 0, borderColor}
+            openRight ? {left: 0, borderColor, background} : {right: 0, borderColor, background} 
           }
         >
           {children}
