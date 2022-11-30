@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { useDebounce } from '../app/hooks/useDebounce';
-import { currentThemeInfo } from '../app/reducers/savedSlice';
+import { selectTheme } from '../app/reducers/savedSlice';
 import { setLoading, setSearchInput, toggleInSearch } from '../app/reducers/subredditsSlice';
+import { getRGBA } from '../utility/getRGBA';
 import './Search.css';
 import { SearchResults } from './SearchResults';
 
@@ -14,8 +15,8 @@ export const Search = () => {
   
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const theme = useAppSelector(currentThemeInfo);
-  const { r, g, b } = theme.front_alt;
+  const theme = useAppSelector(selectTheme);
+  const background = getRGBA(theme.front_alt);
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
@@ -54,7 +55,7 @@ export const Search = () => {
 
   return (
     <div style={{position: 'relative',}} className='search-wrapper' ref={wrapper}>
-      <input style={{background: `rgb(${r},${g},${b})`}} placeholder="Search Communities" className="search" type="text" value={searchInput} onChange={onChange}  />
+      <input style={{background}} placeholder="Search Communities" className="search" type="text" value={searchInput} onChange={onChange}  />
       <SearchResults inSearch={inSearch} searchQuery={searchQuery} searchInput={searchInput}/>
     </div>
   )

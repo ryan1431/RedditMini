@@ -16,7 +16,8 @@ import { Search } from './Search';
 import { SelectFeed } from './feed/SelectFeed';
 import { feedIcons } from '../utility/feedData';
 import type { FeedIcons } from '../utility/feedData';
-import { currentThemeInfo } from '../app/reducers/savedSlice';
+import { selectTheme } from '../app/reducers/savedSlice';
+import { getRGBA } from '../utility/getRGBA';
 
 export const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -24,9 +25,8 @@ export const Navbar = () => {
   const navBarRef = useRef<HTMLDivElement>(undefined!);
 
   const feed = useAppSelector(s => s.query.feed);
-
-  const theme = useAppSelector(currentThemeInfo);
-  const {r, g, b} = theme.front;
+  const theme = useAppSelector(selectTheme);
+  const background = getRGBA(theme.front);
 
   const FeedIcon = feedIcons[feed as keyof FeedIcons];
 
@@ -38,7 +38,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className='navbar' style={{background: `rgb(${r}, ${g}, ${b})`}} ref={navBarRef}>
+    <div className='navbar' style={{background}} ref={navBarRef}>
       <div id='navbar-items'>
         {/* Navbar settings menu */}
         <div className='navbar-button-wrapper'>

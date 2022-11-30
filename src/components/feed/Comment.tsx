@@ -11,7 +11,8 @@ import { TfiComment } from 'react-icons/tfi';
 
 import defaultAvatar from '../../media/avatar_default.png';
 import { useAppSelector } from '../../app/hooks/hooks';
-import { currentThemeInfo } from '../../app/reducers/savedSlice';
+import { selectTheme } from '../../app/reducers/savedSlice';
+import { getRGBA } from '../../utility/getRGBA';
 
 interface CommentProps {
   comment: CommentData,
@@ -29,8 +30,8 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
   const [avatar, setAvatar] = useState<string>();
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
-  const theme = useAppSelector(currentThemeInfo);
-  const { r, g, b } = theme.font_color;
+  const theme = useAppSelector(selectTheme);
+  const color = getRGBA(theme.font_color, 0.7);
   
   const { onToggle, maxHeightRef, display } = useDynamicTransition(wrapperRef, 250, resizeDep);
   const { onToggle: onToggleComment, maxHeightRef: maxCommentHeight, showReplies} = useDynamicTransition(commentRef, 250, resizeDep);
@@ -113,7 +114,7 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
         </div>
         
         {/* Score, reply button, etc */}
-        <div className='comment-actions' style={{marginLeft: '26px', color: `rgba(${r}, ${g}, ${b}, 0.7)`}}>
+        <div className='comment-actions' style={{marginLeft: '26px', color}}>
           {/* Left */}
           <div style={{display: 'flex', alignItems: 'center'}}>
             <Votes score={comment.distinguished === 'moderator' ? 0 : comment.score} />
