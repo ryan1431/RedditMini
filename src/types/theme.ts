@@ -1,6 +1,7 @@
 export interface ThemeInfo {
   theme: Theme,
-  font_color: RGB,
+  text: RGB,
+  border: RGB,
   front: RGB,
   front_alt: RGB,
   back: RGB,

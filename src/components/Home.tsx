@@ -9,7 +9,7 @@ import { getRGBA } from '../utility/getRGBA';
 export const Home = () => {
 
   const theme = useAppSelector(selectTheme);
-  const color = getRGBA(theme.font_color);
+  const color = getRGBA(theme.text);
   const background = getRGBA(theme.back);
 
   return (
