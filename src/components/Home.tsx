@@ -10,11 +10,12 @@ export const Home = () => {
 
   const theme = useAppSelector(selectTheme);
   const color = getRGBA(theme.font_color);
+  const background = getRGBA(theme.back);
 
   return (
     <div id='page' style={{color}}>
       <Navbar />
-      <div id='feed-wrapper'>
+      <div id='feed-wrapper' style={{background}}>
         <Feed />
       </div>
     </div>
