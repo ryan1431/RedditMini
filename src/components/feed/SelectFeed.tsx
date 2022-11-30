@@ -18,6 +18,7 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
 
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front);
+  const borderColor = getRGBA(theme.border);
 
   const onClick = useCallback((e: any) => {
     if (wrapperRef.current.contains(e.target)
@@ -40,11 +41,16 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
   return (
     <div className={`nav-select-feed ${open ? 'nsf-open' : ''}`}
       ref={wrapperRef}
-      style={{background}}
+      style={{background, borderColor}}
     >
       {feedOptions.map((feed) => {
         const FeedIcon = feedIcons[feed];
-        return <div key={'select-' + feed} className='icon-wrapper' onClick={() => onSetFeed(feed)}>
+        return <div 
+          key={'select-' + feed} 
+          className='icon-wrapper' 
+          onClick={() => onSetFeed(feed)}
+          style={{borderBottomColor: borderColor}}
+        >
           <FeedIcon />
           <p style={{textTransform: 'capitalize'}}>{feed === 'custom' ? 'Following' : feed}</p>
         </div>

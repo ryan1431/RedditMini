@@ -6,6 +6,8 @@
 
   font-size: 14px;
   font-weight: 100;
+
+  border: 1px solid transparent;
 }
 
 .search-wrapper {
@@ -15,6 +17,3 @@
   height: 2.8rem;
 }
 
-.search:focus {
-  border: 1px solid rgb(119, 119, 119);
-}

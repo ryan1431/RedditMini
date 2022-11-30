@@ -17,6 +17,7 @@ export const Search = () => {
 
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front_alt);
+  const [borderColor, setBorderColor] = useState<string>('');
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
@@ -55,7 +56,15 @@ export const Search = () => {
 
   return (
     <div style={{position: 'relative',}} className='search-wrapper' ref={wrapper}>
-      <input style={{background}} placeholder="Search Communities" className="search" type="text" value={searchInput} onChange={onChange}  />
+      <input 
+        style={{background, borderColor}} 
+        placeholder="Search Communities" 
+        className="search" 
+        type="text" 
+        value={searchInput} 
+        onChange={onChange}
+        onFocus={() => setBorderColor(getRGBA(theme.border))}
+        onBlur={() => setBorderColor('')}  />
       <SearchResults inSearch={inSearch} searchQuery={searchQuery} searchInput={searchInput}/>
     </div>
   )

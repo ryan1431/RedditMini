@@ -7,6 +7,7 @@
   
   background: rgb(50, 50, 50);
 
+
   margin: 2px 0;
   border-radius: 10px;
   
@@ -64,8 +65,8 @@
 .sub.result {
   background: rgba(150, 178, 154, 0.174);
 
-  border: 1px solid rgba(128, 128, 128, 0);;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.451);
+  border: 1px solid transparent;
+
   margin: 3px;
 
   max-width: 98%;
@@ -75,7 +76,7 @@
 .sub.result.add {
   background: rgb(48, 48, 48);
   border-color: rgba(128, 128, 128, 0.185);
-  border-bottom-color: rgba(128, 128, 128, 0.451);
+
 }
 
 /* Elements in.sub won't trigger parent mouseUp event */
