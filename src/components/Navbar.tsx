@@ -16,7 +16,7 @@ import { Search } from './Search';
 import { SelectFeed } from './feed/SelectFeed';
 import { feedIcons } from '../utility/feedData';
 import type { FeedIcons } from '../utility/feedData';
-import { selectTheme } from '../app/reducers/savedSlice';
+import { selectTheme, toggleThemeMode } from '../app/reducers/savedSlice';
 import { getRGBA } from '../utility/getRGBA';
 
 export const Navbar = () => {
@@ -31,7 +31,8 @@ export const Navbar = () => {
 
   const FeedIcon = feedIcons[feed as keyof FeedIcons];
 
-  const [darkMode, setDarkMode] = useState<boolean>(true);
+  const darkMode = useAppSelector(selectTheme).theme.split('-')[1] === 'dark';
+
   const [feedSelectOpen, setFeedSelectOpen] = useState<boolean>(false);
 
   const onClose = useCallback(() => {
@@ -49,7 +50,7 @@ export const Navbar = () => {
               <HiOutlineCog className='nav-desktop' onClick={() => dispatch(toggleInSearch(false))}/>
             </div>
           </div>
-          <div className='icon-button' onClick={() => setDarkMode(p => !p)}>
+          <div className='icon-button' onClick={() => dispatch(toggleThemeMode())}>
             <div className='icon-wrapper theme'>
               {darkMode ? <BsMoonStarsFill /> : <BsMoonStars />}
             </div>

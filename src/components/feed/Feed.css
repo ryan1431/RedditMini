@@ -60,7 +60,7 @@
 }
 .sort:last-child,
 .feed:last-child {
-  border-right: none !important;
+  border-right-color: transparent !important;
 }
 
 
