@@ -3,12 +3,12 @@ import './Settings.css';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { Sub } from './sub/Sub';
 import { Search } from './Search';  
-import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { onClearSubreddits, toggleOpen, toggleSrOpen } from '../app/reducers/subredditsSlice';
 import { Dropdown } from './ui/Dropdown';
 import { Button } from './ui/Button';
 import Modal from './ui/Modal';
-import { selectTheme, resetSaved } from '../app/reducers/savedSlice';
+import { selectTheme, resetSaved, changeTheme } from '../app/reducers/savedSlice';
 import { getRGBA } from '../utility/getRGBA';
 
 interface SettingsProps {
@@ -26,6 +26,13 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front);
   const borderColor = getRGBA(theme.border);
+
+
+  const themes = useAppSelector(s => s.saved.themes);
+  
+  const themeNames = useMemo<string[]>(() => {
+    return Array.from(new Set(themes.map(t => t.theme.split('-')[0])));
+  }, [themes]);
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
@@ -46,6 +53,10 @@ export const Settings = ({navBarRef}: SettingsProps) => {
     dispatch(resetSaved());
     dispatch(onClearSubreddits());
     setConfirm(false);
+  }, [dispatch]);
+
+  const onSelectTheme = useCallback((t: string) => {
+    dispatch(changeTheme(t));
   }, [dispatch]);
 
   useEffect(() => {
@@ -89,7 +100,25 @@ export const Settings = ({navBarRef}: SettingsProps) => {
           </div>
         </div>
       </Dropdown>
-      <Dropdown label='Blocked Users'>
+      <Dropdown label='Theme'>
+        <div className='theme-select-wrapper'>
+          {themeNames.map(t => (
+            <div key={t} 
+              className='theme-select noselect'
+              style={{borderColor: theme.theme.split('-')[0] === t ? borderColor : ''}}
+              onClick={() => onSelectTheme(t)} 
+              >
+              <input 
+                type='radio' id={t} 
+                name={t} 
+                value={t} 
+                onChange={() => {}}
+                checked={theme.theme.split('-')[0] === t}/>
+              <label htmlFor={t}>{t}</label>
+            </div>
+            
+          ))}
+        </div>
       </Dropdown>
       <Dropdown label='Other Settings'>
         <div className='other-settings'>

@@ -44,8 +44,6 @@ interface PostProps {
 
 export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen, setClickedMenu, onHide, onCopyLink, SubDataLRU}: PostProps) => {
   const dispatch = useDispatch();
-
-  const postRef = useRef<HTMLDivElement>(undefined!);
   
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
   const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);

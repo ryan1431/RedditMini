@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Theme, ThemeInfo, themes } from "../../types/theme";
+import { ThemeInfo, themes } from "../../types/theme";
 import { PostType } from "../../utility";
 import { RootState } from "../store/store";
 
@@ -7,14 +7,14 @@ export interface SavedState {
   savedPosts: PostType[],
   hidden: string[],
   themes: ThemeInfo[],
-  selectedTheme: Theme,
+  selectedTheme: string,
 }
 
 export const initialState: SavedState = {
   savedPosts: [],
   hidden: [],
   themes,
-  selectedTheme: 'default-dark',
+  selectedTheme: 'navy blue-light',
 }
 
 let savedState: SavedState | undefined;
@@ -52,14 +52,15 @@ export const savedReducer = createSlice({
     clearHiddenPosts: (state) => {
       state.hidden = [];
     },
-    changeTheme: (state, action: PayloadAction<Theme>) => {
-      state.selectedTheme = action.payload;
+    changeTheme: (state, action: PayloadAction<string>) => {
+      const mode = state.selectedTheme.split('-')[1];
+      state.selectedTheme = `${action.payload}-${mode}`;
     },
     toggleThemeMode: (state) => {
-      let [theme, current] = state.selectedTheme.split('-');
-      current = current === 'light' ? 'dark' : 'light';
+      let [theme, mode] = state.selectedTheme.split('-');
+      mode = mode === 'light' ? 'dark' : 'light';
 
-      state.selectedTheme = `${theme}-${current}` as Theme;
+      state.selectedTheme = `${theme}-${mode}` as string;
     }
   }
 });
