@@ -49,7 +49,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const blocked = !!useAppSelector(s => s.subreddits.in_storage.blocked).find(sr => sr.name === post.subreddit);
 
   const theme = useAppSelector(selectTheme);
-  const color = getRGBA(theme.font_color, 0.7);
+  const color = getRGBA(theme.font_color, 0.6);
   const background = getRGBA(theme.front, 0.6);
   
   const saved = savedPosts.some(p => p.link === post.link);
@@ -152,7 +152,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
               {!open && <span>• </span>}
               <span className='name-prefix'>u/</span>{post.author}
             </p>
-            <p className='post-details'>{getRelativeTime(post.created_utc * 1000)}</p>
+            <p className='post-details' style={{color}}>{getRelativeTime(post.created_utc * 1000)}</p>
           </div>
           <Menu open={menuOpen} className='details-menu' onIconClick={() => setClickedMenu(p => p === post.link ? '' : post.link)} >
             <div className='menu-items-wrapper'>
