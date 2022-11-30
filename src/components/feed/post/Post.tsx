@@ -51,6 +51,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const theme = useAppSelector(selectTheme);
   const color = getRGBA(theme.text, 0.6);
   const background = getRGBA(theme.front, 0.6);
+  const borderColor = getRGBA(theme.border);
   
   const saved = savedPosts.some(p => p.link === post.link);
 
@@ -139,7 +140,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   return (
     <>
       {post && !hidden && !blocked && (
-      <article className={`post ${post.link}`} style={{background: open ? 'none' : background}}>
+      <article className={`post ${post.link}`} style={{background: open ? 'none' : background, borderColor}}>
         {/* Subreddit & Poster Info */}
         <address className='details-wrapper'>
           <div className='details-left'>

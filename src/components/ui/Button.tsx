@@ -1,4 +1,7 @@
 import clsx from 'clsx';
+import { useAppSelector } from '../../app/hooks/hooks';
+import { selectTheme } from '../../app/reducers/savedSlice';
+import { getRGBA } from '../../utility/getRGBA';
 import './Button.css';
 
 interface ButtonProps {
@@ -13,9 +16,11 @@ interface ButtonProps {
 
 export const Button = ({children, onClick, allowHighlight = false, style}: ButtonProps) => {
 
+  const theme = useAppSelector(selectTheme);
+  const borderColor = getRGBA(theme.border);
 
   return (
-    <div style={style} className={clsx('ui-button', {'noselect': !allowHighlight})} onClick={onClick}>
+    <div style={{...style, borderColor}} className={clsx('ui-button', {'noselect': !allowHighlight})} onClick={onClick}>
       <p>{children}</p>
     </div>
   );

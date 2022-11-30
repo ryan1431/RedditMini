@@ -44,7 +44,7 @@
   background: rgba(45, 45, 45, 0.994);
 }
 .nav-select-feed .icon-wrapper:last-child {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 .nav-select-feed .icon-wrapper p {
   font-size: 14px;

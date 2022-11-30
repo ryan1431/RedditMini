@@ -25,6 +25,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
 
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front);
+  const borderColor = getRGBA(theme.border);
 
   const wrapper = useRef<HTMLDivElement>(undefined!);
 
@@ -59,7 +60,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
         overflow: open ? 'auto' : 'hidden', 
         height: open ? '' : '0', 
         background,
-        borderColor: open ? '' : 'rgba(0,0,0,0)',
+        borderColor: open ? borderColor : 'rgba(0,0,0,0)',
         top: open ? '' : 'calc(3.5rem - 11px)'
       }}
     >

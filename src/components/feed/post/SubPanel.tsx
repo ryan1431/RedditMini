@@ -5,6 +5,8 @@ import { getScore } from '../../../utility/getScore';
 import React, { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks/hooks';
 import { toggleBlocked, toggleSubreddit } from '../../../app/reducers/subredditsSlice';
+import { selectTheme } from '../../../app/reducers/savedSlice';
+import { getRGBA } from '../../../utility/getRGBA';
 
 interface SubPanelProps {
   open: boolean,
@@ -19,6 +21,8 @@ export const SubPanel = ({open, data, name, setOpen}: SubPanelProps) => {
   const imageSrc = data?.banner_img || data?.header_img || '';
 
   const followed = useAppSelector(s => s.subreddits.in_storage.subs).some((s) => s.name === name);
+  const theme = useAppSelector(selectTheme);
+  const borderColor = getRGBA(theme.border);
   
   const onToggleFollow = useCallback(() => {
     const sub = {
@@ -40,7 +44,7 @@ export const SubPanel = ({open, data, name, setOpen}: SubPanelProps) => {
   }, [dispatch, name, setOpen]);
   
   return data ? (
-    <div className='sub-details-panel' style={{display: open ? '' : 'none'}}>
+    <div className='sub-details-panel' style={{borderColor, display: open ? '' : 'none'}}>
       {imageSrc && <div className='sub-details-banner'>
         <img src={imageSrc} alt="subreddit banner"></img>
       </div> }

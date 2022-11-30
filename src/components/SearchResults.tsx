@@ -31,6 +31,7 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front);
+  const borderColor = getRGBA(theme.border);
 
   const style = useMemo(() => {
     return toggled.length 
@@ -67,7 +68,7 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
   return (
     <>
       {inSearch && (
-        <div style={{background}} className="search-results">
+        <div style={{background, borderColor}} className="search-results">
           { (searchInput.length < 3)
             ? <p>Enter a search of at least 3 characters</p>
             : (searchStatus === 'idle' && results.length)

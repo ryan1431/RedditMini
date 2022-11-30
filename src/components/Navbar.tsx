@@ -27,6 +27,7 @@ export const Navbar = () => {
   const feed = useAppSelector(s => s.query.feed);
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front);
+  const borderBottomColor = getRGBA(theme.border);
 
   const FeedIcon = feedIcons[feed as keyof FeedIcons];
 
@@ -38,7 +39,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className='navbar' style={{background}} ref={navBarRef}>
+    <div className='navbar' style={{background, borderBottomColor}} ref={navBarRef}>
       <div id='navbar-items'>
         {/* Navbar settings menu */}
         <div className='navbar-button-wrapper'>

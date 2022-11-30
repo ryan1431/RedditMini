@@ -28,6 +28,7 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
   const theme = useAppSelector(selectTheme);
   const backgroundBase = getRGBA(theme.back);
   const background = getRGBA(theme.front, 0.6);
+  const borderColor = getRGBA(theme.border);
   
   const close = useCallback(() => {
     if (onClose) onClose();
@@ -50,7 +51,7 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
   
   return (
     <div className='ui-modal' style={{ display: forceClose.current ? 'none' : open ? 'flex' : 'none'}}>
-      <div style={{background: backgroundBase}}>
+      <div style={{background: backgroundBase, maxWidth: '100%'}}>
         <div className='ui-modal-content' 
           ref={modalRef} 
           style={{
@@ -61,6 +62,7 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
             borderBottom: fitHeight ? '' : 'none',
             borderRadius: fitHeight ? '' : '0px',
             background: background,
+            borderColor,
           }}
         >
           <header className='ui-modal-header'>

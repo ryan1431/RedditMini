@@ -27,6 +27,7 @@ export const Sub = ({sub, result, blocked = false}: SubProps) => {
 
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front_alt, 0.8);
+  const borderColor = getRGBA(theme.border);
 
   const add = useMemo(() => {
     let willAdd = !subs.some((s) => s.name === sub.name);
@@ -54,6 +55,10 @@ export const Sub = ({sub, result, blocked = false}: SubProps) => {
         height: size, 
         width: size, 
         margin: size, 
+        borderColor:
+          add
+          ? borderColor
+          : '',
         background: 
           add 
           ? background 

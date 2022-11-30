@@ -16,7 +16,7 @@ export const initialState: SavedState = {
   themes: [{
     theme: 'dark',
     text: {r: 255, g: 255, b: 255},
-    border: {r: 255, g: 255, b: 255},
+    border: {r: 65, g: 65, b: 90},
     front: {r: 35, g: 35, b: 35},
     front_alt: {r: 50, g: 50, b: 50},
     back: {r: 0, g: 0, b: 0},
@@ -30,7 +30,7 @@ export const initialState: SavedState = {
     back: {r: 255, g: 255, b: 255},
     back_alt: {r: 0, g: 0, b: 0},
   }],
-  selectedTheme: 'light',
+  selectedTheme: 'dark',
 }
 
 let savedState: SavedState | undefined;

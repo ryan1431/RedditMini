@@ -80,8 +80,11 @@ export const Feed = () => {
   const { feed, sort } = useAppSelector((s) => s.query);
   const feedPosts = useAppSelector(s => s.query.feedPosts);
   const theme = useAppSelector(selectTheme);
-  const sortBackground = getRGBA(theme.front, 0.1);
+  const textColor = getRGBA(theme.text);
+  const sortBackground = getRGBA(theme.front, 0.7);
   const postBackground = getRGBA(theme.front, 0.6);
+  const borderColor = getRGBA(theme.border, 0.8);
+  const borderRightColor = getRGBA(theme.border, 0.5);
 
   useEffect(() => {
     if (fetching) {
@@ -137,22 +140,28 @@ export const Feed = () => {
       
       {/* Feed & Sort by */}
       <section className='feed-customize' style={{cursor: 'pointer'}}>
-        <div className="query-buttons" style={{background: sortBackground}}>
+        <div className="query-buttons" style={{background: sortBackground, borderColor}}>
           {sortFields.map(([field, title]) => {
             const Icon = sortIcons[field as keyof SortIcons];
             return (
-              <div onClick={() => sortBy(['sort', field])} key={title} className={clsx('sort', { 'active': sort === field && !disabled, 'disabled': disabled })}>
+              <div onClick={() => sortBy(['sort', field])} 
+                key={title} 
+                style={{borderRightColor}}
+                className={clsx('sort', { 'active': sort === field && !disabled, 'disabled': disabled })}>
                 <Icon />
                 <p>{title}</p>
               </div>
             )
           })}
         </div>
-        <section className='feed-buttons' style={{background: sortBackground}}>
+        <section className='feed-buttons' style={{background: sortBackground, borderColor}}>
           {feedFields.map(([field, title]) => {
             const Icon = feedIcons[field as keyof FeedIcons];
             return (
-              <div onClick={() => sortBy(['feed', field])} key={title} className={clsx('feed', { active: feed === field })}>
+              <div onClick={() => sortBy(['feed', field])} 
+                key={title} 
+                style={{borderRightColor}}
+                className={clsx('feed', { active: feed === field })}>
                 <Icon />
                 <p>{title}</p>
               </div>
@@ -222,8 +231,8 @@ export const Feed = () => {
         })}
       </div>     
 
-      <div className='back-to-top'>
-        <p><a href="#feed">Back to top</a></p>
+      <div className='back-to-top' style={{borderColor}}>
+        <p><a style={{color: textColor}} href="#feed">Back to top</a></p>
       </div>
     </div>
   )
