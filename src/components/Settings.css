@@ -126,7 +126,7 @@
   display: flex;
   justify-content: center;
   white-space: nowrap;
-  font-weight: 100;
+  font-weight: 200;
 
   color: white;
 
@@ -134,7 +134,7 @@
 
   bottom: 5px;
 
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   font-size: 14px;
 }
 

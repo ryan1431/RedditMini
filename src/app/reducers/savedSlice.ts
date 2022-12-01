@@ -18,14 +18,14 @@ export const initialState: SavedState = {
   hidden: [],
   themes,
   backgrounds,
-  selectedTheme: 'default-dark',
+  selectedTheme: 'default-light',
   background: 'Default'
 }
 
 let savedState: SavedState | undefined;
 
 try {
-  // savedState = JSON.parse(localStorage.getItem('saved') as string) as SavedState;
+  savedState = JSON.parse(localStorage.getItem('saved') as string) as SavedState;
 } catch(e) {
   // No saved state
 }
