@@ -8,8 +8,11 @@ import { onClearSubreddits, toggleOpen, toggleSrOpen } from '../app/reducers/sub
 import { Dropdown } from './ui/Dropdown';
 import { Button } from './ui/Button';
 import Modal from './ui/Modal';
-import { selectTheme, resetSaved, changeTheme } from '../app/reducers/savedSlice';
+import { selectTheme, resetSaved, changeTheme, changeBackground } from '../app/reducers/savedSlice';
 import { getRGBA } from '../utility/getRGBA';
+
+import { FaUnsplash } from 'react-icons/fa';
+import clsx from 'clsx';
 
 interface SettingsProps {
   navBarRef: MutableRefObject<HTMLDivElement>,
@@ -24,12 +27,15 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
 
   const theme = useAppSelector(selectTheme);
-  const background = getRGBA(theme.front, theme.backImage ? 0.9 : 1);
+  const defaultBackground = getRGBA(theme.back);
+  const bName = useAppSelector(s => s.saved.background);
+  const background = getRGBA(theme.front, bName !== 'Default' ? 0.9 : 1);
   const borderColor = getRGBA(theme.border);
   const backgroundAlt = getRGBA(theme.front_alt);
 
 
   const themes = useAppSelector(s => s.saved.themes);
+  const backgrounds = useAppSelector(s => s.saved.backgrounds);
   
   const themeNames = useMemo<string[]>(() => {
     return Array.from(new Set(themes.map(t => t.theme.split('-')[0])));
@@ -40,7 +46,6 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const [confirm, setConfirm] = useState<boolean>(false);
 
   const onClick = useCallback((e: any) => {
-    console.log(e.target);
     if (wrapper.current.contains(e.target)
       || (navBarRef.current.contains(e.target) && !e.target.closest('.feed-select'))
       || e.target.classList.contains('open-subreddits')
@@ -60,6 +65,17 @@ export const Settings = ({navBarRef}: SettingsProps) => {
 
   const onSelectTheme = useCallback((t: string) => {
     dispatch(changeTheme(t));
+  }, [dispatch]);
+
+  const current = useAppSelector(s => s.saved.background);
+  const currentBackground = useRef<string>(current);
+  const onChangeBackground = useCallback((e: any, n: string) => {
+    if (n === currentBackground.current
+      || e.target.classList.contains('b-card-icon')
+    ) return;
+
+    dispatch(changeBackground(n));
+    currentBackground.current = n;
   }, [dispatch]);
 
   useEffect(() => {
@@ -105,7 +121,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
           </div>
         </div>
       </Dropdown>
-      <Dropdown label='Theme'>
+      <Dropdown label='Color Theme'>
         <div className='theme-select-wrapper'>
           {themeNames.map(t => (
             <div key={t} 
@@ -123,6 +139,33 @@ export const Settings = ({navBarRef}: SettingsProps) => {
             </div>
             
           ))}
+        </div>
+      </Dropdown>
+      <Dropdown label='Background'>
+        <div className='background-select-wrapper'>
+          <div className={clsx('b-card', {'active': current === 'Default'})} 
+            style={{background: defaultBackground}} 
+            onClick={(e) => onChangeBackground(e, 'Default')}
+          >
+            <div className='b-card-details'>
+              Default
+            </div>
+          </div>
+          {backgrounds.map(b => {
+          const imgUrl = `${b.url}&w=150&h=150`;
+          
+          return (
+            <div className={clsx('b-card', {'active': current === b.name})} onClick={(e) => onChangeBackground(e, b.name)}>
+              <div className='b-card-icon' onClick={() => window.open(b.link, '_blank')!.focus()}>
+                <FaUnsplash />
+              </div>
+              <img src={imgUrl} alt='background preview' />
+              <div className='b-card-details'>
+                {b.author}
+              </div>
+            </div>
+          )})}
+          
         </div>
       </Dropdown>
       <Dropdown label='Other Settings'>

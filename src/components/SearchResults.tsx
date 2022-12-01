@@ -30,7 +30,8 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
   const toggled = useAppSelector((s) => s.subreddits.toggleQueue);
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
   const theme = useAppSelector(selectTheme);
-  const background = getRGBA(theme.front, theme.backImage ? 0.9 : 1);
+  const bName = useAppSelector(s => s.saved.background);
+  const background = getRGBA(theme.front, bName !== 'Default' ? 0.9 : 1);
   const backgroundAlt = getRGBA(theme.front_alt);
   const borderColor = getRGBA(theme.border);
 

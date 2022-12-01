@@ -27,7 +27,8 @@ export const Navbar = () => {
 
   const feed = useAppSelector(s => s.query.feed);
   const theme = useAppSelector(selectTheme);
-  const background = getRGBA(theme.front, theme.backImage ? 0.8 : 1);
+  const bName = useAppSelector(s => s.saved.background);
+  const background = getRGBA(theme.front, bName !== 'Default' ? 0.8 : 1);
   const borderBottomColor = getRGBA(theme.border);
 
   const FeedIcon = feedIcons[feed as keyof FeedIcons];

@@ -85,3 +85,80 @@
   margin: 5px;
   cursor: pointer;
 }
+
+/* Background image cards */
+
+.background-select-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+
+  padding: 4px;
+  width: 100%;
+}
+.b-card {
+  display: flex;
+  flex-direction: column;
+  overflow:hidden;
+  position: relative;
+
+  border-radius: 30px;
+  border: 1px solid transparent;
+  margin: 5px;
+
+  height: 150px;
+  width: 150px;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.b-card:hover {
+  border-color: rgb(127,127,127);
+}
+.b-card.active {
+  border-color: rgb(127,127,127);
+}
+.b-card-details {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  font-weight: 100;
+
+  color: white;
+
+  padding: 3px 0;
+
+  bottom: 5px;
+
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+}
+
+.b-card-icon {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  padding: 4px;
+  color: black;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+
+
+  transition: background-color 0.2s;
+}
+.b-card-icon * {
+  pointer-events: none;
+}
+.b-card-icon:hover {
+  background: white;
+}
+
+
+
