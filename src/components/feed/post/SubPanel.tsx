@@ -23,7 +23,8 @@ export const SubPanel = ({open, data, name, setOpen}: SubPanelProps) => {
   const followed = useAppSelector(s => s.subreddits.in_storage.subs).some((s) => s.name === name);
 const theme = useAppSelector(selectTheme);
   const borderColor = getRGBA(theme.border);
-  const background = getRGBA(theme.front_alt);
+  const background = getRGBA(theme.front);
+  const backAlt = getRGBA(theme.back_alt);
   
   const onToggleFollow = useCallback(() => {
     const sub = {
@@ -60,8 +61,8 @@ const theme = useAppSelector(selectTheme);
       <hr></hr>
       <p className='sub-desc'>{data.public_description}</p>
       <div className='sub-details-actions'>
-        <div className='sub-details-button' onClick={onToggleFollow}><p>{followed ? 'Unfollow' : 'Follow'}</p></div>
-        <div className='sub-details-button' onClick={onBlock}><p>Block Community</p></div>
+        <div style={{background: backAlt}} className='sub-details-button' onClick={onToggleFollow}><p>{followed ? 'Unfollow' : 'Follow'}</p></div>
+        <div style={{background: backAlt}} className='sub-details-button' onClick={onBlock}><p>Block Community</p></div>
       </div>
     </div>
   ) : <></>
