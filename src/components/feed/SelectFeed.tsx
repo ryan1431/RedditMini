@@ -17,7 +17,7 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
   const wrapperRef = useRef<HTMLDivElement>(undefined!);
 
   const theme = useAppSelector(selectTheme);
-  const background = getRGBA(theme.front);
+  const background = getRGBA(theme.front, theme.backImage ? 0.8 : 1);
   const borderColor = getRGBA(theme.border);
 
   const onClick = useCallback((e: any) => {

@@ -51,7 +51,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
 
   const theme = useAppSelector(selectTheme);
   const color = getRGBA(theme.text, 0.6);
-  const background = getRGBA(theme.front, 0.6);
+  const background = getRGBA(theme.front, theme.backImage ? 0.8 : 0.6);
   const borderColor = getRGBA(theme.border);
   
   const saved = savedPosts.some(p => p.link === post.link);
