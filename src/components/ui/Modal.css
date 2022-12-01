@@ -45,6 +45,8 @@
 
   overflow-x: hidden !important;
 
+  transition: background-color 0.2s;
+
 }
 
 .ui-modal-actions {

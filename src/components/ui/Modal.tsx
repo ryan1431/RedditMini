@@ -38,6 +38,9 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
   const onClick = useCallback((e: any) => {
     if (modalRef.current.contains(e.target) 
       || !!e.target.closest('.post')
+      || e.target.classList.contains('darkmode')
+      || e.target.closest('.settings-button')
+      || e.target.closest('.settings')
       || e.target.closest('.other-settings')) return;
     close();
   }, [close]);
