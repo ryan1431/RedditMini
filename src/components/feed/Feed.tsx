@@ -89,7 +89,7 @@ export const Feed = () => {
   const feedPosts = useAppSelector(s => s.query.feedPosts);
   const theme = useAppSelector(selectTheme);
   const textColor = getRGBA(theme.text);
-  const background = getRGBA(theme.front, 0.6);
+  const background = getRGBA(theme.front, theme.backImage ? 0.8 : 0.6);
   const backgroundAlt = getRGBA(theme.back_alt);
   const borderColor = getRGBA(theme.border, 0.8);
   const borderRightColor = getRGBA(theme.border, 0.5);

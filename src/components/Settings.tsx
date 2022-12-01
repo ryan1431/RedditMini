@@ -24,7 +24,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
 
   const theme = useAppSelector(selectTheme);
-  const background = getRGBA(theme.front);
+  const background = getRGBA(theme.front, theme.backImage ? 0.9 : 1);
   const borderColor = getRGBA(theme.border);
   const backgroundAlt = getRGBA(theme.front_alt);
 
