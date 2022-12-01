@@ -30,7 +30,7 @@
   border-top-right-radius: 0px;
   border-top: none;
 
-  transition: height 0.2s, border-color 0.2s, top 0.2s;
+  transition: background-color 0.2s, height 0.2s, border-color 0.2s, top 0.2s;
 }
 
 /* Search bar */
@@ -59,8 +59,8 @@
 }
 
 .other-settings {
-  width: fit-content;
-  margin: 5px auto;
+  width: 100%;
+  padding:  4px 11px;
 }
 
 /* Themes */

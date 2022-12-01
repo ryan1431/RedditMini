@@ -14,7 +14,7 @@ export const initialState: SavedState = {
   savedPosts: [],
   hidden: [],
   themes,
-  selectedTheme: 'navy blue-light',
+  selectedTheme: 'green-dark',
 }
 
 let savedState: SavedState | undefined;

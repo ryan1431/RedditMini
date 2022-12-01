@@ -31,7 +31,7 @@ export const SearchResults = ({inSearch, searchQuery, searchInput}:SearchResults
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front);
-  const backgroundAlt = getRGBA(theme.back_alt);
+  const backgroundAlt = getRGBA(theme.front_alt);
   const borderColor = getRGBA(theme.border);
 
   const style = useMemo(() => {

@@ -13,4 +13,5 @@ h2 {
   height: calc(100vh - 3.5rem);
   overflow:auto;
   background: rgb(0, 0, 0);
+  transition: background-color 0.2s;
 }

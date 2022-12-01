@@ -45,4 +45,20 @@ export const themes: ThemeInfo[] = [{
   front_alt: {r: 190, g: 190, b: 235},
   back: {r: 195, g: 195, b: 230},
   back_alt: {r: 200, g: 200, b: 240},
+}, {
+  theme: 'green-dark',
+  text: {r: 210, g: 255, b: 210},
+  border: {r: 40, g: 65, b: 40},
+  front: {r: 10, g: 45, b: 10},
+  front_alt: {r: 20, g: 50, b: 20},
+  back: {r: 0, g: 20, b: 0},
+  back_alt: {r: 20, g: 60, b: 20},
+}, {
+  theme: 'green-light',
+  text: {r: 0, g: 0, b: 0},
+  border: {r: 100, g: 125, b: 100},
+  front: {r: 210, g: 255, b: 210},
+  front_alt: {r: 190, g: 235, b: 190},
+  back: {r: 200, g: 220, b: 200},
+  back_alt: {r: 200, g: 240, b: 200},
 }]

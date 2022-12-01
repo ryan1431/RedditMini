@@ -8,6 +8,8 @@
   font-weight: 100;
 
   border: 1px solid transparent;
+
+  transition: background-color 0.3s;
 }
 
 .search-wrapper {

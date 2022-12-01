@@ -26,6 +26,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const theme = useAppSelector(selectTheme);
   const background = getRGBA(theme.front);
   const borderColor = getRGBA(theme.border);
+  const backgroundAlt = getRGBA(theme.front_alt);
 
 
   const themes = useAppSelector(s => s.saved.themes);
@@ -122,7 +123,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
       </Dropdown>
       <Dropdown label='Other Settings'>
         <div className='other-settings'>
-          <Button style={{padding: '10px'}} onClick={() => setConfirm(true)}>Clear Local Storage</Button>
+          <Button style={{borderRadius: '20px', backgroundColor: backgroundAlt, padding: '10px', width: '100%'}} onClick={() => setConfirm(true)}>Clear Local Storage</Button>
         </div>
         <Modal open={confirm} onClose={() => setConfirm(false)} fitHeight>
           <Modal.Header>Confirm</Modal.Header>
@@ -130,8 +131,8 @@ export const Settings = ({navBarRef}: SettingsProps) => {
             <p style={{fontWeight: 300, width: 'fit-content'}}>This will remove all local data, which includes your saved posts and selected subreddits.</p>
           </div>
           <Modal.Actions>
-            <Button onClick={onClearLocal}>I understand</Button>
-            <Button onClick={() => setConfirm(false)}>Cancel</Button>
+            <Button style={{borderRadius: '20px', padding: '8px 15px'}} onClick={onClearLocal}>I understand</Button>
+            <Button style={{borderRadius: '20px', padding: '8px 15px'}} onClick={() => setConfirm(false)}>Cancel</Button>
           </Modal.Actions>
           
         </Modal>

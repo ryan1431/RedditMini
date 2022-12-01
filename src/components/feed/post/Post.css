@@ -9,7 +9,7 @@
   width: 100%;
   background: rgba(255, 19, 19, 0.942);
   
-  transition: border-color 0.2s, scale 0.3s;
+  transition: border-color 0.2s, scale 0.3s, background-color 0.2s;
 }
 
 .details-wrapper {
