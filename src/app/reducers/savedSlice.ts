@@ -7,14 +7,18 @@ export interface SavedState {
   savedPosts: PostType[],
   hidden: string[],
   themes: ThemeInfo[],
+  backgrounds: string[],
   selectedTheme: string,
+  background: string,
 }
 
 export const initialState: SavedState = {
   savedPosts: [],
   hidden: [],
   themes,
-  selectedTheme: 'outer space 1-dark',
+  backgrounds: [],
+  selectedTheme: 'outer space 4-dark',
+  background: ''
 }
 
 let savedState: SavedState | undefined;
@@ -66,6 +70,8 @@ export const savedReducer = createSlice({
 });
 
 export const selectTheme = (state: RootState): ThemeInfo => state.saved.themes.find(t => t.theme === state.saved.selectedTheme)!;
+export const selectImage = (state: RootState): ThemeInfo => state.saved.themes.find(t => t.theme === state.saved.selectedTheme)!;
+
 
 export const { save, unsave, changeTheme, toggleThemeMode, resetSaved, hidePost, unHidePost, clearHiddenPosts } = savedReducer.actions;
 

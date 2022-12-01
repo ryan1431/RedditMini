@@ -5,8 +5,7 @@ h2 {
 #page {
   height: 100vh;
   overflow: hidden;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
+
   background-size: cover !important;
 }
 
