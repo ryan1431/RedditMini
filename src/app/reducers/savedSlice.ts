@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { background, backgrounds } from "../../types/backgrounds";
 import { ThemeInfo, themes } from "../../types/theme";
 import { PostType } from "../../utility";
 import { RootState } from "../store/store";
@@ -7,7 +8,7 @@ export interface SavedState {
   savedPosts: PostType[],
   hidden: string[],
   themes: ThemeInfo[],
-  backgrounds: string[],
+  backgrounds: background[],
   selectedTheme: string,
   background: string,
 }
@@ -16,9 +17,9 @@ export const initialState: SavedState = {
   savedPosts: [],
   hidden: [],
   themes,
-  backgrounds: [],
-  selectedTheme: 'outer space 4-dark',
-  background: ''
+  backgrounds,
+  selectedTheme: 'default-dark',
+  background: 'Default'
 }
 
 let savedState: SavedState | undefined;
@@ -60,6 +61,10 @@ export const savedReducer = createSlice({
       const mode = state.selectedTheme.split('-')[1];
       state.selectedTheme = `${action.payload}-${mode}`;
     },
+    changeBackground: (state, action: PayloadAction<string>) => {
+      if (action.payload === 'Default') state.background = action.payload;
+      else state.background = state.backgrounds.find(b => b.name === action.payload)!.name;
+    },
     toggleThemeMode: (state) => {
       let [theme, mode] = state.selectedTheme.split('-');
       mode = mode === 'light' ? 'dark' : 'light';
@@ -70,9 +75,14 @@ export const savedReducer = createSlice({
 });
 
 export const selectTheme = (state: RootState): ThemeInfo => state.saved.themes.find(t => t.theme === state.saved.selectedTheme)!;
-export const selectImage = (state: RootState): ThemeInfo => state.saved.themes.find(t => t.theme === state.saved.selectedTheme)!;
+export const selectBackground = (state: RootState): string => {
+  const name = state.saved.backgrounds.find(b => b.name === state.saved.background) || 'Default';
+  return (typeof name === 'string') 
+    ? ''
+    : name.style;
+}
 
 
-export const { save, unsave, changeTheme, toggleThemeMode, resetSaved, hidePost, unHidePost, clearHiddenPosts } = savedReducer.actions;
+export const { save, unsave, changeBackground, changeTheme, toggleThemeMode, resetSaved, hidePost, unHidePost, clearHiddenPosts } = savedReducer.actions;
 
 export default savedReducer.reducer;

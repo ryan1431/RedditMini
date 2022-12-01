@@ -88,8 +88,10 @@ export const Feed = () => {
   const { feed, sort } = useAppSelector((s) => s.query);
   const feedPosts = useAppSelector(s => s.query.feedPosts);
   const theme = useAppSelector(selectTheme);
+  const bName = useAppSelector(s => s.saved.background);
+
   const textColor = getRGBA(theme.text);
-  const background = getRGBA(theme.front, theme.backImage ? 0.8 : 0.6);
+  const background = getRGBA(theme.front, bName !== 'Default' ? 0.8 : 0.6);
   const backgroundAlt = getRGBA(theme.back_alt);
   const borderColor = getRGBA(theme.border, 0.8);
   const borderRightColor = getRGBA(theme.border, 0.5);
