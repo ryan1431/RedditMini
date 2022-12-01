@@ -127,6 +127,9 @@
   justify-content: space-between;
   position: relative;
 }
+.navbar .icon-button.darkmode * {
+  pointer-events: none;
+}
 
 /* Search communities */
 .nav-search {

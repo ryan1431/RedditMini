@@ -56,10 +56,18 @@ export const Feed = () => {
     setSelected('');
   }, []);
 
-  const onOpenSubredditPanel = useCallback(() => {
+
+  const focusSearch = useCallback(() => {
+    (document.querySelectorAll('.search') as NodeListOf<HTMLInputElement>)[1]!.focus();;
+  }, []);
+  
+  const onOpenSubMobile = useCallback(() => {
     dispatch(toggleSrOpen(true));
-    dispatch(toggleOpen())
-  }, [dispatch]);
+    dispatch(toggleOpen());
+
+    focusSearch();
+    (document.querySelector('.search') as HTMLInputElement).focus();
+  }, [dispatch, focusSearch]);
 
   const onHide = useCallback((name: string) => {
     setSnackbar(p => [...p, name]);
@@ -194,7 +202,14 @@ export const Feed = () => {
           }) 
           : feed === 'custom' && !subs.length 
           ? <div className='post' style={{textAlign: 'center', background}}>
-              <p>You have not followed any subreddits.<span className='nav-mobile'><span onClick={onOpenSubredditPanel} className='open-subreddits'>Click here</span>  to add subreddits.</span></p>
+              <p>You have not followed any subreddits. 
+                  <span onClick={onOpenSubMobile} className='open-subreddits mobile'>
+                    Click here to search.
+                  </span>  
+                  <span onClick={focusSearch} className='open-subreddits desktop'>
+                    Click here to search.
+                  </span> 
+              </p>
             </div>
           : feed === 'saved' && !savedPosts.length
             ? <div className='post' style={{textAlign: 'center', background}}>

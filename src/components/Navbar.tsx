@@ -46,12 +46,12 @@ export const Navbar = () => {
         {/* Navbar settings menu */}
         <div className='navbar-button-wrapper'>
           <div className='icon-button' onClick={() => dispatch(toggleOpen())}>
-            <div className='icon-wrapper'>
+            <div className='icon-wrapper settings-button'>
               <RiMenu3Line className='nav-mobile'/>
               <HiOutlineCog className='nav-desktop' onClick={() => dispatch(toggleInSearch(false))}/>
             </div>
           </div>
-          <div className='icon-button' onClick={() => dispatch(toggleThemeMode())}>
+          <div className='icon-button darkmode' onClick={() => dispatch(toggleThemeMode())}>
             <div className='icon-wrapper theme'>
               {darkMode ? <BsMoonStarsFill /> : <BsMoonStars />}
             </div>

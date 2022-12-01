@@ -40,9 +40,11 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const [confirm, setConfirm] = useState<boolean>(false);
 
   const onClick = useCallback((e: any) => {
+    console.log(e.target);
     if (wrapper.current.contains(e.target)
       || (navBarRef.current.contains(e.target) && !e.target.closest('.feed-select'))
       || e.target.classList.contains('open-subreddits')
+      || e.target.classList.contains('darkmode')
       || e.target.classList.contains('save-results')) 
     return;
 
@@ -61,6 +63,8 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   }, [dispatch]);
 
   useEffect(() => {
+    let input:HTMLInputElement | null = document.querySelector('.search'); 
+    input && input.focus();
     window.addEventListener('click', onClick);
     return () => { window.removeEventListener('click', onClick) }
   }, [onClick]);

@@ -10,6 +10,11 @@ import { SubMeta } from '../../types';
 import { SelectedPostData } from './Feed';
 import LRU from '../../utility/LRU';
 import { Skeleton } from '../ui/Skeleton';
+
+import { GoCommentDiscussion } from 'react-icons/go';
+import { selectTheme } from '../../app/reducers/savedSlice';
+import { getRGBA } from '../../utility/getRGBA';
+
 interface OpenPostProps {
   data: SelectedPostData,
   SubDataLRU: LRU<string, SubMeta>,
@@ -25,6 +30,9 @@ export const OpenPost = ({data: {post, subMeta}, SubDataLRU, setClickedMenu, men
 
   const [comments, setComments] = useState<CommentType[]>([]);
   const [resizeDep, setResizeDep] = useState<number>(0);
+
+  const theme = useAppSelector(selectTheme);
+  const color = getRGBA(theme.text, 0.15);
 
   useEffect(() => {
     if (post.name === lastPostId) {
@@ -64,7 +72,10 @@ export const OpenPost = ({data: {post, subMeta}, SubDataLRU, setClickedMenu, men
               <Skeleton className='comment' avatar bars={2}/> 
             </>
           }
-        </div> : <p className='skeleton'>No comments</p>}
+        </div> : <div className='no-comments'>
+          <p>No comments</p>
+          <GoCommentDiscussion style={{color}} className='no-comments-icon'/>
+        </div>}
         
       </div>}
     </div>

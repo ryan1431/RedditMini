@@ -93,13 +93,26 @@
   cursor: default !important;
 }
 
+.open-subreddits::before {
+  content: ' ';
+}
 .open-subreddits {
   color: rgb(127, 127, 127);
   cursor: pointer;
+  display: none;
 }
-
 .open-subreddits:hover {
   text-decoration: underline;
+}
+@media only screen and (max-width: 499px) {
+  .open-subreddits.mobile {
+    display: inline;
+  }
+}
+@media only screen and (min-width: 500px) {
+  .open-subreddits.desktop {
+    display: inline;
+  }
 }
 
 .post:nth-last-child(2) {
