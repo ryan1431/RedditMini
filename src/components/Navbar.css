@@ -16,6 +16,8 @@
   background: rgb(35, 35, 35);
 
   height: 3.5rem;
+
+  transition: background-color 0.2s;
 }
 
 #navbar-items {
