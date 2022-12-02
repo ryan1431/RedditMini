@@ -224,6 +224,11 @@ export const Feed = () => {
           </>
           }
 
+        {fetching && <>
+            <Skeleton className='post' avatar mergeBars bars={12}/>
+            <Skeleton className='post' avatar mergeBars bars={12}/>
+        </>}
+
         {/* Infinite scroll visible trigger for home & custom feeds */}
         {<div ref={feed !== 'saved' ? visRef : null} style={{
             opacity: '0', 
