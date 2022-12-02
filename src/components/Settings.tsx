@@ -8,12 +8,12 @@ import { onClearSubreddits, toggleOpen, toggleSrOpen } from '../app/reducers/sub
 import { Dropdown } from './ui/Dropdown';
 import { Button } from './ui/Button';
 import Modal from './ui/Modal';
-import { selectTheme, resetSaved, changeTheme, changeBackground } from '../app/reducers/savedSlice';
+import { selectTheme, resetSaved, changeTheme, changeBackground, toggleShowNSFW } from '../app/reducers/savedSlice';
 import { getRGBA } from '../utility/getRGBA';
 
 import { FaUnsplash } from 'react-icons/fa';
 import clsx from 'clsx';
-import { toggleShowNSFW } from '../app/reducers/querySlice';
+
 
 interface SettingsProps {
   navBarRef: MutableRefObject<HTMLDivElement>,
@@ -26,7 +26,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const subs = useAppSelector(s => s.subreddits.in_storage.subs);
   const srOpen = useAppSelector(s => s.subreddits.srOpen);
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
-  const showNSFW = useAppSelector(s => s.query.showNSFW);
+  const showNSFW = useAppSelector(s => s.saved.showNSFW);
 
   const theme = useAppSelector(selectTheme);
   const defaultBackground = getRGBA(theme.back);

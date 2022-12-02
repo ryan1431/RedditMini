@@ -9,8 +9,47 @@
   
   width: 100%;
   background: rgba(255, 19, 19, 0.942);
+
+  position: relative;
   
   transition: border-color 0.2s, scale 0.3s, background-color 0.2s;
+}
+
+.nsfw-warning {
+  position: absolute;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  left: 0;
+  top: 0;
+  height: 100%;
+  flex-direction: column;
+  font-weight: 100;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
+
+  color: white !important;
+} 
+
+.nsfw-unblur {
+  border: 1px solid rgba(255, 255, 255, 0.675);
+  text-align: center;
+  border-radius: 3px;
+  width: 80px;
+  cursor: pointer;
+
+  font-weight: 200;
+
+  transition: background-color 0.2s;;
+}
+.nsfw-unblur * {
+  pointer-events: none;
+}
+.nsfw-unblur:hover {
+  background: rgba(255, 255, 255, 0.226);
 }
 
 .details-wrapper {

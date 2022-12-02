@@ -48,11 +48,12 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
   const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);
   const blocked = !!useAppSelector(s => s.subreddits.in_storage.blocked).find(sr => sr.name === post.subreddit);
-  const showNSFW = useAppSelector(s => s.query.showNSFW);
+  const showNSFW = useAppSelector(s => s.saved.showNSFW);
 
   const safe = useMemo(() => {
     return showNSFW ? true  : !post.over_18;
   }, [post.over_18, showNSFW]);
+  const [blurred, setBlurred] = useState<boolean>(post.over_18);
 
   const theme = useAppSelector(selectTheme);
   const bName = useAppSelector(s => s.saved.background);
@@ -148,72 +149,82 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
 
   return (
     <>
+      
       {post && !hidden && !blocked && safe && (
       <article className={clsx('post', post.link)} style={{background: open ? 'none' : background, borderColor}}>
         {/* Subreddit & Poster Info */}
-        <address className='details-wrapper'>
-          <div className='details-left'>
-            <div className='post-sub-details'  onMouseEnter={onHoverSub} onMouseLeave={onMouseOut}>
-              {!open && subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
-              {!open && <p onClick={onClickSub} className='sub-name'>r/{post.subreddit}</p>}
-              <SubPanel open={showSubData} data={subData} name={post.subreddit} setOpen={setShowSubData}/>
-            </div>
-            <p className='post-details author'>
-              {!open && <span>• </span>}
-              <span className='name-prefix'>u/</span>{post.author}
-            </p>
-            <p className='post-details' style={{color}}>{getRelativeTime(post.created_utc * 1000)}</p>
-          </div>
-          <Menu open={menuOpen} className='details-menu' onIconClick={() => setClickedMenu(p => p === post.link ? '' : post.link)} >
-            <div className='menu-items-wrapper'>
-              <div className='menu-item hide-post' onClick={() => onHide && onHide(post.name)}>
-                <p>Hide Post</p>
-                <BiHide />
-              </div>
-              <div className='menu-item' onClick={() => window.open(post.link, '_blank')?.focus()}>
-                <p>Open in Reddit</p>
-                <AiOutlineLink />
-              </div>
-              <div className='menu-item' onClick={() => onCopyLink && onCopyLink(post.link)}>
-                <p>Copy Link</p>
-                <MdIosShare />
-              </div>
-              <div className='menu-item' onClick={onBlock}>
-                <p>Block Community</p>
-                <MdIosShare />
-              </div>
-            </div>
-          </Menu>
-        </address>
 
-        {/* Title */}
-        <header className='post-title'>
-          <h2>{post.title}</h2>
-        </header>
-        {/* Body */}
-        <main className={clsx(`post-body ${post.type}`, {'overflow': height >= 140})}>
-          {
-            post.type === 'video' ? <Video url={post.content_url}/>
-            : post.type === 'image' ? <ImageBody url={post.content_url}/>
-            : post.type === 'slide' ? <Slide slides={post.slides!} />
-            : <TextBody setHeight={setHeight} selftext={post.selftext} selftext_html={post.selftext_html} />
-          }
-        </main>
+        {blurred && <div className='nsfw-warning'>
+          <p>NSFW Content</p>        
+          <div className='nsfw-unblur' onClick={() => setBlurred(false)}><p>Show</p></div>
+        </div>}
         
-        {/* Info / Actions */}
-        <footer className='info' style={{color}}>
-          <div className='info-details'>
-            <Votes score={post.score} />
-            <div className='info-details-comments'>
-              <TfiComment size={14}/>
-              <p>{post.num_comments}</p>
+        <div className='blur-wrapper' style={{filter: blurred ? 'blur(5rem)' : ''}}>
+          <address className='details-wrapper'>
+            <div className='details-left'>
+              <div className='post-sub-details'  onMouseEnter={onHoverSub} onMouseLeave={onMouseOut}>
+                {!open && subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
+                {!open && <p onClick={onClickSub} className='sub-name'>r/{post.subreddit}</p>}
+                <SubPanel open={showSubData} data={subData} name={post.subreddit} setOpen={setShowSubData}/>
+              </div>
+              <p className='post-details author'>
+                {!open && <span>• </span>}
+                <span className='name-prefix'>u/</span>{post.author}
+              </p>
+              <p className='post-details' style={{color}}>{getRelativeTime(post.created_utc * 1000)}</p>
             </div>
-          </div>
-          <div className='info-save' onClick={onSave}>
-            <p>{saved ? 'Unsave' : 'Save'}</p>
-            {saved ? <BsBookmarkFill /> : <BsBookmark />}
-          </div>
-        </footer>
+            <Menu open={menuOpen} className='details-menu' onIconClick={() => setClickedMenu(p => p === post.link ? '' : post.link)} >
+              <div className='menu-items-wrapper'>
+                <div className='menu-item hide-post' onClick={() => onHide && onHide(post.name)}>
+                  <p>Hide Post</p>
+                  <BiHide />
+                </div>
+                <div className='menu-item' onClick={() => window.open(post.link, '_blank')?.focus()}>
+                  <p>Open in Reddit</p>
+                  <AiOutlineLink />
+                </div>
+                <div className='menu-item' onClick={() => onCopyLink && onCopyLink(post.link)}>
+                  <p>Copy Link</p>
+                  <MdIosShare />
+                </div>
+                <div className='menu-item' onClick={onBlock}>
+                  <p>Block Community</p>
+                  <MdIosShare />
+                </div>
+              </div>
+            </Menu>
+          </address>
+
+          {/* Title */}
+          <header className='post-title'>
+            <h2>{post.title}</h2>
+          </header>
+          {/* Body */}
+          <main className={clsx(`post-body ${post.type}`, {'overflow': height >= 140})}>
+            {
+              post.type === 'video' ? <Video url={post.content_url}/>
+              : post.type === 'image' ? <ImageBody url={post.content_url}/>
+              : post.type === 'slide' ? <Slide slides={post.slides!} />
+              : <TextBody setHeight={setHeight} selftext={post.selftext} selftext_html={post.selftext_html} />
+            }
+          </main>
+          
+          {/* Info / Actions */}
+          <footer className='info' style={{color}}>
+            <div className='info-details'>
+              <Votes score={post.score} />
+              <div className='info-details-comments'>
+                <TfiComment size={14}/>
+                <p>{post.num_comments}</p>
+              </div>
+            </div>
+            <div className='info-save' onClick={onSave}>
+              <p>{saved ? 'Unsave' : 'Save'}</p>
+              {saved ? <BsBookmarkFill /> : <BsBookmark />}
+            </div>
+          </footer>
+        </div>
+        
       </article>
       )}
 
