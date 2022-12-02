@@ -44,14 +44,18 @@ export const useFeed = (isVisible: boolean) => {
 
   // Load from cache if valid
   const feedRef = useRef<string>(feed);
+  const loadedCache = useRef<boolean>(false);
   useEffect(() => {
+    loadedCache.current = false;
     if (feed !== feedRef.current) {
       feedRef.current = feed;
       return;
     }
+
     if (canLoadCached.current) {
       const cache = cachedPosts[sort as Sort];
       if (cache.after) {
+        loadedCache.current = true;
         dispatch(setQuery(['after', cache.after]));
         dispatch(setFeedPosts(cache.posts));
         return;
@@ -76,13 +80,14 @@ export const useFeed = (isVisible: boolean) => {
         return;
       }
     }
-
+    if (loadedCache.current) return;
     let url = base;
     if (feed === 'custom') {
       url += `r/${subsDebounced.map((s) => s.name).join('+')}/`;
     } 
     currentUrl.current = url + sort;
 
+    console.log('fetching');
     dispatch(fetchFeed({url: currentUrl.current, feed, sort}));
     return () => {
       dispatch(setLastRequest(false))
