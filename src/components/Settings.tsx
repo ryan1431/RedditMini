@@ -155,7 +155,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
           const imgUrl = `${b.url}&w=150&h=150`;
           
           return (
-            <div className={clsx('b-card', {'active': current === b.name})} onClick={(e) => onChangeBackground(e, b.name)}>
+            <div key={b.url} className={clsx('b-card', {'active': current === b.name})} onClick={(e) => onChangeBackground(e, b.name)}>
               <div className='b-card-icon' onClick={() => window.open(b.link, '_blank')!.focus()}>
                 <FaUnsplash />
               </div>

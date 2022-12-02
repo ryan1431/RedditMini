@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { clearCachedPosts, fetchFeed, setFeedPosts, setLastRequest, SetQuery, setQuery } from "../reducers/querySlice";
+import { clearCachedPosts, fetchFeed, setAdd, setFeedPosts, setLastRequest, SetQuery, setQuery } from "../reducers/querySlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { base } from "../../utility/data";
 import { Subreddit } from "../../types";
@@ -32,6 +32,10 @@ export const useFeed = (isVisible: boolean) => {
     dispatch(clearCachedPosts());
   }, [dispatch, feed, subs]);
 
+  useEffect(() => {
+    dispatch(setAdd(false));
+  }, [dispatch, feed, sort]);
+
   // Prevent loading from cache for 1s after changing feed 
   const cacheTimeoutRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
@@ -56,6 +60,7 @@ export const useFeed = (isVisible: boolean) => {
       const cache = cachedPosts[sort as Sort];
       if (cache.after) {
         loadedCache.current = true;
+
         dispatch(setQuery(['after', cache.after]));
         dispatch(setFeedPosts(cache.posts));
         return;
@@ -80,14 +85,13 @@ export const useFeed = (isVisible: boolean) => {
         return;
       }
     }
-    if (loadedCache.current) return;
     let url = base;
     if (feed === 'custom') {
       url += `r/${subsDebounced.map((s) => s.name).join('+')}/`;
     } 
     currentUrl.current = url + sort;
 
-    console.log('fetching');
+    if (loadedCache.current) return;
     dispatch(fetchFeed({url: currentUrl.current, feed, sort}));
     return () => {
       dispatch(setLastRequest(false))

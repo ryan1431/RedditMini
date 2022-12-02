@@ -221,10 +221,13 @@ export const Feed = () => {
             <Skeleton className='post' avatar mergeBars bars={12}/>
             <Skeleton className='post' avatar mergeBars bars={12}/>
             <Skeleton className='post' avatar mergeBars bars={12}/>
+            <Skeleton className='post' avatar mergeBars bars={12}/>
           </>
           }
 
         {fetching && <>
+            <Skeleton className='post' avatar mergeBars bars={12}/>
+            <Skeleton className='post' avatar mergeBars bars={12}/>
             <Skeleton className='post' avatar mergeBars bars={12}/>
             <Skeleton className='post' avatar mergeBars bars={12}/>
         </>}

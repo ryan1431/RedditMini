@@ -11,6 +11,7 @@ interface SlideProps {
 
 export const Slide = ({slides}: SlideProps) => {
 
+  const keyRef = useRef<number>(Date.now());
   const length = useRef<number>(slides.length);
   
   const [index, setIndex] = useState<number>(0);
@@ -21,7 +22,7 @@ export const Slide = ({slides}: SlideProps) => {
           {slides.map((s) => 
             s ? <div key={'inslide ' + s.u} className='slide-image-wrapper'>
               <img src={s.u} alt='slideshow'></img>  
-            </div> : <></>
+            </div> : <div key={keyRef.current}></div>
           )}
         </div>
 
