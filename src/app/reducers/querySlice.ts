@@ -2,6 +2,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Cache, cachedPosts, CachedPosts, Sort } from "../../types/querySliceTypes";
 import { getFeedPosts, PostType } from "../../utility";
 import { RootState } from "../store/store";
+
+import uuid from 'react-uuid';
+
 interface QueryState {
   after: string,
   feed: string,
@@ -97,13 +100,11 @@ export const queryReducer = createSlice({
         
         state.after = data.after;
 
-        const uidPosts = data.posts.map(p => ({...p, uid: `${state.after}-${p.link}`}));
+        const uidPosts = data.posts.map(p => ({...p, uid: `${state.after}-${p.link}-${uuid()}`}));
 
         state.feedPosts = state.add
           ? [...state.feedPosts, ...uidPosts]
           : uidPosts;
-
-        state.add = false;
 
         state.fetching = false;
       })
