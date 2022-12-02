@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks/hooks';
-import { setQuery } from '../../app/reducers/querySlice';
+import { clearCachedPosts, setAdd, setQuery } from '../../app/reducers/querySlice';
 import { selectTheme } from '../../app/reducers/savedSlice';
 import { feedIcons, feedOptions } from '../../utility/feedData';
 import { getRGBA } from '../../utility/getRGBA';
@@ -30,6 +30,10 @@ export const SelectFeed = ({open, onClose}: SelectFeedProps) => {
   }, [onClose]);
 
   const onSetFeed = useCallback((feed: string) => {
+    document.getElementById('feed-wrapper')!.scrollTo(0,0);
+    dispatch(setAdd(false));
+    dispatch(clearCachedPosts());
+    dispatch(setQuery(['after', '']));
     dispatch(setQuery(['feed', feed]));
     onClose();
   }, [dispatch, onClose]);
