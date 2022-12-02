@@ -36,7 +36,6 @@ const Modal = ({open, onClose, children, fitHeight = false}: ModalProps) => {
   }, [onClose]);
 
   const onClick = useCallback((e: any) => {
-    console.log(e.target);
     if (modalRef.current.contains(e.target) 
       || !!e.target.closest('.post')
       || e.target.classList.contains('nsfw-unblur')
