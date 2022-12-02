@@ -11,6 +11,7 @@ export interface SavedState {
   backgrounds: background[],
   selectedTheme: string,
   background: string,
+  showNSFW: boolean,
 }
 
 export const initialState: SavedState = {
@@ -19,7 +20,8 @@ export const initialState: SavedState = {
   themes,
   backgrounds,
   selectedTheme: 'default-light',
-  background: 'Default'
+  background: 'Default',
+  showNSFW: false,
 }
 
 let savedState: SavedState | undefined;
@@ -70,7 +72,10 @@ export const savedReducer = createSlice({
       mode = mode === 'light' ? 'dark' : 'light';
 
       state.selectedTheme = `${theme}-${mode}` as string;
-    }
+    }, 
+    toggleShowNSFW: (state) => {
+      state.showNSFW = !state.showNSFW;
+    },
   }
 });
 
@@ -83,6 +88,6 @@ export const selectBackground = (state: RootState): string => {
 }
 
 
-export const { save, unsave, changeBackground, changeTheme, toggleThemeMode, resetSaved, hidePost, unHidePost, clearHiddenPosts } = savedReducer.actions;
+export const { save, unsave, changeBackground, changeTheme, toggleThemeMode, resetSaved, hidePost, unHidePost, clearHiddenPosts, toggleShowNSFW } = savedReducer.actions;
 
 export default savedReducer.reducer;

@@ -42,6 +42,8 @@ export const Feed = () => {
   }, []);
 
   const onOpenPost = useCallback((e:any) => {
+    if (e.target.classList.contains('nsfw-unblur')) return;
+    
     if (e.target instanceof HTMLVideoElement
       || (e.target && e.target.classList?.contains('info-save'))
       || !e.target.closest('.post')
