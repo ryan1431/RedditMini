@@ -97,9 +97,11 @@ export const queryReducer = createSlice({
         
         state.after = data.after;
 
+        const uidPosts = data.posts.map(p => ({...p, uid: `${state.after}-${p.link}`}));
+
         state.feedPosts = state.add
-          ? [...state.feedPosts, ...data.posts]
-          : data.posts;
+          ? [...state.feedPosts, ...uidPosts]
+          : uidPosts;
 
         state.add = false;
 

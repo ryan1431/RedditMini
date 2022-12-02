@@ -34,6 +34,7 @@ interface PostType {
    * Link to original post on Reddit
    */
   link: string,
+  uid?: string,
   slides?: SlideSingle[],
 }
 
