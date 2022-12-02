@@ -13,6 +13,7 @@ import { getRGBA } from '../utility/getRGBA';
 
 import { FaUnsplash } from 'react-icons/fa';
 import clsx from 'clsx';
+import { toggleShowNSFW } from '../app/reducers/querySlice';
 
 interface SettingsProps {
   navBarRef: MutableRefObject<HTMLDivElement>,
@@ -25,6 +26,7 @@ export const Settings = ({navBarRef}: SettingsProps) => {
   const subs = useAppSelector(s => s.subreddits.in_storage.subs);
   const srOpen = useAppSelector(s => s.subreddits.srOpen);
   const blocked = useAppSelector(s => s.subreddits.in_storage.blocked);
+  const showNSFW = useAppSelector(s => s.query.showNSFW);
 
   const theme = useAppSelector(selectTheme);
   const defaultBackground = getRGBA(theme.back);
@@ -170,7 +172,8 @@ export const Settings = ({navBarRef}: SettingsProps) => {
       </Dropdown>
       <Dropdown label='Other Settings'>
         <div className='other-settings'>
-          <Button style={{borderRadius: '20px', backgroundColor: backgroundAlt, padding: '10px', width: '100%'}} onClick={() => setConfirm(true)}>Clear Local Storage</Button>
+          <Button style={{borderRadius: '20px', margin: '5px 0', backgroundColor: backgroundAlt, padding: '10px', width: '100%'}} onClick={() => setConfirm(true)}>Clear Local Storage</Button>
+          <Button style={{borderRadius: '20px', margin: '5px 0', backgroundColor: backgroundAlt, padding: '10px', width: '100%'}} onClick={() => dispatch(toggleShowNSFW())}>{showNSFW ? 'Hide' : 'Show'} NSFW Content (no blur)</Button>
         </div>
         <Modal open={confirm} onClose={() => setConfirm(false)} fitHeight>
           <Modal.Header>Confirm</Modal.Header>

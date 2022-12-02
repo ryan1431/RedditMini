@@ -4,7 +4,7 @@ import { PostType } from '../../../utility';
 import { Video } from '.././post/Video';
 import { TextBody } from '.././post/TextBody';
 import { ImageBody } from '.././post/ImageBody';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { selectTheme, save, unsave } from '../../../app/reducers/savedSlice';
 import { useAppSelector } from '../../../app/hooks/hooks';
@@ -48,6 +48,11 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
   const savedPosts = useAppSelector(s => s.saved.savedPosts);
   const hidden = !!useAppSelector(s => s.saved.hidden).find(p => p === post.name);
   const blocked = !!useAppSelector(s => s.subreddits.in_storage.blocked).find(sr => sr.name === post.subreddit);
+  const showNSFW = useAppSelector(s => s.query.showNSFW);
+
+  const safe = useMemo(() => {
+    return showNSFW ? true  : !post.over_18;
+  }, [post.over_18, showNSFW]);
 
   const theme = useAppSelector(selectTheme);
   const bName = useAppSelector(s => s.saved.background);
@@ -143,7 +148,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
 
   return (
     <>
-      {post && !hidden && !blocked && (
+      {post && !hidden && !blocked && safe && (
       <article className={clsx('post', post.link)} style={{background: open ? 'none' : background, borderColor}}>
         {/* Subreddit & Poster Info */}
         <address className='details-wrapper'>

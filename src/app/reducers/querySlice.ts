@@ -14,6 +14,7 @@ interface QueryState {
   fetching: boolean,
   isLastRequest: boolean,
   add: boolean,
+  showNSFW: boolean,
 }
 
 export type SetQuery = 'after' | 'feed' | 'sort';
@@ -27,6 +28,7 @@ export const initialState: QueryState = {
   fetching: false,
   isLastRequest: false,
   add: false,
+  showNSFW: false,
 }
 
 export const fetchFeed = createAsyncThunk(
@@ -69,7 +71,10 @@ export const queryReducer = createSlice({
     },
     clearCachedPosts: (state) => {
       state.cachedPosts = cachedPosts;
-    }
+    },
+    toggleShowNSFW: (state) => {
+      state.showNSFW = !state.showNSFW;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -114,5 +119,5 @@ export const queryReducer = createSlice({
   }
 });
 
-export const { setQuery, setFeedPosts, setAdd, setLastRequest, clearCachedPosts } = queryReducer.actions;
+export const { setQuery, setFeedPosts, setAdd, setLastRequest, clearCachedPosts, toggleShowNSFW } = queryReducer.actions;
 export default queryReducer.reducer;

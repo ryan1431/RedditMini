@@ -20,7 +20,7 @@ export const Slide = ({slides}: SlideProps) => {
     <div className='slide-wrapper'>
         <div className='slider' style={{left: `-${index}00%`}}>
           {slides.map((s) => 
-            s ? <div key={'inslide ' + s.u} className='slide-image-wrapper'>
+            s?.u ? <div key={'inslide ' + s.u} className='slide-image-wrapper'>
               <img src={s.u} alt='slideshow'></img>  
             </div> : <div key={keyRef.current}></div>
           )}
