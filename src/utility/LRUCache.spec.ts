@@ -1,4 +1,4 @@
-import LRU from "./LRU";
+import LRU from "./LRUCache";
 
 describe("LRU", () => {
   const sample = new LRU<string, number>(5);

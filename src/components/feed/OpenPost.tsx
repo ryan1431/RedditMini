@@ -8,7 +8,7 @@ import { Comment } from './Comment';
 import { More } from './More';
 import { SubMeta } from '../../types';
 import { SelectedPostData } from './Feed';
-import LRU from '../../utility/LRU';
+import LRU from '../../utility/LRUCache';
 import { Skeleton } from '../ui/Skeleton';
 
 import { GoCommentDiscussion } from 'react-icons/go';

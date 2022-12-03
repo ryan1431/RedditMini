@@ -21,7 +21,7 @@ import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import { base } from '../../../utility/data';
 import { SubMeta } from '../../../types';
 import { SelectedPostData } from '../Feed';
-import LRU from '../../../utility/LRU';
+import LRU from '../../../utility/LRUCache';
 
 import defaultIcon from '../../../media/srdefault.jpeg';
 import { SubPanel } from './SubPanel';

@@ -10,7 +10,7 @@ import { SubMeta } from '../../types';
 import { PostType } from '../../utility';
 import { feedFields, sortFields } from '../../utility/data';
 import { FeedIcons, feedIcons, SortIcons, sortIcons } from '../../utility/feedData';
-import LRU from '../../utility/LRU';
+import LRU from '../../utility/LRUCache';
 import Modal from '../ui/Modal';
 import { Skeleton } from '../ui/Skeleton';
 import { Snackbar } from '../ui/Snackbar';
