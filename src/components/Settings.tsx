@@ -172,8 +172,8 @@ export const Settings = ({navBarRef}: SettingsProps) => {
       </Dropdown>
       <Dropdown label='Other Settings'>
         <div className='other-settings'>
-          <Button style={{borderRadius: '20px', margin: '5px 0', backgroundColor: backgroundAlt, padding: '10px', width: '100%'}} onClick={() => setConfirm(true)}>Clear Local Storage</Button>
-          <Button style={{borderRadius: '20px', margin: '5px 0', backgroundColor: backgroundAlt, padding: '10px', width: '100%'}} onClick={() => dispatch(toggleShowNSFW())}>{showNSFW ? 'Hide' : 'Show'} NSFW Content</Button>
+          <Button style={{borderRadius: '20px', margin: '5px 0', background: backgroundAlt, padding: '10px', width: '100%'}} onClick={() => setConfirm(true)}>Clear Local Storage</Button>
+          <Button style={{borderRadius: '20px', margin: '5px 0', background: backgroundAlt, padding: '10px', width: '100%'}} onClick={() => dispatch(toggleShowNSFW())}>{showNSFW ? 'Hide' : 'Show'} NSFW Content</Button>
         </div>
         <Modal open={confirm} onClose={() => setConfirm(false)} fitHeight>
           <Modal.Header>Confirm</Modal.Header>
