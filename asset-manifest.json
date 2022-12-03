@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/RedditMini/static/css/main.57bc4d88.css",
-    "main.js": "/RedditMini/static/js/main.65d454e9.js",
+    "main.css": "/RedditMini/static/css/main.7b528324.css",
+    "main.js": "/RedditMini/static/js/main.c77424fe.js",
     "static/js/787.7f23f44b.chunk.js": "/RedditMini/static/js/787.7f23f44b.chunk.js",
     "static/media/VAGRounded-Light.svg": "/RedditMini/static/media/VAGRounded-Light.da8781b97e7e0a8cf9cf.svg",
     "static/media/VAGRounded-Light.eot": "/RedditMini/static/media/VAGRounded-Light.1d047c1c6a8721601b91.eot",
@@ -13,12 +13,12 @@
     "static/media/Reddit_Logotype_OnDark.svg": "/RedditMini/static/media/Reddit_Logotype_OnDark.9dc7bee02ee80a57321195923e7d5943.svg",
     "static/media/Reddit_Mark_OnDark.svg": "/RedditMini/static/media/Reddit_Mark_OnDark.2dae777b0a8ca43ff0106dd026db4d34.svg",
     "index.html": "/RedditMini/index.html",
-    "main.57bc4d88.css.map": "/RedditMini/static/css/main.57bc4d88.css.map",
-    "main.65d454e9.js.map": "/RedditMini/static/js/main.65d454e9.js.map",
+    "main.7b528324.css.map": "/RedditMini/static/css/main.7b528324.css.map",
+    "main.c77424fe.js.map": "/RedditMini/static/js/main.c77424fe.js.map",
     "787.7f23f44b.chunk.js.map": "/RedditMini/static/js/787.7f23f44b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.57bc4d88.css",
-    "static/js/main.65d454e9.js"
+    "static/css/main.7b528324.css",
+    "static/js/main.c77424fe.js"
   ]
 }
