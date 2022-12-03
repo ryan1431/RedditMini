@@ -161,7 +161,7 @@ export const Post = ({post, clicked, setSelectedPostData, open = false, menuOpen
             <div className='details-left'>
               <div className='post-sub-details'  onMouseEnter={onHoverSub} onMouseLeave={onMouseOut}>
                 {!open && subData && <img className='post-sub-img' src={subData.community_icon || subData.icon_img || defaultIcon} alt='subreddit icon'></img>}
-                {!open && <p onClick={onClickSub} className='sub-name'>r/{post.subreddit}</p>}
+                {!open && <p onClick={onClickSub} className='sub-name'><span className='sub-prefix'>r/</span>{post.subreddit}</p>}
                 <SubPanel open={showSubData} data={subData} name={post.subreddit} setOpen={setShowSubData}/>
               </div>
               <p className='post-details author'>

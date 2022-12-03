@@ -143,7 +143,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: {r: 230, g: 255, b: 255},
 }, {
   theme: 'pallete 1-dark',
-  text: 'black',
+  text: {r: 0, g: 0, b: 0},
   border: '#4f5d75',
   front: '#ffffff',
   front_alt: '#2d3142',
@@ -151,7 +151,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#ef8354',
 }, {
   theme: 'pallete 1-light',
-  text: 'black',
+  text: {r: 0, g: 0, b: 0},
   border: '#4f5d75',
   front: '#ffffff',
   front_alt: '#2d3142',
@@ -159,7 +159,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#ef8354',
 }, {
   theme: 'pallete 2-dark',
-  text: 'white',
+  text: {r: 255, g: 255, b: 255},
   border: '#1d3557',
   front: '#e63946',
   front_alt: '#f1faee',
@@ -167,7 +167,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#457b9d',
 }, {
   theme: 'pallete 2-light',
-  text: 'black',
+  text: {r: 0, g: 0, b: 0},
   border: '#1d3557',
   front: '#e63946',
   front_alt: '#f1faee',
@@ -175,7 +175,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#457b9d',
 }, {
   theme: 'pallete 3-dark',
-  text: 'white',
+  text: {r: 255, g: 255, b: 255},
   border: '#1d3557',
   front: '#fca311',
   front_alt: '#e5e5e5',
@@ -183,7 +183,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#000000',
 }, {
   theme: 'pallete 3-light',
-  text: 'white',
+  text: {r: 255, g: 255, b: 255},
   border: '#1d3557',
   front: '#fca311',
   front_alt: '#e5e5e5',
@@ -191,7 +191,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#000000',
 }, {
   theme: 'pallete 4-dark',
-  text: 'white',
+  text: {r: 255, g: 255, b: 255},
   border: '#e09f3e',
   front: '#540b0e',
   front_alt: '#540b0e',
@@ -199,7 +199,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#9e2a2b',
 }, {
   theme: 'pallete 4-light',
-  text: 'white',
+  text: {r: 255, g: 255, b: 255},
   border: '#e09f3e',
   front: '#540b0e',
   front_alt: '#540b0e',
@@ -207,7 +207,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#9e2a2b',
 }, {
   theme: 'pallete 5-dark',
-  text: 'white',
+  text: {r: 255, g: 255, b: 255},
   border: '#f7ede2',
   front: '#f6bd60',
   front_alt: '#f28482',
@@ -215,7 +215,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#84a59d',
 }, {
   theme: 'pallete 5-light',
-  text: 'black',
+  text: {r: 0, g: 0, b: 0},
   border: '#f7ede2',
   front: '#f6bd60',
   front_alt: '#f28482',
@@ -223,7 +223,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#84a59d',
 }, {
   theme: 'pallete 6-dark',
-  text: 'white',
+  text: {r: 255, g: 255, b: 255},
   border: '#f4a261',
   front: '#2a9d8f',
   front_alt: '#f4a261',
@@ -231,7 +231,7 @@ export const themes: ThemeInfo[] = [{
   back_alt: '#f4a261',
 }, {
   theme: 'pallete 6-light',
-  text: 'black',
+  text: {r: 0, g: 0, b: 0},
   border: '#f4a261',
   front: '#2a9d8f',
   front_alt: '#f4a261',

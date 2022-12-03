@@ -19,7 +19,7 @@ export const initialState: SavedState = {
   hidden: [],
   themes,
   backgrounds,
-  selectedTheme: 'pallete 6-light',
+  selectedTheme: 'default-light',
   background: 'Default',
   showNSFW: false,
 }
@@ -27,7 +27,7 @@ export const initialState: SavedState = {
 let savedState: SavedState | undefined;
 
 try {
-  // savedState = JSON.parse(localStorage.getItem('saved') as string) as SavedState;
+  savedState = JSON.parse(localStorage.getItem('saved') as string) as SavedState;
 } catch(e) {
   // No saved state
 }

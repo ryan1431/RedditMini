@@ -139,7 +139,7 @@ export const Feed = () => {
       <Modal open={!!selectedPostData} onClose={onClosePost}>
         {selectedPostData && <Modal.Header>
           <img className='post-sub-img' src={selectedPostData?.subMeta?.community_icon || selectedPostData?.subMeta?.icon_img || defaultIcon} alt='subreddit icon'></img>
-          <span className='sub-prefix' style={{margin: '0 2px 0 6px'}}>r/</span>{selectedPostData?.post.subreddit}
+          <span className='sub-prefix' style={{margin: '0 2px 0 6px'}}><span className='sub-prefix'>r/</span></span>{selectedPostData?.post.subreddit}
         </Modal.Header>}
         {selectedPostData && 
           <OpenPost 
