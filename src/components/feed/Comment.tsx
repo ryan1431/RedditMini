@@ -62,7 +62,6 @@ export const Comment = ({comment, postId, sub, resizeDep}: CommentProps) => {
   return (
     // Tree
     <div className='comment-chain' ref={wrapperRef}>
-
       {/* Comment */}
       <div className={clsx('comment', { 'mod-comment': comment.distinguished === 'moderator'})}
         style={{marginLeft: 8 + (comment.depth * 20)}}  

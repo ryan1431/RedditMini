@@ -16,8 +16,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/RedditMini" element={<Home/>} />
+        <Route path="/RedditMini*" element={<Home/>} />
         <Route path="/test" element={<Test />} />
+        <Route path="/*" element={<Home/>} />
       </Routes>
     </BrowserRouter>
   );

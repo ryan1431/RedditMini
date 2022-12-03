@@ -56,6 +56,7 @@ export const OpenPost = ({data: {post, subMeta}, SubDataLRU, setClickedMenu, men
 
   return (
     <div style={{position: 'relative'}}>
+
       {post && <div className='open-post' >
         <Post post={post} SubDataLRU={SubDataLRU} open menuOpen={menuOpen} setClickedMenu={setClickedMenu} />
         
