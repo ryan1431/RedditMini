@@ -1,9 +1,9 @@
 <div id="top"></div>
 
-# "Reddit Mini" - A Minified Reddit Client
+# RedditMini
 
 ## About the Project
-Reddit Mini is a minified Reddit client which provides read access to all of Reddit. This is optimal for people who want quick, easy and customized access to Reddit without having to sign in. 
+RedditMini is a minified Reddit client which provides read access to all of Reddit. This is optimal for people who want quick, easy and customized access to Reddit without having to sign in. 
 
 ### Built With
 * [Typescript](https://www.typescriptlang.org/)
