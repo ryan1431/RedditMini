@@ -32,7 +32,7 @@ export const OpenPost = ({data: {post, subMeta}, SubDataLRU, setClickedMenu, men
   const [resizeDep, setResizeDep] = useState<number>(0);
 
   const theme = useAppSelector(selectTheme);
-  const color = getRGBA(theme.text, 0.15);
+  const color = getRGBA(theme.text, 0.1);
 
   useEffect(() => {
     if (post.name === lastPostId) {

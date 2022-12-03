@@ -19,7 +19,7 @@ export const initialState: SavedState = {
   hidden: [],
   themes,
   backgrounds,
-  selectedTheme: 'red-dark',
+  selectedTheme: 'pallete 6-light',
   background: 'Default',
   showNSFW: false,
 }
