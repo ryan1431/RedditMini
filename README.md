@@ -11,10 +11,10 @@
   <h3 align="center">RedditMini</h3>
 
   <p align="center">
-    A minified, customizable Reddit client.
+    A minified, customizable Reddit client. 
     <br />
     <br />
-    <a href="ryanhartwig.github.io/RedditMini">View Demo</a>
+    <a href="https://ryanhartwig.github.io/RedditMini/">View Demo</a>
     ·
     <a href="https://github.com/ryanhartwig/RedditMini/issues">Report Bug</a>
     ·
