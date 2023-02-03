@@ -14,7 +14,7 @@
     A minified, customizable Reddit client.
     <br />
     <br />
-    <a href="https://github.com/ryanhartwig/RedditMini">View Demo</a>
+    <a href="ryanhartwig.github.io/RedditMini">View Demo</a>
     ·
     <a href="https://github.com/ryanhartwig/RedditMini/issues">Report Bug</a>
     ·
