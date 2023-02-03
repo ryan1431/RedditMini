@@ -14,7 +14,7 @@
     A minified, customizable Reddit client. 
     <br />
     <br />
-    <a href="https://ryanhartwig.github.io/RedditMini/">View Demo</a>
+    <a href="https://ryanhartwig.github.io/RedditMini/">Live Site</a>
     ·
     <a href="https://github.com/ryanhartwig/RedditMini/issues">Report Bug</a>
     ·
@@ -79,7 +79,7 @@ Libraries, frameworks & APIs used to create this app:
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/ryanhartwig/RedditMini/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
