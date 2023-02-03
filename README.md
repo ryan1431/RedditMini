@@ -46,7 +46,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![RedditMini Screen Shot][product-screenshot]](./screenshot.png)
+<img src="/screenshot.png" alt="Reddit mini screenshot" />
 
 RedditMini is a Reddit client with an emphasis on customization. Users can select from various theme templates, dark & light versions, and select a background image to scroll Reddit in style.
 
